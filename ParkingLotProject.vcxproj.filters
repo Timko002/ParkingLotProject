@@ -21,6 +21,33 @@
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PSpot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PSpotComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PSpotComposite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LotA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LotB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LotC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LotD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkingLot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkingSpace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="parkingApp.cpp">

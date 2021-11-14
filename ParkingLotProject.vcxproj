@@ -19,8 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LotA.h" />
+    <ClInclude Include="LotB.h" />
+    <ClInclude Include="LotC.h" />
+    <ClInclude Include="LotD.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="parkingApp.h" />
+    <ClInclude Include="ParkingLot.h" />
+    <ClInclude Include="ParkingSpace.h" />
+    <ClInclude Include="PSpot.h" />
+    <ClInclude Include="PSpotComponent.h" />
+    <ClInclude Include="PSpotComposite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

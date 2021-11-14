@@ -14,6 +14,8 @@ public:
 	wxButton* loginConfirm = nullptr;
 	wxTextCtrl* username = nullptr;
 	wxTextCtrl* password = nullptr;
-	wxListBox* m_list1 = nullptr;
+
+	void OnLoginSubmit(wxCommandEvent& evt);
+	wxDECLARE_EVENT_TABLE();
 };
 
