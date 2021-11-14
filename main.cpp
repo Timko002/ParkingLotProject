@@ -13,7 +13,7 @@ wxEND_EVENT_TABLE()
 
 main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 {
-
+	// draw the widgets on the login frame
 	main::SetSize(500, 500);
 	handler = new wxPNGHandler;
 	wxImage::AddHandler(handler);
@@ -37,12 +37,12 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 	string userName = wxStringTostring(username->GetValue());
 	string userPass = wxStringTostring(password->GetValue());
 
-	// How to display output in output window(since we cant use cout
+	// check login
 	if (checkLogin(userName, userPass))
 	{
 		// clear the screen
 		main::clearLoginFrame();
-		
+		//write code here to build the next window
 		
 	}
 	else

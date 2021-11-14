@@ -27,7 +27,7 @@ private:
 		widgetToDestory.add(new TextButton(loginConfirm));
 		widgetToDestory.destroy();
 	}
-
+// Login screen widgets
 public:
 	wxStaticText* loginText = nullptr;
 	wxStaticText* userNameText = nullptr;
@@ -40,6 +40,7 @@ public:
 
 	string wxStringTostring(wxString msg)
 	{
+		// turns a wxString to a regular string
 		return string(msg.mb_str(wxConvUTF8));
 	}
 	void printToOutputStream(string message) 
