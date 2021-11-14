@@ -11,7 +11,7 @@ class LotA : public ParkingLot
 {
 	bool isLotFull;
 	const string LotName = "A";
-	const int TotalNoOfSpots = 100;
+	const int TotalNoOfSpots = 200;
 	static LotA* a_instance;
 	vector<ParkingSpace*> pSpaceA;
 
@@ -22,7 +22,7 @@ class LotA : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceA[i] = new ParkingSpace(100, 100);
+			pSpaceA.push_back(new ParkingSpace(100, 100));
 		}
 	}
 public:
@@ -36,7 +36,7 @@ public:
 	}
 	bool checkIsLotFull()
 	{
-		for (int i = 0; i < pSpace.size(); i++)
+		for (int i = 0; i < pSpaceA.size(); i++)
 		{
 			if (!pSpaceA[i]->checkIsFull()) //if even one space is free, it is not full
 			{
@@ -61,7 +61,7 @@ public:
 		bool reserve_flag = false;
 		double blocks = difftime(endTime, startTime) / 900;
 
-		for (int i = 0; i < pSpace.size(); i++)
+		for (int i = 0; i < pSpaceA.size(); i++)
 		{
 			if (pSpaceA[i]->reserve(start_hour, start_min, blocks))
 			{

@@ -27,7 +27,7 @@ class ParkingSpace
 		{
 			// If any one timeSlot is true, i.e. free return false
 			// Else return true
-			for (int i = 0; i < AVAILABILITY_OF_TIME_SLOT; i++)
+			for (int i = 0; i <= AVAILABILITY_OF_TIME_SLOT; i++)
 			{
 				if (timeSlot[i] == true)
 					return false;
@@ -62,7 +62,7 @@ class ParkingSpace
 				starting_index = starting_hour_index;
 			}
 
-			for (int i = starting_index; i <= starting_index + b; i++)
+			for (int i = starting_index; i <= starting_index + blocks; i++)
 			{
 				if (timeSlot[i] == false)
 				{
@@ -72,8 +72,8 @@ class ParkingSpace
 			}
 			if (flag == true)
 			{
-				for (int i = starting_index; i <= starting_index + b; i++)
-					timeSlot[i] == false;
+				for (int i = starting_index; i <= starting_index + blocks; i++)
+					timeSlot[i] = false;
 			}
 			return flag;
 		}

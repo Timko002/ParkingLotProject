@@ -22,7 +22,7 @@ class LotB : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceB[i] = new ParkingSpace(100, 100);
+			pSpaceB.push_back(new ParkingSpace(100, 100));
 		}
 	}
 	public:
@@ -36,7 +36,7 @@ class LotB : public ParkingLot
 		}
 		bool checkIsLotFull()
 		{
-			for (int i = 0; i < pSpace.size(); i++)
+			for (int i = 0; i < pSpaceB.size(); i++)
 			{
 				if (!pSpaceB[i]->checkIsFull()) //if even one space is free, it is not full
 				{
@@ -61,7 +61,7 @@ class LotB : public ParkingLot
 			bool reserve_flag = false;
 			double blocks = difftime(endTime, startTime) / 900;
 			
-			for (int i = 0; i < pSpace.size(); i++)
+			for (int i = 0; i < pSpaceB.size(); i++)
 			{
 				if (pSpaceB[i]->reserve(start_hour, start_min, blocks))
 				{

@@ -10,7 +10,7 @@ using namespace std;
 class LotC : public ParkingLot
 {
 	bool isLotFull;
-	const string LotName = "B";
+	const string LotName = "C";
 	const int TotalNoOfSpots = 100;
 	static LotC* c_instance;
 	vector<ParkingSpace*> pSpaceC;
@@ -22,7 +22,7 @@ class LotC : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceC[i] = new ParkingSpace(100, 100);
+			pSpaceC.push_back(new ParkingSpace(100, 100));
 		}
 	}
 public:
@@ -36,7 +36,7 @@ public:
 	}
 	bool checkIsLotFull()
 	{
-		for (int i = 0; i < pSpace.size(); i++)
+		for (int i = 0; i < pSpaceC.size(); i++)
 		{
 			if (!pSpaceC[i]->checkIsFull()) //if even one space is free, it is not full
 			{
@@ -61,7 +61,7 @@ public:
 		bool reserve_flag = false;
 		double blocks = difftime(endTime, startTime) / 900;
 
-		for (int i = 0; i < pSpace.size(); i++)
+		for (int i = 0; i < pSpaceC.size(); i++)
 		{
 			if (pSpaceC[i]->reserve(start_hour, start_min, blocks))
 			{

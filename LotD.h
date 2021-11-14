@@ -22,7 +22,7 @@ class LotD : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceD[i] = new ParkingSpace(100, 100);
+			pSpaceD.push_back(new ParkingSpace(100, 100));
 		}
 	}
 public:
@@ -36,7 +36,7 @@ public:
 	}
 	bool checkIsLotFull()
 	{
-		for (int i = 0; i < pSpace.size(); i++)
+		for (int i = 0; i < pSpaceD.size(); i++)
 		{
 			if (!pSpaceD[i]->checkIsFull()) //if even one space is free, it is not full
 			{
@@ -61,7 +61,7 @@ public:
 		bool reserve_flag = false;
 		double blocks = difftime(endTime, startTime) / 900;
 
-		for (int i = 0; i < pSpace.size(); i++)
+		for (int i = 0; i < pSpaceD.size(); i++)
 		{
 			if (pSpaceD[i]->reserve(start_hour, start_min, blocks))
 			{
