@@ -26,6 +26,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="parkingApp.h" />
     <ClInclude Include="ParkingLot.h" />
+    <ClInclude Include="ParkingLotFactory.h" />
     <ClInclude Include="ParkingSpace.h" />
     <ClInclude Include="PSpot.h" />
     <ClInclude Include="PSpotComponent.h" />
@@ -38,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\csusm-logo.png" />
+    <Image Include="images\mapmarker.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -33,14 +33,11 @@ main::~main()
 
 void main::OnLoginSubmit(wxCommandEvent& evt)
 {
-	// this is how to get the input values
-	string userName = wxStringTostring(username->GetValue());
-	string userPass = wxStringTostring(password->GetValue());
 
 	// check login
-	if (checkLogin(userName, userPass))
+	if (checkLogin(wxStringTostring(username->GetValue()), wxStringTostring(password->GetValue())))
 	{
-		// clear the screen
+		// if successful then clear the screen
 		main::clearLoginFrame();
 		//write code here to build the next window
 		

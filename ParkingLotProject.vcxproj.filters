@@ -51,6 +51,9 @@
     <ClInclude Include="WidgetComposite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParkingLotFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="parkingApp.cpp">
@@ -62,6 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\csusm-logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\mapmarker.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
