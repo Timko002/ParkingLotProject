@@ -41,8 +41,9 @@ private:
 		password = new wxTextCtrl(this, wxID_ANY, "enter password...", wxPoint(100, 235), wxSize(300, 30));
 		loginConfirm = new wxButton(this, 1001, "Submit", wxPoint(150, 350), wxSize(150, 50));
 	}
-	void buildParkingSpot()
+	void buildParkingMap()
 	{
+		
 		main::SetMaxSize(wxSize(1200, 830));
 		main::SetMinSize(wxSize(1200, 830));
 		main::SetSize(1200, 830);
@@ -56,15 +57,26 @@ private:
 		for (int i = 0; i < parkinglotIcon.size(); i++)
 		{
 			parkinglotIcon[i]->Raise();
+			parkinglotIcon[i]->SetName(lotReferences[i]);
 			parkinglotIcon[i]->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &main::OnLotClick, this);
 		}
 
 	}
-	void buildParkingLotDisplay()
+	// building the popup lot frame based on the point of the button
+	void buildParkingLotDisplay(wxPoint point,wxString wxName)
 	{
-		lot_frame = new wxFrame(NULL, wxID_ANY, "Lot Details", wxPoint(300, 300), wxSize(300, 300), NULL, "Parking Lot");
+		lot_frame = new wxFrame(this, wxID_ANY, "Lot Details", point, wxSize(300, 300), NULL, "Parking Lot");
 		lot_frame->Show();
 		lot_frame->SetWindowStyle(wxSTAY_ON_TOP);
+		lotText = "Selected parking lot : " + wxName;
+		LotInfoText = new wxStaticText(lot_frame, wxID_ANY,lotText, wxPoint(100, 40), wxSize(300, 30));
+		xButton = new wxButton(lot_frame, 2, "X", wxPoint(278,0), wxSize(20, 20));
+		timeHourOptions = new wxComboBox(lot_frame, wxID_ANY, "0",wxPoint(100,200),wxSize(70,30));
+		timeHourOptions->Set(timeHourList);
+		timeMinuteOptions = new wxComboBox(lot_frame, wxID_ANY, "0", wxPoint(200, 200), wxSize(70, 30));
+		timeMinuteOptions->Set(timeMinuteList);
+		reservationConfirm = new wxButton(lot_frame, wxID_ANY, "Reserve Spot", wxPoint(75, 240), wxSize(150, 50));
+
 	}
 // Login screen widgets
 public:
@@ -80,6 +92,18 @@ public:
 // parking lot frame & widgets
 public:
 	wxFrame* lot_frame = nullptr;
+	wxString lotText;
+	wxStaticText* LotInfoText = nullptr;
+	wxStaticText* numOpenSpots = nullptr;
+	wxStaticText* spotsText = nullptr;
+	wxStaticText* reservedTime = nullptr;
+	wxComboBox* timeHourOptions = nullptr;
+	wxComboBox* timeMinuteOptions = nullptr;
+	vector<wxString> timeHourList = {"1","2","3","4","5","6","7","8","9","10","11","12"};
+	vector<wxString> timeMinuteList = {"0","15","30","45"};
+	wxButton* reservationConfirm = nullptr;
+	wxButton* xButton = nullptr;
+	vector<wxString> lotReferences = { "A","B","C","D","E","F","G","H" };
 //parking map widgets
 public:
 	wxPNGHandler* parkingPicHandler = nullptr;
@@ -101,6 +125,21 @@ public:
 	}
 	void OnLoginSubmit(wxCommandEvent& evt);
 	void OnLotClick(wxCommandEvent& evt);
+	void onClickX(wxCommandEvent& evt)
+	{
+		lot_frame->Destroy();
+	}
+
+	wxPoint getEventPointer(wxCommandEvent& evt)
+	{
+		wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);
+		return button->GetPosition();;
+	}
+	wxString getEventName(wxCommandEvent& evt)
+	{
+		wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);
+		return button->GetName();;
+	}
 	virtual bool checkLogin(string name, string pass)
 	{
 		// replace with real login check later
