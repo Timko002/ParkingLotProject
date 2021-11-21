@@ -12,6 +12,7 @@ using namespace std;
 
 wxBEGIN_EVENT_TABLE(main, wxFrame)
 EVT_BUTTON(1001, OnLoginSubmit)
+EVT_BUTTON(3, OnReserveClick)
 EVT_BUTTON(2, onClickX)
 wxEND_EVENT_TABLE()
 unordered_map<char, ParkingLot*> Lots;
@@ -30,7 +31,8 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 
 main::~main()
 {
-
+	main::Destroy();
+	parkinglotIcon.clear();
 }
 
 void main::OnLotClick(wxCommandEvent& evt)
@@ -55,6 +57,20 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 	}
 }
 
+void main::OnReserveClick(wxCommandEvent& evt)
+{
+	// here is the reserve click
+	if (checkAvailableSpots(availableSpots))
+	{
+		// this is the hours value
+		printToOutputStream(wxStringTostring(timeHourOptions->GetValue()));
+		// this is teh minutes value
+		printToOutputStream(wxStringTostring(timeMinuteOptions->GetValue()));
+		// fill this in to what to do with the time
+		reserveReminder->SetLabel("Successfully reserved a Spot for " + timeHourOptions->GetValue() + "h:" + timeMinuteOptions->GetValue()+"m");
+		reservationConfirm->Destroy();
+	}
+}
  /*Torsha - creating a placeholder for observer pattern related code
 class subscriber 
  {
