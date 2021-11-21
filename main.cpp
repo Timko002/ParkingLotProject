@@ -6,17 +6,24 @@
 #include <iostream>
 #include <vector>
 #include <Windows.h>
-
+#include "ParkingLotFactory.h"
+#include <unordered_map>
+using namespace std;
 
 wxBEGIN_EVENT_TABLE(main, wxFrame)
 EVT_BUTTON(1001, OnLoginSubmit)
 EVT_BUTTON(2, onClickX)
 wxEND_EVENT_TABLE()
-
+unordered_map<char, ParkingLot*> Lots;
 main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 {
 	//
-	// build factories here
+	// creating the Lots on startup
+	ParkingLotFactory f;
+	//unordered_map<char, ParkingLot*> Lots;
+	for (char i = 'A'; i <= 'D'; i++)
+		Lots.insert(make_pair(i, f.chooseParkingLot(i)));
+
 	// draw the widgets on the login frame
 	main::buildLoginPanel();
 }
@@ -47,3 +54,35 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 		// output failed login message
 	}
 }
+
+ /*Torsha - creating a placeholder for observer pattern related code
+class subscriber 
+ {
+	 virtual void action() = 0;
+ };
+ class wxfeature : public subscriber
+ {
+	 action() {
+		 display the lot is full
+	 }
+ };
+ class user : public subscriber
+ {
+	 action() {
+		 display "Parked" with timestamp in the user's session
+	 }
+ };
+ class publisher
+ {
+	 reserve(){
+	 bool result = Lots['A']->reserve(startTime, endTime); //the parking lot and time will come from another function TBD
+	 if (result == true)
+	 {
+		 user.action();
+		 bool chk = Lots['A']->checkIsLotFull();
+		 if (chk == true)
+			 wxfeature.action();
+	 }
+ };
+
+*/
