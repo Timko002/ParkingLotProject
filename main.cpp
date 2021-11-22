@@ -62,13 +62,20 @@ void main::OnReserveClick(wxCommandEvent& evt)
 	// here is the reserve click
 	if (checkAvailableSpots(availableSpots))
 	{
-		// this is the hours value
-		printToOutputStream(wxStringTostring(timeHourOptions->GetValue()));
-		// this is teh minutes value
-		printToOutputStream(wxStringTostring(timeMinuteOptions->GetValue()));
-		// fill this in to what to do with the time
-		reserveReminder->SetLabel("Successfully reserved a Spot for " + timeHourOptions->GetValue() + "h:" + timeMinuteOptions->GetValue()+"m");
-		reservationConfirm->Destroy();
+		if ((timeStartOptions->GetValue() == "") || (timeEndOptions->GetValue() == ""))
+		{
+			reserveReminder->SetLabel("You must make a selection to continue");
+		}
+		else
+		{
+			// this is the hours value
+			printToOutputStream(wxStringTostring(timeStartOptions->GetValue()));
+			// this is teh minutes value
+			printToOutputStream(wxStringTostring(timeEndOptions->GetValue()));
+			// fill this in to what to do with the time
+			reserveReminder->SetLabel("Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
+			reservationConfirm->Destroy();
+		}
 	}
 }
  /*Torsha - creating a placeholder for observer pattern related code

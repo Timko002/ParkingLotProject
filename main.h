@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <chrono>
+#include <ctime>   
 
 
 using namespace std;
@@ -73,7 +75,7 @@ private:
 	{
 		for (int i = 0; i < lotReferences.size(); i++)
 		{
-
+			// this displays all the lot info on teh side and a search later on
 		}
 	}
 	// building the popup lot frame based on the point of the button
@@ -92,16 +94,15 @@ private:
 		spotsTextField = new wxStaticText(lot_frame, wxID_ANY, buildAvailableSPots(wxName), wxPoint(30, 90), wxSize(300, 30));
 		if (checkAvailableSpots(availableSpots))
 		{
-			hourText = new wxStaticText(lot_frame, wxID_ANY, "Hours", wxPoint(80, 160), wxSize(50, 20));
-			minuteText = new wxStaticText(lot_frame, wxID_ANY, "Minutes", wxPoint(185, 160), wxSize(50, 20));
-			timeHourOptions = new wxComboBox(lot_frame, wxID_ANY, "1", wxPoint(80, 180), wxSize(70, 30));
-			timeHourOptions->Set(timeHourList);
-			timeHourOptions->SetLabel("1");
-			timeMinuteOptions = new wxComboBox(lot_frame, wxID_ANY, "0", wxPoint(180, 180), wxSize(70, 30));
-			timeMinuteOptions->Set(timeMinuteList);
-			timeMinuteOptions->SetLabel("0");
+			hourText = new wxStaticText(lot_frame, wxID_ANY, "Time Start", wxPoint(80, 160), wxSize(70, 20));
+			minuteText = new wxStaticText(lot_frame, wxID_ANY, "Time End", wxPoint(185, 160), wxSize(70, 20));
+			timeStartOptions = new wxComboBox(lot_frame, wxID_ANY, "1", wxPoint(80, 180), wxSize(70, 30));
+			setStartLotTime(timeStartOptions, wxStringTostring(wxName));
+			timeStartOptions->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &main::buildEndTime, this);
+			timeEndOptions = new wxComboBox(lot_frame, wxID_ANY, "0", wxPoint(180, 180), wxSize(70, 30));
+			timeEndOptions->Hide();
 			reserveReminder = new wxStaticText(lot_frame, wxID_ANY, "         Set a time to reserve a spot", wxPoint(40, 210), wxSize(200, 30));
-			reservationConfirm = new wxButton(lot_frame, 3, "Reserve Spot", wxPoint(75, 240), wxSize(150, 50));
+			reservationConfirm = new wxButton(lot_frame, 3, "Reserve Spot", wxPoint(75, 250), wxSize(150, 40));
 		}
 		else
 		{
@@ -136,10 +137,10 @@ public:
 	wxStaticText* numOpenSpots = nullptr;
 	wxStaticText* spotsTextField = nullptr;
 	wxStaticText* reservedTime = nullptr;
-	wxComboBox* timeHourOptions = nullptr;
-	wxComboBox* timeMinuteOptions = nullptr;
-	vector<wxString> timeHourList = {"1","2","3","4","5","6","7","8","9","10","11","12"};
-	vector<wxString> timeMinuteList = {"0","15","30","45"};
+	wxComboBox* timeStartOptions = nullptr;
+	wxComboBox* timeEndOptions = nullptr;
+	vector<wxString> timeStart; //= {"1","2","3","4","5","6","7","8","9","10","11","12"};
+	vector<wxString> timeEnd; //= {"0","15","30","45"};
 	wxButton* reservationConfirm = nullptr;
 	wxButton* xButton = nullptr;
 	vector<wxString> lotReferences = { "A","B","C","D","E","F","G","H","I","J"};
@@ -152,6 +153,86 @@ public:
 	vector<wxBitmapButton*>parkinglotIcon;
 	wxStaticBitmap* ParkingPic = nullptr;
 
+	void buildEndTime(wxCommandEvent& evt) // this builds every available spot for the time
+	{
+		timeEnd.clear();
+		wxString selection = timeStartOptions->GetValue();
+		int endHour = wxAtoi(selection.substr(0, 2));
+		int endMin = wxAtoi(selection.substr(3, 5)) + 15;
+		timeEnd = buildComboOptions(timeEnd, endHour, endMin);
+		timeEnd.push_back("18:00");
+		timeEndOptions->Set(timeEnd);
+		timeEndOptions->SetLabel(timeEnd[0]);
+		timeEndOptions->Show();
+	}
+	// Search for a time to start
+	void setStartLotTime(wxComboBox* combo,string lotNum)
+	{
+		timeStart.clear();
+		time_t currentTime;
+		struct tm* localTime;
+		string stringToAdd;
+
+		time(&currentTime);                   // Get the current time
+		localTime = localtime(&currentTime);  // Convert the current time to the local time
+		int Hour = localTime->tm_hour;
+		if (Hour < 6)
+		{
+			Hour = 6;
+		}
+
+		int Min = localTime->tm_min;
+		// Directing Min to next 15 min block
+		if (Min == 0)
+		{
+			// do nothing
+		}
+		else if(Min <= 15)
+		{
+			Min = 15;
+		}
+		else if (Min <= 30)
+		{
+			Min = 30;
+		}
+		else if (Min <= 45)
+		{
+			Min = 45;
+		}
+		else
+		{
+			Min = 0;
+			Hour += 1;
+		}
+		timeStart = buildComboOptions(timeStart, Hour, Min);
+		combo->Set(timeStart);
+	}
+	vector<wxString> buildComboOptions(vector<wxString> vectorStringToadd, int Hours, int Minutes)
+	{
+		string stringToAdd;
+		while (Hours < 18)
+		{
+			//fill the vecto
+			for (Minutes; Minutes < 60; Minutes += 15)
+			{
+				stringToAdd = to_string(Hours);
+				stringToAdd += ":";
+				if (Minutes == 0)
+				{
+					stringToAdd += "00";
+				}
+				else
+				{
+					stringToAdd += to_string(Minutes);
+				}
+				vectorStringToadd.push_back(stringToAdd);
+			}
+			Minutes = 0;
+			Hours++;
+		}
+		return vectorStringToadd;
+	}
+	
 	string wxStringTostring(wxString msg)
 	{
 		// turns a wxString to a regular string
