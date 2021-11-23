@@ -41,8 +41,10 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 
 main::~main()
 {
-	main::MapPanel->destroyPanel();
-	main::Destroy();
+	//this->Destroy();
+	//this->GetParent()->Destroy();
+	main::Close(true);
+	main:Destroy();
 }
 
 void main::OnLotClick(wxCommandEvent& evt)
