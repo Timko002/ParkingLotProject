@@ -9,10 +9,10 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>   
-
-
+#include "ParkingLotFactory.h"
+#include <unordered_map>
 using namespace std;
-
+unordered_map<string, ParkingLot*> Lots;
 class main : public wxFrame
 {
 public:
@@ -91,8 +91,8 @@ private:
 		wxImage::AddHandler(HeaderHandlerPNG);
 		headerBG = new wxStaticBitmap(lot_frame, wxID_ANY, wxBitmap("images/headerBG.PNG", wxBITMAP_TYPE_PNG), wxPoint(00, 00), wxSize(278, 20));
 		LotInfoText = new wxStaticText(lot_frame, wxID_ANY, lotText, wxPoint(100, 40), wxSize(300, 50));
-		spotsTextField = new wxStaticText(lot_frame, wxID_ANY, buildAvailableSPots(wxName), wxPoint(30, 90), wxSize(300, 30));
-		if (checkAvailableSpots(availableSpots))
+	//	spotsTextField = new wxStaticText(lot_frame, wxID_ANY, buildAvailableSPots(wxName), wxPoint(30, 90), wxSize(300, 30));
+		if (checkAvailableSpots(Lots[wxStringTostring(wxName)])) //(checkAvailableSpots(availableSpots))
 		{
 			hourText = new wxStaticText(lot_frame, wxID_ANY, "Time Start", wxPoint(80, 160), wxSize(70, 20));
 			minuteText = new wxStaticText(lot_frame, wxID_ANY, "Time End", wxPoint(185, 160), wxSize(70, 20));
@@ -106,7 +106,7 @@ private:
 		}
 		else
 		{
-			noReserveText = new wxStaticText(lot_frame, wxID_ANY, "There are no reserved spots left for \n                        Lot " + wxName, wxPoint(50, 180), wxSize(300, 70));
+			noReserveText = new wxStaticText(lot_frame, wxID_ANY, "No spots left for \n                        Lot " + wxName, wxPoint(50, 180), wxSize(300, 70));
 		}
 
 	}
@@ -245,9 +245,9 @@ public:
 		LPCWSTR sw = stemp.c_str();
 		OutputDebugString(sw);
 	}
-	bool checkAvailableSpots(wxString availableSpots)
+	bool checkAvailableSpots(ParkingLot* Lot) //checkAvailableSpots(wxString availableSpots)
 	{
-		if (wxAtoi(availableSpots) > 0)
+		if (!Lot->checkIsLotFull())// (wxAtoi(availableSpots) > 0)
 		{
 			return true;
 		}

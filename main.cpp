@@ -6,8 +6,8 @@
 #include <iostream>
 #include <vector>
 #include <Windows.h>
-#include "ParkingLotFactory.h"
-#include <unordered_map>
+
+
 using namespace std;
 
 wxBEGIN_EVENT_TABLE(main, wxFrame)
@@ -15,16 +15,16 @@ EVT_BUTTON(1001, OnLoginSubmit)
 EVT_BUTTON(3, OnReserveClick)
 EVT_BUTTON(2, onClickX)
 wxEND_EVENT_TABLE()
-unordered_map<char, ParkingLot*> Lots;
+
 main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 {
 	//
 	// creating the Lots on startup
 	ParkingLotFactory f;
-	//unordered_map<char, ParkingLot*> Lots;
-	for (char i = 'A'; i <= 'D'; i++)
-		Lots.insert(make_pair(i, f.chooseParkingLot(i)));
-
+	Lots.insert(make_pair("A", f.chooseParkingLot("A")));
+	Lots.insert(make_pair("B", f.chooseParkingLot("B")));
+	Lots.insert(make_pair("C", f.chooseParkingLot("C")));
+	Lots.insert(make_pair("D", f.chooseParkingLot("D")));
 	// draw the widgets on the login frame
 	main::buildLoginPanel();
 }
@@ -60,7 +60,7 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 void main::OnReserveClick(wxCommandEvent& evt)
 {
 	// here is the reserve click
-	if (checkAvailableSpots(availableSpots))
+	if (!checkAvailableSpots(Lots[wxStringTostring(getEventName(evt))]))
 	{
 		if ((timeStartOptions->GetValue() == "") || (timeEndOptions->GetValue() == ""))
 		{
@@ -70,11 +70,16 @@ void main::OnReserveClick(wxCommandEvent& evt)
 		{
 			// this is the hours value
 			printToOutputStream(wxStringTostring(timeStartOptions->GetValue()));
-			// this is teh minutes value
+			// this is the minutes value
 			printToOutputStream(wxStringTostring(timeEndOptions->GetValue()));
 			// fill this in to what to do with the time
-			reserveReminder->SetLabel("Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
-			reservationConfirm->Destroy();
+			bool result=true;
+			//= Lots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
+			if (result == true)
+			{
+				reserveReminder->SetLabel("Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
+				reservationConfirm->Destroy();
+			}
 		}
 	}
 }
