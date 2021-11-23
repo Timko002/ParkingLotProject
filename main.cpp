@@ -13,6 +13,16 @@ wxBEGIN_EVENT_TABLE(main, wxFrame)
 EVT_BUTTON(1001, OnLoginSubmit)
 EVT_BUTTON(3, OnReserveClick)
 EVT_BUTTON(2, onClickX)
+EVT_BUTTON(1002, OnLotClick)
+EVT_BUTTON(1003, OnLotClick)
+EVT_BUTTON(1004, OnLotClick)
+EVT_BUTTON(1005, OnLotClick)
+EVT_BUTTON(1006, OnLotClick)
+EVT_BUTTON(1007, OnLotClick)
+EVT_BUTTON(1008, OnLotClick)
+EVT_BUTTON(1009, OnLotClick)
+EVT_BUTTON(1010, OnLotClick)
+EVT_BUTTON(1011, OnLotClick)
 wxEND_EVENT_TABLE()
 
 main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
@@ -31,8 +41,8 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 
 main::~main()
 {
+	main::MapPanel->destroyPanel();
 	main::Destroy();
-	parkinglotIcon.clear();
 }
 
 void main::OnLotClick(wxCommandEvent& evt)
@@ -40,14 +50,31 @@ void main::OnLotClick(wxCommandEvent& evt)
 	main::buildParkingLotDisplay(getEventPointer(evt),getEventName(evt));
 }
 
+void main::buildLoginPanel()
+{
+	main::SetSize(500, 500);
+	LoginPanel->setContext(this);
+	LoginPanel->makePanel();
+}
+
+void main::buildParkingMap()
+{
+	main::SetMaxSize(wxSize(1200, 830));
+	main::SetMinSize(wxSize(1200, 830));
+	main::SetSize(1200, 830);
+	buildSidePanel();
+	MapPanel->setContext(this);
+	MapPanel->makePanel();
+}
+
 void main::OnLoginSubmit(wxCommandEvent& evt)
 {
-
-	// check login
-	if (checkLogin(wxStringTostring(username->GetValue()), wxStringTostring(password->GetValue())))
+	
+	// its now done through a static factory, widgets are named and you can call their value like this
+	if (checkLogin(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password"))))
 	{
 		// if successful then clear the screen
-		main::clearLoginFrame();
+		LoginPanel->destroyPanel();
 		//write code here to build the next window
 		main::buildParkingMap();
 	}
@@ -55,6 +82,7 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 	{
 		// output failed login message
 	}
+
 }
 
 void main::OnReserveClick(wxCommandEvent& evt)

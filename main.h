@@ -5,6 +5,7 @@
 #include "wx/wx.h"
 #include "wx/event.h"
 #include "ParkingLotFactory.h"
+#include "StaticPanelFactory.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -20,57 +21,6 @@ public:
 	~main();
 
 private:
-	void clearLoginFrame()
-	{
-		WidgetComposite widgetToDestory;
-		widgetToDestory.add(new pngLogo(CSUSMLogo));
-		widgetToDestory.add(new TextField(loginText));
-		widgetToDestory.add(new TextField(userNameText));
-		widgetToDestory.add(new TextField(passwordText));
-		widgetToDestory.add(new TextInput(username));
-		widgetToDestory.add(new TextInput(password));
-		widgetToDestory.add(new TextButton(loginConfirm));
-		widgetToDestory.destroy();
-	}
-	void buildLoginPanel()
-	{
-		main::SetSize(500, 500);
-		handler = new wxPNGHandler;
-		wxImage::AddHandler(handler);
-		CSUSMLogo = new wxStaticBitmap(this, wxID_ANY, wxBitmap("images/csusm-logo.png", wxBITMAP_TYPE_PNG), wxPoint(100, 10), wxSize(300, 128));
-		loginText = new wxStaticText(this, wxID_ANY, "Please log in to start reserving your parking spot.", wxPoint(100, 150), wxSize(300, 30));
-		userNameText = new wxStaticText(this, wxID_ANY, "Username: ", wxPoint(10, 200), wxSize(70, 30));
-		passwordText = new wxStaticText(this, wxID_ANY, "Passowrd: ", wxPoint(10, 240), wxSize(70, 30));
-		username = new wxTextCtrl(this, wxID_ANY, "enter username...", wxPoint(100, 195), wxSize(300, 30));
-		password = new wxTextCtrl(this, wxID_ANY, "enter password...", wxPoint(100, 235), wxSize(300, 30));
-		loginConfirm = new wxButton(this, 1001, "Submit", wxPoint(150, 350), wxSize(150, 50));
-	}
-	void buildParkingMap()
-	{
-		main::SetMaxSize(wxSize(1200, 830));
-		main::SetMinSize(wxSize(1200, 830));
-		main::SetSize(1200, 830);
-		buildSidePanel();
-		parkingPicHandler = new wxPNGHandler;
-		wxImage::AddHandler(parkingPicHandler);
-		ParkingPic = new wxStaticBitmap(this, wxID_ANY, wxBitmap("images/parking-map.PNG", wxBITMAP_TYPE_PNG), wxPoint(250, 00), wxSize(950, 800));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1002, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG),wxPoint(330,355), wxSize(41,50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1003, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(320, 450), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1004, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(320, 550), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1005, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(395, 630), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1006, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(520, 660), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1007, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(660, 660), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1008, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(770, 660), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1009, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(770, 560), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1010, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(760, 250), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		parkinglotIcon.push_back(new wxBitmapButton(this, 1011, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(700, 190), wxSize(41, 50), wxBG_STYLE_TRANSPARENT));
-		for (int i = 0; i < parkinglotIcon.size(); i++)
-		{
-			parkinglotIcon[i]->Raise();
-			parkinglotIcon[i]->SetName(lotReferences[i]);
-			parkinglotIcon[i]->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &main::OnLotClick, this);
-		}
-	}
 	void buildSidePanel()
 	{
 		for (int i = 0; i < lotReferences.size(); i++)
@@ -100,6 +50,7 @@ private:
 			timeStartOptions = new wxComboBox(lot_frame, wxID_ANY, "1", wxPoint(80, 180), wxSize(70, 30));
 			setStartLotTime(timeStartOptions, wxStringTostring(wxName));
 			timeStartOptions->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &main::buildEndTime, this);
+			// Handle couldnt find any spaces 
 			timeEndOptions = new wxComboBox(lot_frame, wxID_ANY, "0", wxPoint(180, 180), wxSize(70, 30));
 			timeEndOptions->Hide();
 			reserveReminder = new wxStaticText(lot_frame, wxID_ANY, "         Set a time to reserve a spot", wxPoint(40, 210), wxSize(200, 30));
@@ -114,15 +65,7 @@ private:
 	}
 // Login screen widgets
 public:
-	wxStaticText* loginText = nullptr;
-	wxStaticText* userNameText = nullptr;
-	wxStaticText* passwordText = nullptr;
-	wxButton* loginConfirm = nullptr;
-	wxTextCtrl* username = nullptr;
-	wxTextCtrl* password = nullptr;
-	wxPNGHandler* handler = nullptr;
-	wxStaticBitmap* CSUSMLogo = nullptr;
-	
+	Panel* LoginPanel = StaticPanelFactory::makePanel("login");
 // parking lot frame & widgets
 public:
 	wxFrame* lot_frame = nullptr;
@@ -149,12 +92,9 @@ public:
 
 //parking map widgets
 public:
-	wxPNGHandler* parkingPicHandler = nullptr;
-	wxPNGHandler* parkingLotHandler = nullptr;
+	Panel* MapPanel = StaticPanelFactory::makePanel("map");
 	wxPNGHandler* HeaderHandlerPNG = nullptr;
-	vector<wxBitmapButton*>parkinglotIcon;
 	unordered_map<string, ParkingLot*> pLots;
-	wxStaticBitmap* ParkingPic = nullptr;
 
 	void buildEndTime(wxCommandEvent& evt) // this builds every available spot for the time
 	{
@@ -261,7 +201,8 @@ public:
 		}
 
 	}
-	
+	void buildLoginPanel();
+	void buildParkingMap();
 	wxString buildAvailableSPots(wxString wxLotName)
 	{
 		//replace function here to get lot information
@@ -287,7 +228,7 @@ public:
 	wxString getEventName(wxCommandEvent& evt)
 	{
 		wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);
-		return button->GetName();;
+		return button->GetName();
 	}
 	virtual bool checkLogin(string name, string pass)
 	{
