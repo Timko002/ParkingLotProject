@@ -7,7 +7,6 @@
 #include <vector>
 #include <Windows.h>
 
-
 using namespace std;
 
 wxBEGIN_EVENT_TABLE(main, wxFrame)
@@ -21,10 +20,11 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 	//
 	// creating the Lots on startup
 	ParkingLotFactory f;
-	Lots.insert(make_pair("A", f.chooseParkingLot("A")));
-	Lots.insert(make_pair("B", f.chooseParkingLot("B")));
-	Lots.insert(make_pair("C", f.chooseParkingLot("C")));
-	Lots.insert(make_pair("D", f.chooseParkingLot("D")));
+
+	pLots.insert(make_pair("A", f.chooseParkingLot("A")));
+	pLots.insert(make_pair("B", f.chooseParkingLot("B")));
+	pLots.insert(make_pair("C", f.chooseParkingLot("C")));
+	pLots.insert(make_pair("D", f.chooseParkingLot("D")));
 	// draw the widgets on the login frame
 	main::buildLoginPanel();
 }
@@ -60,7 +60,8 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 void main::OnReserveClick(wxCommandEvent& evt)
 {
 	// here is the reserve click
-	if (!checkAvailableSpots(Lots[wxStringTostring(getEventName(evt))]))
+
+	if (!checkAvailableSpots(pLots[wxStringTostring(getEventName(evt))]))
 	{
 		if ((timeStartOptions->GetValue() == "") || (timeEndOptions->GetValue() == ""))
 		{
@@ -82,6 +83,7 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			}
 		}
 	}
+	
 }
  /*Torsha - creating a placeholder for observer pattern related code
 class subscriber 

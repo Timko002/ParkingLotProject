@@ -1,3 +1,8 @@
+#pragma once
+#ifndef LOTC
+#define LOTC
+
+
 #include "LotC.h"
 LotC* LotC::c_instance = 0;
 string LotC::getLotName()
@@ -46,3 +51,4 @@ bool LotC::reserve(time_t startTime, time_t endTime)
 	}
 	return reserve_flag;
 }
+#endif // !LOTC

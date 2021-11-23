@@ -4,15 +4,15 @@
 #include "WidgetComposite.h"
 #include "wx/wx.h"
 #include "wx/event.h"
+#include "ParkingLotFactory.h"
 #include <string>
 #include <vector>
 #include <iostream>
 #include <chrono>
 #include <ctime>   
-#include "ParkingLotFactory.h"
 #include <unordered_map>
 using namespace std;
-unordered_map<string, ParkingLot*> Lots;
+
 class main : public wxFrame
 {
 public:
@@ -92,7 +92,8 @@ private:
 		headerBG = new wxStaticBitmap(lot_frame, wxID_ANY, wxBitmap("images/headerBG.PNG", wxBITMAP_TYPE_PNG), wxPoint(00, 00), wxSize(278, 20));
 		LotInfoText = new wxStaticText(lot_frame, wxID_ANY, lotText, wxPoint(100, 40), wxSize(300, 50));
 	//	spotsTextField = new wxStaticText(lot_frame, wxID_ANY, buildAvailableSPots(wxName), wxPoint(30, 90), wxSize(300, 30));
-		if (checkAvailableSpots(Lots[wxStringTostring(wxName)])) //(checkAvailableSpots(availableSpots))
+		
+		if (checkAvailableSpots(pLots[wxStringTostring(wxName)])) //(checkAvailableSpots(availableSpots))
 		{
 			hourText = new wxStaticText(lot_frame, wxID_ANY, "Time Start", wxPoint(80, 160), wxSize(70, 20));
 			minuteText = new wxStaticText(lot_frame, wxID_ANY, "Time End", wxPoint(185, 160), wxSize(70, 20));
@@ -108,6 +109,7 @@ private:
 		{
 			noReserveText = new wxStaticText(lot_frame, wxID_ANY, "No spots left for \n                        Lot " + wxName, wxPoint(50, 180), wxSize(300, 70));
 		}
+		
 
 	}
 // Login screen widgets
@@ -151,6 +153,7 @@ public:
 	wxPNGHandler* parkingLotHandler = nullptr;
 	wxPNGHandler* HeaderHandlerPNG = nullptr;
 	vector<wxBitmapButton*>parkinglotIcon;
+	unordered_map<string, ParkingLot*> pLots;
 	wxStaticBitmap* ParkingPic = nullptr;
 
 	void buildEndTime(wxCommandEvent& evt) // this builds every available spot for the time
@@ -245,6 +248,7 @@ public:
 		LPCWSTR sw = stemp.c_str();
 		OutputDebugString(sw);
 	}
+	
 	bool checkAvailableSpots(ParkingLot* Lot) //checkAvailableSpots(wxString availableSpots)
 	{
 		if (!Lot->checkIsLotFull())// (wxAtoi(availableSpots) > 0)
@@ -257,6 +261,7 @@ public:
 		}
 
 	}
+	
 	wxString buildAvailableSPots(wxString wxLotName)
 	{
 		//replace function here to get lot information

@@ -1,3 +1,6 @@
+#pragma once
+#ifndef LOTB
+#define LOTB
 #include "LotB.h"
 LotB* LotB::b_instance = 0;
 string LotB::getLotName()
@@ -46,3 +49,4 @@ bool LotB::reserve(time_t startTime, time_t endTime)
 	}
 	return reserve_flag;
 }
+#endif // LOTB

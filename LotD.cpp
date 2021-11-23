@@ -1,3 +1,6 @@
+#pragma once
+#ifndef LOTD
+#define LOTD
 #include "LotD.h"
 LotD* LotD::d_instance = 0;
 string LotD::getLotName()
@@ -46,3 +49,4 @@ bool LotD::reserve(time_t startTime, time_t endTime)
 	}
 	return reserve_flag;
 }
+#endif //  !LOTD

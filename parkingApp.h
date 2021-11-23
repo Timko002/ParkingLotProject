@@ -1,5 +1,6 @@
 #pragma once
-
+#ifndef PARKINGAPP_H
+#define PARKINGAPP_H
 #include "wx/wx.h"
 #include "main.h"
 
@@ -16,4 +17,4 @@ private:
 public:
 	virtual bool OnInit();
 };
-
+#endif // !PARKINGAPP_H

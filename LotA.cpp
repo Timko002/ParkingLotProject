@@ -1,3 +1,7 @@
+#pragma once
+#ifndef LOTA
+#define LOTA
+
 #include "LotA.h"
 LotA* LotA::a_instance = 0;
 string LotA::getLotName()
@@ -46,3 +50,4 @@ bool LotA::reserve(time_t startTime, time_t endTime)
 	}
 	return reserve_flag;
 }
+#endif // !LOTA

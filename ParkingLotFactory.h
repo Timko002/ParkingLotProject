@@ -12,25 +12,24 @@ using namespace std;
 class ParkingLotFactory
 {
 	public:
-		ParkingLot* chooseParkingLot(string LotName);
-};
-
-ParkingLot* ParkingLotFactory::chooseParkingLot(string LotName)
-{
-	ParkingLot* Lot;
-	if (LotName == "A")
-		Lot = LotA::getInstance();
-	else
-		if (LotName == "B")
-			Lot = LotB::getInstance();
-		else
-			if (LotName == "C")
-				Lot = LotC::getInstance();
+		ParkingLot* chooseParkingLot(string LotName)
+		{
+			ParkingLot* Lot;
+			if (LotName == "A")
+				Lot = LotA::getInstance();
 			else
-				if (LotName == "D")
-					Lot = LotD::getInstance();
+				if (LotName == "B")
+					Lot = LotB::getInstance();
 				else
-					Lot = NULL;
-	return Lot;
-}
+					if (LotName == "C")
+						Lot = LotC::getInstance();
+					else
+						if (LotName == "D")
+							Lot = LotD::getInstance();
+						else
+							Lot = NULL;
+			return Lot;
+		}
+
+};
 #endif
