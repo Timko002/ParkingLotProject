@@ -11,6 +11,7 @@ using namespace std;
 
 wxBEGIN_EVENT_TABLE(main, wxFrame)
 EVT_BUTTON(1001, OnLoginSubmit)
+EVT_BUTTON(4, OnReserveClick)
 EVT_BUTTON(3, OnReserveClick)
 EVT_BUTTON(2, onClickX)
 EVT_BUTTON(1002, OnLotClick)
@@ -96,8 +97,8 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 void main::OnReserveClick(wxCommandEvent& evt)
 {
 	// here is the reserve click
-	//wxStringTostring(getEventName(evt))
-	if (!checkAvailableSpots(pLots["A"]))
+
+	if (checkAvailableSpots(pLots[wxStringTostring(getEventName(evt))]))
 	{
 		if ((timeStartOptions->GetValue() == "") || (timeEndOptions->GetValue() == ""))
 		{

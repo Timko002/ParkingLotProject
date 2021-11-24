@@ -54,7 +54,9 @@ private:
 			timeEndOptions = new wxComboBox(lot_frame, wxID_ANY, "0", wxPoint(180, 180), wxSize(70, 30));
 			timeEndOptions->Hide();
 			reserveReminder = new wxStaticText(lot_frame, wxID_ANY, "         Set a time to reserve a spot", wxPoint(40, 210), wxSize(200, 30));
-			reservationConfirm = new wxButton(lot_frame, 3, "Reserve Spot", wxPoint(75, 250), wxSize(150, 40));
+			reservationConfirm = new wxButton(lot_frame, 4, "Reserve Spot", wxPoint(75, 250), wxSize(150, 40));
+			reservationConfirm->SetName(wxName);
+			//printToOutputStream(wxStringTostring(reservationConfirm->GetName()));
 		}
 		else
 		{
@@ -227,8 +229,17 @@ public:
 	}
 	wxString getEventName(wxCommandEvent& evt)
 	{
-		wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);
-		return button->GetName();
+		if (evt.GetId() == 3)
+		{
+			wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);
+			return button->GetName();
+		}
+		else
+		{
+			wxButton* button = wxDynamicCast(evt.GetEventObject(), wxButton);
+			printToOutputStream(wxStringTostring(button->GetName()));
+			return button->GetName();
+		}
 	}
 	virtual bool checkLogin(string name, string pass)
 	{
