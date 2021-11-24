@@ -138,11 +138,14 @@ class WidgetComposite : public WidgetComponent
 			widgets.push_back(widget);
 		}
 		void destroy()
-		{
-			for (int i = 0; i < widgets.size(); i++)
+		{	
+			for (auto p : widgets)
 			{
-				widgets[i]->destroy();
+				p->destroy();
+				delete p;
 			}
+			widgets.clear();
+
 		}
 		int sizeOf()
 		{
@@ -154,7 +157,7 @@ class WidgetComposite : public WidgetComponent
 		}
 		wxString getValueByName(wxString name)
 		{
-			for (int i = 0; i < widgets.size(); i++)
+			for (size_t i = 0; i < widgets.size(); i++)
 			{
 				if (widgets[i]->getName() == name)
 				{

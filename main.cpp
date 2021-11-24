@@ -1,5 +1,4 @@
 #include "main.h"
-#include "PSpotComposite.h"
 #include "PSpot.h"
 #include "WidgetComposite.h"
 #include "wx/string.h"
@@ -51,7 +50,7 @@ main::~main()
 	//this->Destroy();
 	//this->GetParent()->Destroy();
 	main::Close(true);
-	main:Destroy();
+	main::Destroy();
 }
 
 void main::OnLotClick(wxCommandEvent& evt)
@@ -64,6 +63,7 @@ void main::buildLoginPanel()
 	main::SetSize(500, 500);
 	LoginPanel->setContext(this);
 	LoginPanel->makePanel();
+	
 }
 
 void main::buildParkingMap()
@@ -90,6 +90,51 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 	else
 	{
 		// output failed login message
+	}
+
+}
+
+
+void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot for the time
+{
+	timeEnd.clear();
+	wxString selection = timeStartOptions->GetValue();
+	int endHour = wxAtoi(selection.substr(0, 2));
+	int endMin = wxAtoi(selection.substr(3, 5)) + 15;
+	timeEnd = timer.returnComboOptions(timeEnd, endHour, endMin);
+	timeEnd.push_back("18:00");
+	timeEndOptions->Set(timeEnd);
+	timeEndOptions->SetLabel(timeEnd[0]);
+	timeEndOptions->Show();
+}
+
+void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
+{
+	lot_frame = new wxFrame(this, wxID_ANY, "Lot Details", point, wxSize(300, 300), NULL, "Parking Lot");
+	lot_frame->SetName(wxName);
+	lot_frame->Show();
+	lot_frame->SetWindowStyle(wxSTAY_ON_TOP);
+	LotPanel->setContext(lot_frame);
+	LotPanel->makePanel();
+
+	//	spotsTextField = new wxStaticText(lot_frame, wxID_ANY, buildAvailableSPots(wxName), wxPoint(30, 90), wxSize(300, 30));
+	if (checkAvailableSpots(pLots[wxStringTostring(wxName)])) //(checkAvailableSpots(availableSpots))
+	{
+		hourText = new wxStaticText(lot_frame, wxID_ANY, "Time Start", wxPoint(80, 160), wxSize(70, 20));
+		minuteText = new wxStaticText(lot_frame, wxID_ANY, "Time End", wxPoint(185, 160), wxSize(70, 20));
+		timeStartOptions = new wxComboBox(lot_frame, wxID_ANY, "1", wxPoint(80, 180), wxSize(70, 30));
+		setStartLotTime(timeStartOptions, wxStringTostring(wxName));
+		timeStartOptions->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &main::buildEndTime, this);
+		// Handle couldnt find any spaces 
+		timeEndOptions = new wxComboBox(lot_frame, wxID_ANY, "0", wxPoint(180, 180), wxSize(70, 30));
+		timeEndOptions->Hide();
+		reserveReminder = new wxStaticText(lot_frame, wxID_ANY, "         Set a time to reserve a spot", wxPoint(40, 210), wxSize(200, 30));
+		reservationConfirm = new wxButton(lot_frame, 4, "Reserve Spot", wxPoint(75, 250), wxSize(150, 40));
+		reservationConfirm->SetName(wxName);
+	}
+	else
+	{
+		noReserveText = new wxStaticText(lot_frame, wxID_ANY, "No spots left for \n                        Lot " + wxName, wxPoint(50, 180), wxSize(300, 70));
 	}
 
 }
