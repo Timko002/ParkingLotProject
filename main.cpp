@@ -35,6 +35,12 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 	pLots.insert(make_pair("B", f.chooseParkingLot("B")));
 	pLots.insert(make_pair("C", f.chooseParkingLot("C")));
 	pLots.insert(make_pair("D", f.chooseParkingLot("D")));
+	pLots.insert(make_pair("E", f.chooseParkingLot("E")));
+	pLots.insert(make_pair("F", f.chooseParkingLot("F")));
+	pLots.insert(make_pair("G", f.chooseParkingLot("G")));
+	pLots.insert(make_pair("H", f.chooseParkingLot("H")));
+	pLots.insert(make_pair("I", f.chooseParkingLot("I")));
+	pLots.insert(make_pair("J", f.chooseParkingLot("J")));
 	// draw the widgets on the login frame
 	main::buildLoginPanel();
 }
@@ -90,8 +96,8 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 void main::OnReserveClick(wxCommandEvent& evt)
 {
 	// here is the reserve click
-
-	if (!checkAvailableSpots(pLots[wxStringTostring(getEventName(evt))]))
+	//wxStringTostring(getEventName(evt))
+	if (!checkAvailableSpots(pLots["A"]))
 	{
 		if ((timeStartOptions->GetValue() == "") || (timeEndOptions->GetValue() == ""))
 		{

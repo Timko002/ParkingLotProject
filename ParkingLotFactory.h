@@ -7,29 +7,12 @@
 #include "LotB.h"
 #include "LotC.h"
 #include "LotD.h"
+#include <string>
 using namespace std;
 
 class ParkingLotFactory
 {
 	public:
-		ParkingLot* chooseParkingLot(string LotName)
-		{
-			ParkingLot* Lot;
-			if (LotName == "A")
-				Lot = LotA::getInstance();
-			else
-				if (LotName == "B")
-					Lot = LotB::getInstance();
-				else
-					if (LotName == "C")
-						Lot = LotC::getInstance();
-					else
-						if (LotName == "D")
-							Lot = LotD::getInstance();
-						else
-							Lot = NULL;
-			return Lot;
-		}
-
+		ParkingLot* chooseParkingLot(string LotName);
 };
 #endif
