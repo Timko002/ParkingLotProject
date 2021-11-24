@@ -75,9 +75,15 @@ vector<wxString> TimerFunctions::returnComboOptions(vector<wxString> vectorStrin
 
 time_t TimerFunctions::convertChoiceTime(string choice)
 {
-	struct tm tm;
-	std::istringstream ss(choice);
-	ss >> get_time(&tm, "%H:%M");
-	std::time_t time = mktime(&tm);
-	return time;
+
+	time_t currentTime;
+	struct tm* localTime;
+	int localH = stoi(choice.substr(0,2));
+	int localM = stoi(choice.substr(3,4));
+	time(&currentTime);                   // Get the current time
+	localTime = localtime(&currentTime);  // Convert the current time to the local time
+	localTime->tm_hour = localH;
+	localTime->tm_min = localM;
+
+	return mktime(localTime);
 }
