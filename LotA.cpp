@@ -1,5 +1,7 @@
 #pragma once
 #include "LotA.h"
+#include <string>
+
 LotA* LotA::a_instance = 0;
 string LotA::getLotName()
 {
@@ -31,12 +33,13 @@ LotA* LotA::getInstance()
 bool LotA::reserve(time_t startTime, time_t endTime)
 {
 	tm* st = new tm();
-	gmtime_s(st,&startTime);
+	localtime_s(st,&startTime);
 	int start_hour = st->tm_hour;
 	int start_min = st->tm_min;
 	bool reserve_flag = false;
 	int blocks = int(difftime(endTime, startTime) / 900);
 
+	cout << blocks;
 	for (int i = 0; i < pSpaceA.size(); i++)
 	{
 		if (pSpaceA[i]->reserve(start_hour, start_min, blocks))

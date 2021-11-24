@@ -31,7 +31,7 @@ LotJ* LotJ::getInstance()
 bool LotJ::reserve(time_t startTime, time_t endTime)
 {
 	tm* st = new tm();
-	gmtime_s(st, &startTime);
+	localtime_s(st, &startTime);
 	int start_hour = st->tm_hour;
 	int start_min = st->tm_min;
 	bool reserve_flag = false;

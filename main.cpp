@@ -30,7 +30,7 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 	//
 	// creating the Lots on startup
 	ParkingLotFactory f;
-
+	
 	pLots.insert(make_pair("A", f.chooseParkingLot("A")));
 	pLots.insert(make_pair("B", f.chooseParkingLot("B")));
 	pLots.insert(make_pair("C", f.chooseParkingLot("C")));
@@ -156,11 +156,23 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			// this is the minutes value
 			printToOutputStream(wxStringTostring(timeEndOptions->GetValue()));
 			// fill this in to what to do with the time
-			bool result=true;
-			//= Lots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
+			//debug
+			//printToOutputStream("lot::::::::::" + pLots[wxStringTostring(getEventName(evt))]->getLotName());
+			//printToOutputStream("start time : :::::" + wxStringTostring(timeStartOptions->GetValue()));
+			//printToOutputStream("end time : :::::" + wxStringTostring(timeEndOptions->GetValue()));
+
+			time_t startTime = timer.convertChoiceTime(wxStringTostring(timeStartOptions->GetValue()));
+			time_t endTime = timer.convertChoiceTime(wxStringTostring(timeEndOptions->GetValue()));
+
+			bool result= pLots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
 			if (result == true)
 			{
 				reserveReminder->SetLabel("Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
+				reservationConfirm->Destroy();
+			}
+			else
+			{
+				reserveReminder->SetLabel("No spots available for the selected time and Lot.\nTry with a different time or check other Lots");
 				reservationConfirm->Destroy();
 			}
 		}
