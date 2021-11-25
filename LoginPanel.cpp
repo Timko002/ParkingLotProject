@@ -17,6 +17,7 @@ void LoginPanel::makePanel()
 void LoginPanel::destroyPanel()
 {
 	loginWidget.destroy();
+	delete handler;
 }
 
 wxString LoginPanel::getWidgetValue(wxString widgetName)
