@@ -43,6 +43,7 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 	pLots.insert(make_pair("J", f.chooseParkingLot("J")));
 	// draw the widgets on the login frame
 	main::buildLoginPanel();
+	//editor.changeLabel(this, "userText", "new Text");
 }
 
 main::~main()
@@ -56,6 +57,7 @@ main::~main()
 void main::OnLotClick(wxCommandEvent& evt)
 {
 	main::buildParkingLotDisplay(getEventPointer(evt),getEventName(evt));
+	evt.Skip();
 }
 
 void main::buildLoginPanel()
@@ -91,7 +93,7 @@ void main::OnLoginSubmit(wxCommandEvent& evt)
 	{
 		// output failed login message
 	}
-
+	evt.Skip();
 }
 
 
@@ -106,6 +108,7 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	timeEndOptions->Set(timeEnd);
 	timeEndOptions->SetLabel(timeEnd[0]);
 	timeEndOptions->Show();
+	evt.Skip();
 }
 
 void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
@@ -177,7 +180,7 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			}
 		}
 	}
-	
+	evt.Skip();
 }
  /*Torsha - creating a placeholder for observer pattern related code
 class subscriber 

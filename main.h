@@ -6,6 +6,7 @@
 #include "wx/event.h"
 #include "ParkingLotFactory.h"
 #include "StaticPanelFactory.h"
+#include "WidgetEditor.h"
 #include "TimerFunctions.h"
 #include <string>
 #include <vector>
@@ -37,6 +38,7 @@ public:
 // parking lot frame & widgets
 public:
 	TimerFunctions timer;
+	WidgetEditor editor;
 	Panel* LotPanel = StaticPanelFactory::makePanel("lot");
 	wxFrame* lot_frame = nullptr;
 	wxString pspotText;
