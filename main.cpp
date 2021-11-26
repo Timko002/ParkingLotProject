@@ -1,17 +1,18 @@
 #include "main.h"
 #include "PSpot.h"
 #include "WidgetComposite.h"
-#include "wx/string.h"
 #include <iostream>
 #include <vector>
+#include <chrono>
 #include <Windows.h>
+
 
 using namespace std;
 
 wxBEGIN_EVENT_TABLE(main, wxFrame)
 EVT_BUTTON(1001, OnLoginSubmit)
 EVT_BUTTON(4, OnReserveClick)
-EVT_BUTTON(3, OnReserveClick)
+EVT_BUTTON(3, TestAsync)
 EVT_BUTTON(2, onClickX)
 EVT_BUTTON(1002, OnLotClick)
 EVT_BUTTON(1003, OnLotClick)
@@ -65,7 +66,6 @@ void main::buildLoginPanel()
 	main::SetSize(500, 500);
 	LoginPanel->setContext(this);
 	LoginPanel->makePanel();
-	
 }
 
 void main::buildParkingMap()
@@ -78,9 +78,21 @@ void main::buildParkingMap()
 	MapPanel->makePanel();
 }
 
+// async button example for us to try
+void main::TestAsync(wxCommandEvent& event)
+{
+	main::value = async(launch::async, [this]
+	{
+		std::this_thread::sleep_for(std::chrono::seconds(30));
+		//std::cout << c;
+		printToOutputStream("hello \n");
+			
+	});
+	event.Skip();
+}
+
 void main::OnLoginSubmit(wxCommandEvent& evt)
 {
-	
 	// its now done through a static factory, widgets are named and you can call their value like this
 	if (checkLogin(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password"))))
 	{
@@ -132,7 +144,7 @@ void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
 		timeEndOptions = new wxComboBox(lot_frame, wxID_ANY, "0", wxPoint(180, 180), wxSize(70, 30));
 		timeEndOptions->Hide();
 		reserveReminder = new wxStaticText(lot_frame, wxID_ANY, "         Set a time to reserve a spot", wxPoint(40, 210), wxSize(200, 30));
-		reservationConfirm = new wxButton(lot_frame, 4, "Reserve Spot", wxPoint(75, 250), wxSize(150, 40));
+		reservationConfirm = new wxButton(lot_frame, 3, "Reserve Spot", wxPoint(75, 250), wxSize(150, 40));
 		reservationConfirm->SetName(wxName);
 	}
 	else

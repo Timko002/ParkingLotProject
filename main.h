@@ -4,6 +4,9 @@
 #include "WidgetComposite.h"
 #include "wx/wx.h"
 #include "wx/event.h"
+#include "wx/string.h"
+#include "wx/thread.h"
+#include <future>
 #include "ParkingLotFactory.h"
 #include "StaticPanelFactory.h"
 #include "WidgetEditor.h"
@@ -37,6 +40,7 @@ public:
 	
 // parking lot frame & widgets
 public:
+	future<void> value;
 	TimerFunctions timer;
 	WidgetEditor editor;
 	Panel* LotPanel = StaticPanelFactory::makePanel("lot");
@@ -115,6 +119,7 @@ public:
 	void OnLoginSubmit(wxCommandEvent& evt);
 	void OnReserveClick(wxCommandEvent& evt);
 	void OnLotClick(wxCommandEvent& evt);
+	void TestAsync(wxCommandEvent& event);
 	void onClickX(wxCommandEvent& evt)
 	{
 		
