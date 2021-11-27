@@ -9,6 +9,7 @@
 #include <future>
 #include "ParkingLotFactory.h"
 #include "StaticPanelFactory.h"
+#include "DBObject.h"
 #include "WidgetEditor.h"
 #include "WidgetBuilder.h"
 #include "TimerFunctions.h"
@@ -44,6 +45,7 @@ public:
 	wxFrame* notif_frame = nullptr;
 // parking lot frame & widgets
 public:
+	DBObject db;
 	future<void> value;
 	TimerFunctions timer;
 	WidgetEditor editor;
@@ -119,6 +121,7 @@ public:
 		if (evt.GetId() == 2)
 		{
 			lot_frame->Destroy();
+			delete lot_frame;
 		}
 		else
 		{
@@ -145,8 +148,9 @@ public:
 	}
 	virtual bool checkLogin(string name, string pass)
 	{
+		string response = db.checkLogin(name, pass);
 		// replace with real login check later
-		if ((name == "name") && (pass == "pass"))
+		if (response == "success")
 		{
 			return true;
 		}

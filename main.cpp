@@ -56,10 +56,6 @@ main::~main()
 
 void main::OnLotClick(wxCommandEvent& evt)
 {
-	if (lot_frame)
-	{
-		lot_frame->Destroy();
-	}
 	main::buildParkingLotDisplay(getEventPointer(evt),getEventName(evt));
 	evt.Skip();
 }
@@ -155,6 +151,8 @@ void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
 			// get pointers to the combo boxes
 			timeStartOptions = editor.generatePointerCombo(editor.getNode(lot_frame, "startTimeBox"));
 			timeEndOptions = editor.generatePointerCombo(editor.getNode(lot_frame, "endTimeBox"));
+			timeStartOptions->Set(timeStart);
+			timeStartOptions->Bind(wxEVT_COMBOBOX, &main::buildEndTime, this);
 		}
 		else
 		{
