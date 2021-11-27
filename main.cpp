@@ -12,8 +12,8 @@ using namespace std;
 wxBEGIN_EVENT_TABLE(main, wxFrame)
 EVT_BUTTON(1001, OnLoginSubmit)
 EVT_BUTTON(4, OnReserveClick)
-EVT_BUTTON(3, TestAsync)
 EVT_BUTTON(2, onClickX)
+EVT_BUTTON(5, onClickX)
 EVT_BUTTON(1002, OnLotClick)
 EVT_BUTTON(1003, OnLotClick)
 EVT_BUTTON(1004, OnLotClick)
@@ -44,7 +44,6 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 	pLots.insert(make_pair("J", f.chooseParkingLot("J")));
 	// draw the widgets on the login frame
 	main::buildLoginPanel();
-	//editor.changeLabel(this, "userText", "new Text");
 }
 
 main::~main()
@@ -57,6 +56,10 @@ main::~main()
 
 void main::OnLotClick(wxCommandEvent& evt)
 {
+	if (lot_frame)
+	{
+		lot_frame->Destroy();
+	}
 	main::buildParkingLotDisplay(getEventPointer(evt),getEventName(evt));
 	evt.Skip();
 }
@@ -79,16 +82,22 @@ void main::buildParkingMap()
 }
 
 // async button example for us to try
-void main::TestAsync(wxCommandEvent& event)
+void main::TestAsync()
 {
+	notif_frame = new wxFrame(this, wxID_ANY, "Lot Details", wxDefaultPosition, wxSize(300, 300), NULL, "Notification");
+	notif_frame->SetName("notif");
+	notif_frame->CenterOnScreen();
+	notif_frame->SetWindowStyle(wxSTAY_ON_TOP);
+	xButton = new wxButton(notif_frame, 5, "X", wxPoint(278, 0), wxSize(20, 20));
+	
 	main::value = async(launch::async, [this]
 	{
-		std::this_thread::sleep_for(std::chrono::seconds(30));
+		std::this_thread::sleep_for(std::chrono::seconds(10));
 		//std::cout << c;
-		printToOutputStream("hello \n");
-			
+		printToOutputStream("Testing \n");
+		main::notif_frame->Show();
 	});
-	event.Skip();
+	
 }
 
 void main::OnLoginSubmit(wxCommandEvent& evt)
@@ -128,30 +137,42 @@ void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
 	lot_frame = new wxFrame(this, wxID_ANY, "Lot Details", point, wxSize(300, 300), NULL, "Parking Lot");
 	lot_frame->SetName(wxName);
 	lot_frame->Show();
-	lot_frame->SetWindowStyle(wxSTAY_ON_TOP);
 	LotPanel->setContext(lot_frame);
 	LotPanel->makePanel();
+	ConcreteLotBuilder* builder = new ConcreteLotBuilder();
+	Director* director = new Director();
+	director->set_builder(builder,lot_frame,wxName);
 
 	//	spotsTextField = new wxStaticText(lot_frame, wxID_ANY, buildAvailableSPots(wxName), wxPoint(30, 90), wxSize(300, 30));
+
 	if (checkAvailableSpots(pLots[wxStringTostring(wxName)])) //(checkAvailableSpots(availableSpots))
 	{
-		hourText = new wxStaticText(lot_frame, wxID_ANY, "Time Start", wxPoint(80, 160), wxSize(70, 20));
-		minuteText = new wxStaticText(lot_frame, wxID_ANY, "Time End", wxPoint(185, 160), wxSize(70, 20));
-		timeStartOptions = new wxComboBox(lot_frame, wxID_ANY, "1", wxPoint(80, 180), wxSize(70, 30));
-		setStartLotTime(timeStartOptions, wxStringTostring(wxName));
-		timeStartOptions->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &main::buildEndTime, this);
-		// Handle couldnt find any spaces 
-		timeEndOptions = new wxComboBox(lot_frame, wxID_ANY, "0", wxPoint(180, 180), wxSize(70, 30));
-		timeEndOptions->Hide();
-		reserveReminder = new wxStaticText(lot_frame, wxID_ANY, "         Set a time to reserve a spot", wxPoint(40, 210), wxSize(200, 30));
-		reservationConfirm = new wxButton(lot_frame, 3, "Reserve Spot", wxPoint(75, 250), wxSize(150, 40));
-		reservationConfirm->SetName(wxName);
+		getStartLotTime(timeStart);
+		if (timeStart.size() != 0)
+		{
+			// building the full lot of cars
+			director->BuildFullProduct();
+			// get pointers to the combo boxes
+			timeStartOptions = editor.generatePointerCombo(editor.getNode(lot_frame, "startTimeBox"));
+			timeEndOptions = editor.generatePointerCombo(editor.getNode(lot_frame, "endTimeBox"));
+		}
+		else
+		{
+			// Too late to reserve 
+			director->BuildPast6PM();	
+		}
 	}
 	else
 	{
-		noReserveText = new wxStaticText(lot_frame, wxID_ANY, "No spots left for \n                        Lot " + wxName, wxPoint(50, 180), wxSize(300, 70));
+		// Lot is full of cars
+		director->BuildFullLot();
 	}
-
+	// cleanup pointers
+	LotUI* p = builder->GetProduct();
+	p->destroyParts();
+	delete p;
+	delete builder;
+	delete director;
 }
 
 void main::OnReserveClick(wxCommandEvent& evt)
@@ -162,10 +183,13 @@ void main::OnReserveClick(wxCommandEvent& evt)
 	{
 		if ((timeStartOptions->GetValue() == "") || (timeEndOptions->GetValue() == ""))
 		{
-			reserveReminder->SetLabel("You must make a selection to continue");
+			//reserveReminder->SetLabel("You must make a selection to continue");
+			editor.changeLabel(lot_frame, "setReserveTimeText", "You must make a selection to continue");
 		}
 		else
 		{
+			//testing reservation
+			TestAsync();
 			// this is the hours value
 			printToOutputStream(wxStringTostring(timeStartOptions->GetValue()));
 			// this is the minutes value
@@ -182,13 +206,13 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			bool result= pLots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
 			if (result == true)
 			{
-				reserveReminder->SetLabel("Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
-				reservationConfirm->Destroy();
+				editor.changeLabel(lot_frame, "setReserveTimeText", "Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
+				editor.deleteItem(lot_frame, getEventName(evt));
 			}
 			else
 			{
-				reserveReminder->SetLabel("No spots available for the selected time and Lot.\nTry with a different time or check other Lots");
-				reservationConfirm->Destroy();
+				editor.changeLabel(lot_frame, "setReserveTimeText", "No spots available for the selected time and Lot.\nTry with a different time or check other Lots");
+				editor.deleteItem(lot_frame, getEventName(evt));
 			}
 		}
 	}

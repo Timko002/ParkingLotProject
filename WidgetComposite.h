@@ -129,6 +129,33 @@ public:
 	}
 };
 
+class comboBox : public WidgetComponent
+{
+	wxComboBox* combo;
+public:
+	comboBox(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, wxString name)
+	{
+		combo = new wxComboBox(parent, id, label, pos, size);
+		combo->SetName(name);
+	}
+	void destroy()
+	{
+		combo->Destroy();
+	}
+	void hideThis()
+	{
+		combo->Hide();
+	}
+	wxString getName()
+	{
+		return combo->GetName();
+	}
+	wxString getValueByName(wxString name)
+	{
+		return combo->GetName();
+	}
+};
+
 class WidgetComposite : public WidgetComponent
 {
 	vector <WidgetComponent*> widgets;
@@ -145,7 +172,6 @@ class WidgetComposite : public WidgetComponent
 				delete p;
 			}
 			widgets.clear();
-
 		}
 		int sizeOf()
 		{

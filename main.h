@@ -10,6 +10,7 @@
 #include "ParkingLotFactory.h"
 #include "StaticPanelFactory.h"
 #include "WidgetEditor.h"
+#include "WidgetBuilder.h"
 #include "TimerFunctions.h"
 #include <string>
 #include <vector>
@@ -24,6 +25,7 @@ public:
 	~main();
 
 private:
+	// build the side panel on the map
 	void buildSidePanel()
 	{
 		for (size_t i = 0; i < lotReferences.size(); i++)
@@ -32,12 +34,14 @@ private:
 		}
 	}
 
-	// building the popup lot frame based on the point of the button
+// building the popup lot frame based on the point of the button
 	void buildParkingLotDisplay(wxPoint point, wxString wxName);
 // Login screen widgets
 public:
 	Panel* LoginPanel = StaticPanelFactory::makePanel("login");
-	
+// notification frame widgets
+public:
+	wxFrame* notif_frame = nullptr;
 // parking lot frame & widgets
 public:
 	future<void> value;
@@ -45,22 +49,10 @@ public:
 	WidgetEditor editor;
 	Panel* LotPanel = StaticPanelFactory::makePanel("lot");
 	wxFrame* lot_frame = nullptr;
-	wxString pspotText;
-	wxString reservedSpots;
-	wxString availableSpots;
-	wxStaticText* noReserveText = nullptr;
-	wxStaticText* reserveReminder = nullptr;
-	wxStaticText* hourText = nullptr;
-	wxStaticText* minuteText = nullptr;
-	wxStaticText* LotInfoText = nullptr;
-	wxStaticText* numOpenSpots = nullptr;
-	wxStaticText* spotsTextField = nullptr;
-	wxStaticText* reservedTime = nullptr;
 	wxComboBox* timeStartOptions = nullptr;
 	wxComboBox* timeEndOptions = nullptr;
-	vector<wxString> timeStart; //= {"1","2","3","4","5","6","7","8","9","10","11","12"};
-	vector<wxString> timeEnd; //= {"0","15","30","45"};
-	wxButton* reservationConfirm = nullptr;
+	vector<wxString> timeStart;
+	vector<wxString> timeEnd; 
 	wxButton* xButton = nullptr;
 	vector<wxString> lotReferences = { "A","B","C","D","E","F","G","H","I","J"};
 
@@ -71,15 +63,15 @@ public:
 	unordered_map<string, ParkingLot*> pLots;
 
 	void buildEndTime(wxCommandEvent& evt);
+
 	// Search for a time to start
-	void setStartLotTime(wxComboBox* combo,string lotNum)
+	void getStartLotTime(vector<wxString> &timeStart)
 	{
 		timeStart.clear();
 		timer.setCurrentTime();
 		timeStart = timer.returnComboOptions(timeStart, timer.returnHour(), timer.returnMin());
-		combo->Set(timeStart);
 	}
-	
+
 	string wxStringTostring(wxString msg)
 	{
 		// turns a wxString to a regular string
@@ -107,6 +99,7 @@ public:
 	}
 	void buildLoginPanel();
 	void buildParkingMap();
+	/*
 	wxString buildAvailableSPots(wxString wxLotName)
 	{
 		//replace function here to get lot information
@@ -115,17 +108,23 @@ public:
 		pspotText = "The detailed information for this available spot is: \n   Available spots: " + reservedSpots + wxString(" Reserved spots: ") + availableSpots;
 		return pspotText;
 	}
+	*/
 
 	void OnLoginSubmit(wxCommandEvent& evt);
 	void OnReserveClick(wxCommandEvent& evt);
 	void OnLotClick(wxCommandEvent& evt);
-	void TestAsync(wxCommandEvent& event);
+	void TestAsync();
 	void onClickX(wxCommandEvent& evt)
 	{
-		
-		lot_frame->Destroy();
+		if (evt.GetId() == 2)
+		{
+			lot_frame->Destroy();
+		}
+		else
+		{
+			notif_frame->Destroy();
+		}
 	}
-
 	wxPoint getEventPointer(wxCommandEvent& evt)
 	{
 		wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);
@@ -141,7 +140,6 @@ public:
 		else
 		{
 			wxButton* button = wxDynamicCast(evt.GetEventObject(), wxButton);
-			printToOutputStream(wxStringTostring(button->GetName()));
 			return button->GetName();
 		}
 	}

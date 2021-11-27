@@ -25,6 +25,11 @@ public:
         wxWindow* node = getNode(wContext, objectName);
         node->SetLabel(label);
     }
+    void deleteItem(wxWindow* wContext, wxString objectName)
+    {
+        wxWindow* node = getNode(wContext, objectName);
+        delete node;
+    }
     wxStaticText* generatePointerSText(wxWindow* node)
     {
         if (dynamic_cast<wxStaticText*>(node)) {
