@@ -78,20 +78,14 @@ void main::buildParkingMap()
 }
 
 // async button example for us to try
-void main::TestAsync()
+void main::TestAsync(int timer)
 {
-	notif_frame = new wxFrame(this, wxID_ANY, "Lot Details", wxDefaultPosition, wxSize(300, 300), NULL, "Notification");
-	notif_frame->SetName("notif");
-	notif_frame->CenterOnScreen();
-	notif_frame->SetWindowStyle(wxSTAY_ON_TOP);
-	xButton = new wxButton(notif_frame, 5, "X", wxPoint(278, 0), wxSize(20, 20));
-	
-	main::value = async(launch::async, [this]
+	main::value = async(launch::async, [this,timer]
 	{
-		std::this_thread::sleep_for(std::chrono::seconds(10));
-		//std::cout << c;
-		printToOutputStream("Testing \n");
-		main::notif_frame->Show();
+		std::this_thread::sleep_for(std::chrono::seconds(timer));
+		int answer = wxMessageBox(wxString::Format("This is your 5 minute notification"),wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxCANCEL | wxICON_EXCLAMATION);
+		if (answer == wxYES)
+			printToOutputStream("selected yes");
 	});
 	
 }
@@ -130,6 +124,7 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 
 void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
 {
+
 	lot_frame = new wxFrame(this, wxID_ANY, "Lot Details", point, wxSize(300, 300), NULL, "Parking Lot");
 	lot_frame->SetName(wxName);
 	lot_frame->Show();
@@ -187,7 +182,7 @@ void main::OnReserveClick(wxCommandEvent& evt)
 		else
 		{
 			//testing reservation
-			TestAsync();
+			TestAsync(10);
 			// this is the hours value
 			printToOutputStream(wxStringTostring(timeStartOptions->GetValue()));
 			// this is the minutes value

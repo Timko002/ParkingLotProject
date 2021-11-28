@@ -9,12 +9,12 @@ void LotPanel::makePanel()
 	wxImage::AddHandler(handler);
 	lotWidget.add(new pngLogo(LotPanel::getContext(), wxID_ANY, wxBitmap("images/headerBG.PNG", wxBITMAP_TYPE_PNG), wxPoint(00, 00), wxSize(278, 20), "HeaderBG"));
 	lotWidget.add(new TextField(LotPanel::getContext(), wxID_ANY, "Selected parking lot : "+LotPanel::getContext()->GetName(), wxPoint(100, 40), wxSize(300, 50), "Selected Message"));
-
 }
 
 void LotPanel::destroyPanel()
 {
 	lotWidget.destroy();
+	delete handler;
 }
 
 wxString LotPanel::getWidgetValue(wxString widgetName)

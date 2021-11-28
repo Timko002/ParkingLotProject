@@ -9,8 +9,8 @@ void LoginPanel::makePanel()
 	loginWidget.add(new TextField(LoginPanel::getContext(), wxID_ANY, "Please log in to start reserving your parking spot.", wxPoint(100, 150), wxSize(300, 30), "Login Message"));
 	loginWidget.add(new TextField(LoginPanel::getContext(), wxID_ANY, "Username: ", wxPoint(10, 200), wxSize(70, 30),"userText"));
 	loginWidget.add(new TextField(LoginPanel::getContext(), wxID_ANY, "Passowrd: ", wxPoint(10, 240), wxSize(70, 30),"passText"));
-	loginWidget.add(new TextInput(LoginPanel::getContext(), wxID_ANY, "enter username...", wxPoint(100, 195), wxSize(300, 30),"username"));
-	loginWidget.add(new TextInput(LoginPanel::getContext(), wxID_ANY, "enter password...", wxPoint(100, 235), wxSize(300, 30),"password"));
+	loginWidget.add(new TextInput(LoginPanel::getContext(), wxID_ANY, "", wxPoint(100, 195), wxSize(300, 30),"username"));
+	loginWidget.add(new TextInput(LoginPanel::getContext(), wxID_ANY, "", wxPoint(100, 235), wxSize(300, 30),"password", "pass"));
 	loginWidget.add(new TextButton(LoginPanel::getContext(), 1001, "Submit", wxPoint(150, 350), wxSize(150, 50),"Submit"));
 }
 

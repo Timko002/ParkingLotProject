@@ -47,6 +47,14 @@ class TextInput : public WidgetComponent
 			textInput = new wxTextCtrl(parent, id, label, pos, size);
 			textInput->SetName(name);
 		}
+		TextInput(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, wxString name, wxString style)
+		{
+			if (style == "pass")
+			{
+				textInput = new wxTextCtrl(parent, id, label, pos, size, wxTE_PASSWORD);
+			}
+			textInput->SetName(name);
+		}
 		void destroy()
 		{
 			textInput->Destroy();

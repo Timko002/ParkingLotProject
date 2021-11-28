@@ -40,17 +40,14 @@ private:
 // Login screen widgets
 public:
 	Panel* LoginPanel = StaticPanelFactory::makePanel("login");
-// notification frame widgets
-public:
-	wxFrame* notif_frame = nullptr;
 // parking lot frame & widgets
 public:
 	DBObject db;
+	wxFrame* lot_frame = nullptr;
 	future<void> value;
 	TimerFunctions timer;
 	WidgetEditor editor;
 	Panel* LotPanel = StaticPanelFactory::makePanel("lot");
-	wxFrame* lot_frame = nullptr;
 	wxComboBox* timeStartOptions = nullptr;
 	wxComboBox* timeEndOptions = nullptr;
 	vector<wxString> timeStart;
@@ -111,22 +108,13 @@ public:
 		return pspotText;
 	}
 	*/
-
 	void OnLoginSubmit(wxCommandEvent& evt);
 	void OnReserveClick(wxCommandEvent& evt);
 	void OnLotClick(wxCommandEvent& evt);
-	void TestAsync();
+	void TestAsync(int timer);
 	void onClickX(wxCommandEvent& evt)
 	{
-		if (evt.GetId() == 2)
-		{
 			lot_frame->Destroy();
-			delete lot_frame;
-		}
-		else
-		{
-			notif_frame->Destroy();
-		}
 	}
 	wxPoint getEventPointer(wxCommandEvent& evt)
 	{
