@@ -29,6 +29,9 @@ EVT_BUTTON(1010, OnLotClick)
 EVT_BUTTON(1011, OnLotClick)
 wxEND_EVENT_TABLE()
 
+DBObject* DBObject::db = 0;
+User* User::user = 0;
+
 main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 {
 	//

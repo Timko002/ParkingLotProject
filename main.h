@@ -10,6 +10,7 @@
 #include "ParkingLotFactory.h"
 #include "StaticPanelFactory.h"
 #include "DBObject.h"
+#include "User.h"
 #include "WidgetEditor.h"
 #include "WidgetBuilder.h"
 #include "TimerFunctions.h"
@@ -42,9 +43,7 @@ public:
 	Panel* LoginPanel = StaticPanelFactory::makePanel("login");
 // parking lot frame & widgets
 public:
-	DBObject db;
 	wxFrame* lot_frame = nullptr;
-	string loginName;
 	future<void> value;
 	TimerFunctions timer;
 	WidgetEditor editor;
@@ -147,7 +146,7 @@ public:
 	{
 		if (canRegister(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password"))))
 		{
-			db.createUser(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password")));
+			DBObject::instance()->createUser(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password")));
 			editor.showNode(this, "Submit");
 			editor.showNode(this, "registerButton");
 			editor.hideNode(this, "completeRegistration");
@@ -172,7 +171,7 @@ public:
 			editor.changeLabel(this, "loginResponse", "Please fill out information before submitting");
 			return false;
 		}
-		bool response = db.checkUserExists(name);
+		bool response = DBObject::instance()->checkUserExists(name);
 		if (response)
 		{
 			editor.changeLabel(this, "loginResponse", "User account already exists");
@@ -182,10 +181,10 @@ public:
 	}
 	virtual bool checkLogin(string name, string pass)
 	{
-		string response = db.checkLogin(name, pass);
+		string response = DBObject::instance()->checkLogin(name, pass);
 		if (response == "success")
 		{
-			loginName = name;
+			User::instance()->set_user(name);
 			return true;
 		}
 		editor.changeLabel(this, "loginResponse", response);

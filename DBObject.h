@@ -3,6 +3,7 @@
 #define DBOBJECT_H
 #include <iostream>
 #include <mysql.h>
+#include <wx/wx.h>
 #include <jdbc\cppconn\connection.h>
 #include <jdbc\cppconn\exception.h>
 #include <jdbc\cppconn\resultset.h>
@@ -15,7 +16,7 @@ using namespace sql;
 
 class DBObject
 {
-	public:
+		static DBObject* db;
 		DBObject()
 		{
 			Driver = get_driver_instance();  // Driver to connect the database
@@ -25,10 +26,13 @@ class DBObject
 
 			Cstm->execute("use parking"); //using parking database
 		}
+	public:
 		string checkLogin(string userName, string pass);
 		bool checkUserExists(string userName);
 		void createUser(string userName, string pass);
 		void bookUser(string userName, string lot, string space_no, string startTime, string endTime);
+		bool isReserved(string userName);
+		static DBObject* instance();
 	protected:
 		sql::Driver* Driver;
 		sql::Connection* Con;

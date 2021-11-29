@@ -57,16 +57,12 @@ void DBObject::bookUser(string userName, string lot, string space_no, string sta
     startTime.replace(2, 1, "_");
     endTime.replace(2, 1, "_");
     try {
-
         DBObject::command = "update " + lot + " set T" + startTime + " = False where Space_No = " + space_no;
         int res1 = DBObject::Cstm->executeUpdate(command);
         if (DBObject::res) {
             startTime.replace(2, 1, ":");
             endTime.replace(2, 1, ":");
             string command2 = "insert into userlog_table (Username,Start_Time,End_Time) values ('" + userName + "','" + startTime + "','" + endTime + "')";
-            std::wstring stemp = std::wstring(command2.begin(), command2.end());
-            LPCWSTR sw = stemp.c_str();
-            OutputDebugString(sw);
             int res2 = DBObject::Cstm->executeUpdate(command2);
             if (res2) {
                 //cout << "Slot is booked";
@@ -80,4 +76,24 @@ void DBObject::bookUser(string userName, string lot, string space_no, string sta
 
         //unknown error
     }
+}
+
+bool DBObject::isReserved(string userName)
+{
+    DBObject::command = "select * from userlog_table where Username= '" + userName + "'"; //checking is this user exist
+    DBObject::res = DBObject::Cstm->executeQuery(command);
+    if (DBObject::res->next()) {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+DBObject* DBObject::instance()
+{
+    if (!db)
+        db = new DBObject;
+    return db;
 }
