@@ -59,6 +59,7 @@ main::~main()
 
 void main::OnLotClick(wxCommandEvent& evt)
 {
+	//db.bookUser(main::loginName, wxStringTostring(getEventName(evt)), "20", "10:00", "12:00");
 	main::buildParkingLotDisplay(getEventPointer(evt),getEventName(evt));
 	evt.Skip();
 }

@@ -28,12 +28,12 @@ class DBObject
 		string checkLogin(string userName, string pass);
 		bool checkUserExists(string userName);
 		void createUser(string userName, string pass);
+		void bookUser(string userName, string lot, string space_no, string startTime, string endTime);
 	protected:
-		Driver* Driver;
-		Connection* Con;
-		ResultSet* res;
-		Statement* Cstm;
-		PreparedStatement* Pstm;
+		sql::Driver* Driver;
+		sql::Connection* Con;
+		sql::ResultSet* res;
+		sql::Statement* Cstm;
 		string command;
 };
 

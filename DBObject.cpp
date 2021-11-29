@@ -1,5 +1,5 @@
 #include "DBObject.h"
-
+// checks if login is valid
 string DBObject::checkLogin(string userName, string pass)
 {
     DBObject::command = "select * from users where Username= '" + userName + "' and Password='" + pass + "'"; //checking is this user exist
@@ -32,13 +32,52 @@ void DBObject::createUser(string userName, string pass)
 {
     if (!checkUserExists(userName))
     {
+        string responseStr = "";
         try {
             DBObject::command = "INSERT INTO users (Username, Password) VALUES ('" + userName + "','" + pass + "')"; //checking is this user exist
-            DBObject::res = DBObject::Cstm->executeQuery(command);
+            int res1 = DBObject::Cstm->executeUpdate(command);
+            if (res1) {
+                responseStr = "Success";
+            }
+            else
+            {
+                responseStr = "Error";
+
+            }
         }
         catch (sql::SQLException& e) {
 
-            //Is this a dll error?
+            //unknown error
         }
+    }
+}
+
+void DBObject::bookUser(string userName, string lot, string space_no, string startTime, string endTime)
+{
+    startTime.replace(2, 1, "_");
+    endTime.replace(2, 1, "_");
+    try {
+
+        DBObject::command = "update " + lot + " set T" + startTime + " = False where Space_No = " + space_no;
+        int res1 = DBObject::Cstm->executeUpdate(command);
+        if (DBObject::res) {
+            startTime.replace(2, 1, ":");
+            endTime.replace(2, 1, ":");
+            string command2 = "insert into userlog_table (Username,Start_Time,End_Time) values ('" + userName + "','" + startTime + "','" + endTime + "')";
+            std::wstring stemp = std::wstring(command2.begin(), command2.end());
+            LPCWSTR sw = stemp.c_str();
+            OutputDebugString(sw);
+            int res2 = DBObject::Cstm->executeUpdate(command2);
+            if (res2) {
+                //cout << "Slot is booked";
+            }
+            else {
+                //cout << "updating userlog table is failed";
+            }
+        }
+    }
+    catch (sql::SQLException& e) {
+
+        //unknown error
     }
 }

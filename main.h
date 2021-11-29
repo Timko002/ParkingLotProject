@@ -44,6 +44,7 @@ public:
 public:
 	DBObject db;
 	wxFrame* lot_frame = nullptr;
+	string loginName;
 	future<void> value;
 	TimerFunctions timer;
 	WidgetEditor editor;
@@ -166,6 +167,11 @@ public:
 	}
 	virtual bool canRegister(string name, string pass)
 	{
+		if ((name.size() == 0) || (pass.size() == 0))
+		{
+			editor.changeLabel(this, "loginResponse", "Please fill out information before submitting");
+			return false;
+		}
 		bool response = db.checkUserExists(name);
 		if (response)
 		{
@@ -179,6 +185,7 @@ public:
 		string response = db.checkLogin(name, pass);
 		if (response == "success")
 		{
+			loginName = name;
 			return true;
 		}
 		editor.changeLabel(this, "loginResponse", response);
