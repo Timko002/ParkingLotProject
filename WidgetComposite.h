@@ -25,6 +25,10 @@ class TextField : public WidgetComponent
 			staticText = new wxStaticText(parent,id,label,pos,size);
 			staticText->SetName(name);
 		}
+		~TextField()
+		{
+			destroy();
+		}
 		void destroy()
 		{
 			staticText->Destroy();
@@ -59,6 +63,10 @@ class TextInput : public WidgetComponent
 			}
 			textInput->SetName(name);
 		}
+		~TextInput()
+		{
+			destroy();
+		}
 		void destroy()
 		{
 			textInput->Destroy();
@@ -90,6 +98,10 @@ class TextButton : public WidgetComponent
 				button->Hide();
 			}
 		}
+		~TextButton()
+		{
+			destroy();
+		}
 		void destroy()
 		{
 			button->Destroy();
@@ -112,6 +124,10 @@ class pngLogo : public WidgetComponent
 		{
 			png = new wxStaticBitmap(parent, id, label, pos, size);
 			png->SetName(name);
+		}
+		~pngLogo()
+		{
+			destroy();
 		}
 		void destroy()
 		{
@@ -136,6 +152,10 @@ public:
 		pngB = new wxBitmapButton(parent, id, bitmap, pos, size);
 		pngB->SetName(name);
 	}
+	~pngButton()
+	{
+		destroy();
+	}
 	void destroy()
 	{
 		pngB->Destroy();
@@ -159,6 +179,10 @@ public:
 		combo = new wxComboBox(parent, id, label, pos, size);
 		combo->SetName(name);
 	}
+	~comboBox()
+	{
+		destroy();
+	}
 	void destroy()
 	{
 		combo->Destroy();
@@ -181,6 +205,10 @@ class WidgetComposite : public WidgetComponent
 {
 	vector <WidgetComponent*> widgets;
 	public:
+		~WidgetComposite()
+		{
+			destroy();
+		}
 		void add(WidgetComponent* widget)
 		{
 			widgets.push_back(widget);
