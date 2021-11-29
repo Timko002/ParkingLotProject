@@ -134,14 +134,54 @@ public:
 			return button->GetName();
 		}
 	}
+	void OnRegisterClick(wxCommandEvent& evt)
+	{
+		editor.hideNode(this, "Submit");
+		editor.hideNode(this, "registerButton");
+		editor.showNode(this, "completeRegistration");
+		editor.showNode(this, "loginReturn");
+		editor.changeLabel(this, "LogMsg", "Please enter a username/password to create account");
+	}
+	void OnRegisterConfirm(wxCommandEvent& evt)
+	{
+		if (canRegister(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password"))))
+		{
+			db.createUser(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password")));
+			editor.showNode(this, "Submit");
+			editor.showNode(this, "registerButton");
+			editor.hideNode(this, "completeRegistration");
+			editor.hideNode(this, "loginReturn");
+			editor.changeLabel(this, "LogMsg", "Please log in to start reserving your parking spot.");
+			editor.changeLabel(this, "loginResponse", "Registration completed");
+		}
+	}
+	void OnReturnClick(wxCommandEvent& evt)
+	{
+		editor.showNode(this, "Submit");
+		editor.showNode(this, "registerButton");
+		editor.hideNode(this, "completeRegistration");
+		editor.hideNode(this, "loginReturn");
+		editor.changeLabel(this, "LogMsg", "Please log in to start reserving your parking spot.");
+		editor.changeLabel(this, "loginResponse", "");
+	}
+	virtual bool canRegister(string name, string pass)
+	{
+		bool response = db.checkUserExists(name);
+		if (response)
+		{
+			editor.changeLabel(this, "loginResponse", "User account already exists");
+			return false;
+		}
+		return true;
+	}
 	virtual bool checkLogin(string name, string pass)
 	{
 		string response = db.checkLogin(name, pass);
-		// replace with real login check later
 		if (response == "success")
 		{
 			return true;
 		}
+		editor.changeLabel(this, "loginResponse", response);
 		return false;
 	}
 	wxDECLARE_EVENT_TABLE();

@@ -26,6 +26,8 @@ class DBObject
 			Cstm->execute("use parking"); //using parking database
 		}
 		string checkLogin(string userName, string pass);
+		bool checkUserExists(string userName);
+		void createUser(string userName, string pass);
 	protected:
 		Driver* Driver;
 		Connection* Con;

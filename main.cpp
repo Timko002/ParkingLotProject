@@ -11,6 +11,9 @@ using namespace std;
 
 wxBEGIN_EVENT_TABLE(main, wxFrame)
 EVT_BUTTON(1001, OnLoginSubmit)
+EVT_BUTTON(1100, OnRegisterClick)
+EVT_BUTTON(1101, OnRegisterConfirm)
+EVT_BUTTON(1102, OnReturnClick)
 EVT_BUTTON(4, OnReserveClick)
 EVT_BUTTON(2, onClickX)
 EVT_BUTTON(5, onClickX)
@@ -83,7 +86,7 @@ void main::TestAsync(int timer)
 	main::value = async(launch::async, [this,timer]
 	{
 		std::this_thread::sleep_for(std::chrono::seconds(timer));
-		int answer = wxMessageBox(wxString::Format("This is your 5 minute notification"),wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxCANCEL | wxICON_EXCLAMATION);
+		int answer = wxMessageBox(wxString::Format("This is your notification to leave"),wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_EXCLAMATION);
 		if (answer == wxYES)
 			printToOutputStream("selected yes");
 	});

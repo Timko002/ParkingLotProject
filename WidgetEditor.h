@@ -25,6 +25,16 @@ public:
         wxWindow* node = getNode(wContext, objectName);
         node->SetLabel(label);
     }
+    void hideNode(wxWindow* wContext, wxString objectName)
+    {
+        wxWindow* node = getNode(wContext, objectName);
+        node->Hide();
+    }
+    void showNode(wxWindow* wContext, wxString objectName)
+    {
+        wxWindow* node = getNode(wContext, objectName);
+        node->Show();
+    }
     void deleteItem(wxWindow* wContext, wxString objectName)
     {
         wxWindow* node = getNode(wContext, objectName);

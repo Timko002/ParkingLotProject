@@ -53,6 +53,10 @@ class TextInput : public WidgetComponent
 			{
 				textInput = new wxTextCtrl(parent, id, label, pos, size, wxTE_PASSWORD);
 			}
+			else
+			{
+				textInput = new wxTextCtrl(parent, id, label, pos, size);
+			}
 			textInput->SetName(name);
 		}
 		void destroy()
@@ -76,6 +80,15 @@ class TextButton : public WidgetComponent
 		{
 			button = new wxButton(parent, id, label, pos, size);
 			button->SetName(name);
+		}
+		TextButton(wxWindow* parent, wxWindowID id, const wxString& label, const wxPoint& pos, const wxSize& size, wxString name, wxString style)
+		{
+			button = new wxButton(parent, id, label, pos, size);
+			button->SetName(name);
+			if (style == "hide")
+			{
+				button->Hide();
+			}
 		}
 		void destroy()
 		{
