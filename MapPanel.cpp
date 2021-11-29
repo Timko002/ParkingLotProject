@@ -5,6 +5,15 @@ void MapPanel::makePanel()
 {
 	wxPNGHandler* handler = new wxPNGHandler;
 	wxImage::AddHandler(handler);
+	//mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/sidepanelbg.PNG", wxBITMAP_TYPE_PNG), wxPoint(0, 0), wxSize(250, 800), "sidePanelBG"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Welcome back,", wxPoint(10, 50), wxSize(200, 30), "welcomeBack"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Rating:", wxPoint(10, 85), wxSize(40, 30), "Rating"));
+	mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/star0.PNG", wxBITMAP_TYPE_PNG), wxPoint(50, 80), wxSize(20, 20), "firstStar"));
+	mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/star0.PNG", wxBITMAP_TYPE_PNG), wxPoint(71, 80), wxSize(20, 20), "secondStar"));
+	mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/star0.PNG", wxBITMAP_TYPE_PNG), wxPoint(92, 80), wxSize(20, 20), "thirdStar"));
+	mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/star0.PNG", wxBITMAP_TYPE_PNG), wxPoint(113, 80), wxSize(20, 20), "fourthStar"));
+	mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/star0.PNG", wxBITMAP_TYPE_PNG), wxPoint(134, 80), wxSize(20, 20), "fifthStar"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "0 ratings", wxPoint(165, 85), wxSize(50, 30), "ratingScore"));
 	mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/parking-map.PNG", wxBITMAP_TYPE_PNG), wxPoint(250, 00), wxSize(950, 800), "PNG Logo"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1002, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(330, 355), wxSize(41, 50), "LotA"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1003, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(320, 450), wxSize(41, 50), "LotB"));

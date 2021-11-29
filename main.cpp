@@ -72,6 +72,7 @@ void main::buildLoginPanel()
 	main::SetSize(500, 500);
 	LoginPanel->setContext(this);
 	LoginPanel->makePanel();
+	
 }
 
 void main::buildParkingMap()
@@ -82,6 +83,7 @@ void main::buildParkingMap()
 	buildSidePanel();
 	MapPanel->setContext(this);
 	MapPanel->makePanel();
+	editor.changeLabel(this, "welcomeBack", "Welcome back, "+User::instance()->get_user());
 }
 
 // async button example for us to try
