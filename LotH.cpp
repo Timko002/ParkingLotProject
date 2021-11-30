@@ -47,4 +47,22 @@ bool LotH::reserve(time_t startTime, time_t endTime)
 	}
 	return reserve_flag;
 }
+int LotH::getAvaialbleSlots(time_t startTime)
+{
+	tm* st = gmtime(&startTime);
+	int start_hour = st->tm_hour;
+	int start_min = st->tm_min;
+	int max_available_blocks, available_blocks;
+
+	max_available_blocks = pSpaceH[0]->getAvaialbleSlots(start_hour, start_min);
+
+	for (int i = 1; i < pSpaceH.size(); i++)
+	{
+		available_blocks = pSpaceH[i]->getAvaialbleSlots(start_hour, start_min);
+		if (available_blocks > max_available_blocks)
+			max_available_blocks = available_blocks;
+
+	}
+	return max_available_blocks;
+}
 // !LotH

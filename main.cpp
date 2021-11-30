@@ -189,8 +189,10 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	wxString selection = timeStartOptions->GetValue();
 	int endHour = wxAtoi(selection.substr(0, 2));
 	int endMin = wxAtoi(selection.substr(3, 5)) + 15;
-	timeEnd = timer.returnComboOptions(timeEnd, endHour, endMin);
-	timeEnd.push_back("18:00");
+	time_t startTime = timer.convertChoiceTime(wxStringTostring(selection));
+	int count_blocks= pLots[wxStringTostring(getEventName(evt))]->getAvaialbleSlots(startTime);
+	timeEnd = timer.returnComboOptionsForEndTime(timeEnd, endHour, endMin, count_blocks);
+	//timeEnd.push_back("18:00");
 	timeEndOptions->Set(timeEnd);
 	timeEndOptions->SetLabel(timeEnd[0]);
 	timeEndOptions->Show();

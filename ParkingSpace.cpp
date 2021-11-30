@@ -53,3 +53,31 @@ bool ParkingSpace::reserve(int start_hour, int start_min, int blocks)
 	}
 	return flag;
 }
+int ParkingSpace::getAvaialbleSlots(int start_hour, int start_min)
+{
+	int starting_index;
+	int starting_hour_index = (start_hour * 4) - 36;
+	
+	switch (start_min)
+	{
+	case 15:
+		starting_index = starting_hour_index + 1;
+		break;
+	case 30:
+		starting_index = starting_hour_index + 2;
+		break;
+	case 45:
+		starting_index = starting_hour_index + 3;
+		break;
+	default:
+		starting_index = starting_hour_index;
+	}
+	int count_blocks = 0;
+	for (int i = starting_index; i < AVAILABILITY_OF_TIME_SLOT; i++)
+	{
+		if (timeSlot[i] == false)
+			break;
+		count_blocks++;
+	}
+	return count_blocks;
+}

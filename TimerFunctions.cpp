@@ -78,7 +78,7 @@ vector<wxString> TimerFunctions::returnComboOptions(vector<wxString> vectorStrin
 	string stringToAdd;
 	while (Hours < 18)
 	{
-		for (Minutes; Minutes < 60; Minutes += 15)
+		for (Minutes;  Minutes < 60; Minutes += 15)
 		{
 			stringToAdd = to_string(Hours);
 			stringToAdd += ":";
@@ -91,10 +91,41 @@ vector<wxString> TimerFunctions::returnComboOptions(vector<wxString> vectorStrin
 				stringToAdd += to_string(Minutes);
 			}
 			vectorStringToadd.push_back(stringToAdd);
+			
 		}
 		Minutes = 0;
 		Hours++;
 	}
+	
+	return vectorStringToadd;
+}
+
+vector<wxString> TimerFunctions::returnComboOptionsForEndTime(vector<wxString> vectorStringToadd, int Hours, int Minutes, int count_blocks)
+{
+	string stringToAdd;
+	int counter = 0;
+	while (counter <= count_blocks && Hours < 18)
+	{
+		for (Minutes; counter <= count_blocks && Minutes < 60; Minutes += 15)
+		{
+			stringToAdd = to_string(Hours);
+			stringToAdd += ":";
+			if (Minutes == 0)
+			{
+				stringToAdd += "00";
+			}
+			else
+			{
+				stringToAdd += to_string(Minutes);
+			}
+			vectorStringToadd.push_back(stringToAdd);
+			counter++;
+		}
+		Minutes = 0;
+		Hours++;
+	}
+	if (counter < count_blocks)
+		vectorStringToadd.push_back("18:00");
 	return vectorStringToadd;
 }
 

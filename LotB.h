@@ -35,6 +35,8 @@ class LotB : public ParkingLot
 		static LotB* getInstance();
 		
 		bool reserve(time_t startTime, time_t endTime);
+
+		int getAvaialbleSlots(time_t startTime);
 		
 };
 

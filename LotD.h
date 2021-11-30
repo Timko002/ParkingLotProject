@@ -35,7 +35,9 @@ public:
 	static LotD* getInstance();
 	
 	bool reserve(time_t startTime, time_t endTime);
-	
+
+	int getAvaialbleSlots(time_t startTime);
+
 };
 
 #endif
