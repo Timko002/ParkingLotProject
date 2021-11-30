@@ -32,6 +32,7 @@ class DBObject
 		void createUser(string userName, string pass);
 		void bookUser(string userName, string lot, string space_no, string startTime, string endTime);
 		bool isReserved(string userName);
+		void getUserInfo(string userName);
 		static DBObject* instance();
 	protected:
 		sql::Driver* Driver;

@@ -26,6 +26,7 @@ public:
 	void setCurrentTime();
 	int returnHour();
 	int returnMin();
+	int returnTimeLeft();
 	vector<wxString> returnComboOptions(vector<wxString> vectorStringToadd, int Hours, int Minutes);
 	time_t convertChoiceTime(string choice);
 protected:

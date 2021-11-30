@@ -17,6 +17,12 @@ EVT_BUTTON(1102, OnReturnClick)
 EVT_BUTTON(4, OnReserveClick)
 EVT_BUTTON(2, onClickX)
 EVT_BUTTON(5, onClickX)
+EVT_BUTTON(6, onClickNotifX)
+EVT_BUTTON(7, onClickRating)
+EVT_BUTTON(8, onClickRating)
+EVT_BUTTON(9, onClickRating)
+EVT_BUTTON(10, onClickRating)
+EVT_BUTTON(11, onClickRating)
 EVT_BUTTON(1002, OnLotClick)
 EVT_BUTTON(1003, OnLotClick)
 EVT_BUTTON(1004, OnLotClick)
@@ -62,7 +68,8 @@ main::~main()
 
 void main::OnLotClick(wxCommandEvent& evt)
 {
-	DBObject::instance()->bookUser( User::instance()->get_user(), wxStringTostring(getEventName(evt)), "20", "10:00", "12:00");
+	notifyParked(10);
+	//DBObject::instance()->bookUser( User::instance()->get_user(), wxStringTostring(getEventName(evt)), "20", "10:00", "12:00");
 	main::buildParkingLotDisplay(getEventPointer(evt),getEventName(evt));
 	evt.Skip();
 }
@@ -84,19 +91,40 @@ void main::buildParkingMap()
 	MapPanel->setContext(this);
 	MapPanel->makePanel();
 	editor.changeLabel(this, "welcomeBack", "Welcome back, "+User::instance()->get_user());
+	if (User::instance()->get_status() == "reserved")
+	{
+		editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
+		editor.changeLabel(this, "spotLocation", "Parked at Lot" + User::instance()->getReservedLot() + " | " + "Spot" + User::instance()->getReservedSpot());
+	}
 }
 
-// async button example for us to try
-void main::TestAsync(int timer)
+// notify that your status is parked
+void main::notifyParked(int timer)
 {
-	main::value = async(launch::async, [this,timer]
+	ratingPanel->setContext(rating_frame);
+	ratingPanel->makePanel();
+	rating_frame->Center();
+	main::notifParked = async(launch::async, [this, timer]
 	{
 		std::this_thread::sleep_for(std::chrono::seconds(timer));
-		int answer = wxMessageBox(wxString::Format("This is your notification to leave"),wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_EXCLAMATION);
+		int answer = wxMessageBox(wxString::Format("Are you parked?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
 		if (answer == wxYES)
-			printToOutputStream("selected yes");
+			main::rating_frame->Show();
 	});
-	
+
+}
+
+// notify that your status is parked
+void main::notifyLeft(int timer)
+{
+	main::notifyleft = async(launch::async, [this, timer]
+	{
+		std::this_thread::sleep_for(std::chrono::minutes(timer));
+		int answer = wxMessageBox(wxString::Format("Have you left the spot?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
+		if (answer == wxYES)
+			printToOutputStream("now unreserved");
+	});
+
 }
 
 void main::OnLoginSubmit(wxCommandEvent& evt)
@@ -142,8 +170,6 @@ void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
 	ConcreteLotBuilder* builder = new ConcreteLotBuilder();
 	Director* director = new Director();
 	director->set_builder(builder,lot_frame,wxName);
-
-	//	spotsTextField = new wxStaticText(lot_frame, wxID_ANY, buildAvailableSPots(wxName), wxPoint(30, 90), wxSize(300, 30));
 
 	if (checkAvailableSpots(pLots[wxStringTostring(wxName)])) //(checkAvailableSpots(availableSpots))
 	{
@@ -191,7 +217,6 @@ void main::OnReserveClick(wxCommandEvent& evt)
 		else
 		{
 			//testing reservation
-			TestAsync(10);
 			// this is the hours value
 			printToOutputStream(wxStringTostring(timeStartOptions->GetValue()));
 			// this is the minutes value

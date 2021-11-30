@@ -48,6 +48,10 @@ int TimerFunctions::returnMin()
 {
 	return Min;
 }
+int TimerFunctions::returnTimeLeft()
+{
+	return 0;
+}
 vector<wxString> TimerFunctions::returnComboOptions(vector<wxString> vectorStringToadd, int Hours, int Minutes)
 {
 	string stringToAdd;

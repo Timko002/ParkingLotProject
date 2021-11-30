@@ -41,10 +41,14 @@ private:
 // Login screen widgets
 public:
 	Panel* LoginPanel = StaticPanelFactory::makePanel("login");
+	Panel* ratingPanel = StaticPanelFactory::makePanel("rating");
 // parking lot frame & widgets
 public:
 	wxFrame* lot_frame = nullptr;
+	wxFrame* rating_frame = new wxFrame(this, wxID_ANY, "Rating Menu", wxDefaultPosition, wxSize(300, 200), NULL, "ratingMenu");
 	future<void> value;
+	future<void> notifParked;
+	future<void> notifyleft;
 	TimerFunctions timer;
 	WidgetEditor editor;
 	Panel* LotPanel = StaticPanelFactory::makePanel("lot");
@@ -94,27 +98,46 @@ public:
 		{
 			return false;
 		}
-
 	}
 	void buildLoginPanel();
 	void buildParkingMap();
-	/*
-	wxString buildAvailableSPots(wxString wxLotName)
-	{
-		//replace function here to get lot information
-		reservedSpots = "30";
-		availableSpots = "10";
-		pspotText = "The detailed information for this available spot is: \n   Available spots: " + reservedSpots + wxString(" Reserved spots: ") + availableSpots;
-		return pspotText;
-	}
-	*/
 	void OnLoginSubmit(wxCommandEvent& evt);
 	void OnReserveClick(wxCommandEvent& evt);
 	void OnLotClick(wxCommandEvent& evt);
-	void TestAsync(int timer);
+	void notifyParked(int timer);
+	void notifyLeft(int timer);
 	void onClickX(wxCommandEvent& evt)
 	{
-			lot_frame->Destroy();
+		lot_frame->Destroy();
+	}
+	void onClickNotifX(wxCommandEvent& evt)
+	{
+		rating_frame->Hide();
+	}
+	void onClickRating(wxCommandEvent& evt)
+	{
+		switch (evt.GetId())
+		{
+			case 7:
+				printToOutputStream("1 star");
+				break;
+			case 8:
+				printToOutputStream("2 star");
+				break;
+			case 9:
+				printToOutputStream("3 star");
+				break;
+			case 10:
+				printToOutputStream("4 star");
+				break;
+			case 11:
+				printToOutputStream("5 star");
+				break;
+			default:
+				printToOutputStream("hit default");
+		}
+
+		rating_frame->Hide();
 	}
 	wxPoint getEventPointer(wxCommandEvent& evt)
 	{
@@ -185,6 +208,7 @@ public:
 		if (response == "success")
 		{
 			User::instance()->set_user(name);
+			DBObject::instance()->isReserved(name);
 			return true;
 		}
 		editor.changeLabel(this, "loginResponse", response);

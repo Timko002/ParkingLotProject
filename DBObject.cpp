@@ -1,4 +1,5 @@
 #include "DBObject.h"
+#include "User.h"
 // checks if login is valid
 string DBObject::checkLogin(string userName, string pass)
 {
@@ -85,7 +86,7 @@ void DBObject::bookUser(string userName, string lot, string space_no, string sta
     try {
         std::replace(startTime.begin(), startTime.end(), '_', ':');
         std::replace(endTime.begin(), endTime.end(), '_', ':');
-        string command2 = "insert into userlog_table (Username,Start_Time,End_Time) values ('" + userName + "','" + startTime + "','" + endTime + "')";
+        string command2 = "insert into userlog_table (Username,Lot_Name,Space_No,Start_Time,End_Time) values ('" + userName + "','" + lot + "','" + space_no + "','" + startTime + "','" + endTime + "')";
         int res2 = DBObject::Cstm->executeUpdate(command2);
         if (res2) {
             //cout << "Slot is booked";
@@ -103,13 +104,35 @@ void DBObject::bookUser(string userName, string lot, string space_no, string sta
 bool DBObject::isReserved(string userName)
 {
     DBObject::command = "select * from userlog_table where Username= '" + userName + "'"; //checking is this user exist
+    try {
+        DBObject::res = DBObject::Cstm->executeQuery(command);
+        while (DBObject::res->next()) {
+            User::instance()->set_status("reserved");
+            User::instance()->set_startTime(DBObject::res->getString("Start_Time"));
+            User::instance()->set_endTime(DBObject::res->getString("End_Time"));
+            User::instance()->setReservedLot(DBObject::res->getString("Lot_Name"));
+            User::instance()->setReservedSpot(DBObject::res->getString("Space_No"));
+            return true;
+        }
+        return false;
+    }
+    catch (sql::SQLException& e) {
+
+        //unknown error
+    }
+    return false;
+}
+
+void DBObject::getUserInfo(string userName)
+{
+    DBObject::command = "select * from userlog_table where Username= '" + userName + "'"; //checking is this user exist
     DBObject::res = DBObject::Cstm->executeQuery(command);
     if (DBObject::res->next()) {
-        return true;
+
     }
     else
     {
-        return false;
+       //couldn't find user;
     }
 }
 

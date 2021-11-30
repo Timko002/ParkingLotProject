@@ -5,6 +5,7 @@
 #include "LoginPanel.h"
 #include "MapPanel.h"
 #include "LotPanel.h"
+#include "ratingPanel.h"
 
 class StaticPanelFactory
 {
@@ -23,6 +24,10 @@ class StaticPanelFactory
 			else if (name == "lot")
 			{
 				panel = new LotPanel();
+			}
+			else if (name == "rating")
+			{
+				panel = new ratingPanel();
 			}
 			else
 			{
