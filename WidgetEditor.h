@@ -25,6 +25,13 @@ public:
         wxWindow* node = getNode(wContext, objectName);
         node->SetLabel(label);
     }
+    void changeImg(wxWindow* wContext, wxString objectName, wxBitmap &bitmap)
+    {
+        wxWindow* node = getNode(wContext, objectName);
+        wxStaticBitmap* img = generatePointerImg(node);
+        img->SetBitmap(bitmap);
+       
+    }
     void hideNode(wxWindow* wContext, wxString objectName)
     {
         wxWindow* node = getNode(wContext, objectName);
@@ -54,6 +61,16 @@ public:
     {
         if (dynamic_cast<wxComboBox*>(node)) {
             return dynamic_cast<wxComboBox*>(node);
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+    wxStaticBitmap* generatePointerImg(wxWindow* node)
+    {
+        if (dynamic_cast<wxStaticBitmap*>(node)) {
+            return dynamic_cast<wxStaticBitmap*>(node);
         }
         else
         {

@@ -10,9 +10,11 @@ class User {
 	static User* user;
 	User()
 	{
-		userStatus = "unreserved";
+		userStatus = "Unreserved";
 	}
 	public:
+		void set_rating(double rating);
+		double get_rating();
 		void set_user(string userName);
 		string get_user();
 		void set_startTime(string startT);
@@ -33,5 +35,6 @@ class User {
 		string reservedSpot;
 		string startTime;
 		string endTime;
+		double userRating;
 };
 #endif // !USER_H

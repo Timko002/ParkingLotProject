@@ -107,7 +107,7 @@ bool DBObject::isReserved(string userName)
     try {
         DBObject::res = DBObject::Cstm->executeQuery(command);
         while (DBObject::res->next()) {
-            User::instance()->set_status("reserved");
+            User::instance()->set_status("Reserved");
             User::instance()->set_startTime(DBObject::res->getString("Start_Time"));
             User::instance()->set_endTime(DBObject::res->getString("End_Time"));
             User::instance()->setReservedLot(DBObject::res->getString("Lot_Name"));

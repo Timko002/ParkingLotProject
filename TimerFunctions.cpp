@@ -48,9 +48,30 @@ int TimerFunctions::returnMin()
 {
 	return Min;
 }
-int TimerFunctions::returnTimeLeft()
+//returns the time left in minutes
+int TimerFunctions::returnTimeLeft(string timeEnd)
 {
-	return 0;
+	time_t currentTime;
+	struct tm* localTime;
+	string stringToAdd;
+
+	time(&currentTime);                   // Get the current time
+	localTime = localtime(&currentTime);  // Convert the current time to the local time
+	int localH = localTime->tm_hour;
+	int localM = localTime->tm_min;
+	int timeEndHour;
+	int timeEndMin;
+	if (timeEnd.size() > 4)
+	{
+		timeEndHour = stoi(timeEnd.substr(0, 2));
+		timeEndMin = stoi(timeEnd.substr(3, 2));
+	}
+	else
+	{
+		timeEndHour = stoi(timeEnd.substr(0, 1));
+		timeEndMin = stoi(timeEnd.substr(2, 2));
+	}
+	return ((timeEndHour - localH) * 60 + (timeEndMin - localM));
 }
 vector<wxString> TimerFunctions::returnComboOptions(vector<wxString> vectorStringToadd, int Hours, int Minutes)
 {

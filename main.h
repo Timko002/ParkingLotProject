@@ -99,6 +99,7 @@ public:
 			return false;
 		}
 	}
+	void setRating();
 	void buildLoginPanel();
 	void buildParkingMap();
 	void OnLoginSubmit(wxCommandEvent& evt);
@@ -114,31 +115,7 @@ public:
 	{
 		rating_frame->Hide();
 	}
-	void onClickRating(wxCommandEvent& evt)
-	{
-		switch (evt.GetId())
-		{
-			case 7:
-				printToOutputStream("1 star");
-				break;
-			case 8:
-				printToOutputStream("2 star");
-				break;
-			case 9:
-				printToOutputStream("3 star");
-				break;
-			case 10:
-				printToOutputStream("4 star");
-				break;
-			case 11:
-				printToOutputStream("5 star");
-				break;
-			default:
-				printToOutputStream("hit default");
-		}
-
-		rating_frame->Hide();
-	}
+	void onClickRating(wxCommandEvent& evt);
 	wxPoint getEventPointer(wxCommandEvent& evt)
 	{
 		wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);

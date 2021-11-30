@@ -60,15 +60,12 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 
 main::~main()
 {
-	//this->Destroy();
-	//this->GetParent()->Destroy();
 	main::Close(true);
 	main::Destroy();
 }
 
 void main::OnLotClick(wxCommandEvent& evt)
 {
-	notifyParked(10);
 	//DBObject::instance()->bookUser( User::instance()->get_user(), wxStringTostring(getEventName(evt)), "20", "10:00", "12:00");
 	main::buildParkingLotDisplay(getEventPointer(evt),getEventName(evt));
 	evt.Skip();
@@ -84,6 +81,7 @@ void main::buildLoginPanel()
 
 void main::buildParkingMap()
 {
+	//prestart timers
 	main::SetMaxSize(wxSize(1200, 830));
 	main::SetMinSize(wxSize(1200, 830));
 	main::SetSize(1200, 830);
@@ -91,10 +89,21 @@ void main::buildParkingMap()
 	MapPanel->setContext(this);
 	MapPanel->makePanel();
 	editor.changeLabel(this, "welcomeBack", "Welcome back, "+User::instance()->get_user());
-	if (User::instance()->get_status() == "reserved")
+	setRating();
+	editor.changeLabel(this, "totalRating", to_string(User::instance()->get_rating()).substr(0,4));
+	if (!(User::instance()->get_status() == "Unreserved"))
 	{
+		// restart timers if you close the app
+		if (timer.returnTimeLeft(User::instance()->get_startTime()) > 0)
+		{
+			notifyParked(timer.returnTimeLeft(User::instance()->get_startTime()));
+		}
+		if (timer.returnTimeLeft(User::instance()->get_endTime()) > 0)
+		{
+			notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+		}
 		editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
-		editor.changeLabel(this, "spotLocation", "Parked at Lot" + User::instance()->getReservedLot() + " | " + "Spot" + User::instance()->getReservedSpot());
+		editor.changeLabel(this, "spotLocation", "Location: Lot" + User::instance()->getReservedLot() + " | " + "Spot" + User::instance()->getReservedSpot());
 	}
 }
 
@@ -109,7 +118,12 @@ void main::notifyParked(int timer)
 		std::this_thread::sleep_for(std::chrono::seconds(timer));
 		int answer = wxMessageBox(wxString::Format("Are you parked?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
 		if (answer == wxYES)
+		{
+			User::instance()->set_status("Parked");
+			editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
 			main::rating_frame->Show();
+		}
+			
 	});
 
 }
@@ -119,12 +133,36 @@ void main::notifyLeft(int timer)
 {
 	main::notifyleft = async(launch::async, [this, timer]
 	{
-		std::this_thread::sleep_for(std::chrono::minutes(timer));
+		std::this_thread::sleep_for(std::chrono::seconds(timer));
 		int answer = wxMessageBox(wxString::Format("Have you left the spot?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
 		if (answer == wxYES)
-			printToOutputStream("now unreserved");
+		{
+			User::instance()->set_status("Unreserved");
+			editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
+			editor.changeLabel(this, "spotLocation", "");
+		}
 	});
 
+}
+
+void main::setRating()
+{
+	User::instance()->set_rating(2.74);
+	string s = to_string(User::instance()->get_rating());
+	int temp = User::instance()->get_rating();
+	wxBitmap star = wxBitmap("images/star10.PNG", wxBITMAP_TYPE_PNG);
+	
+	for (int i = 1; i <= temp; i++)
+	{
+		editor.changeImg(this, to_string(i) + "Star", star);
+	}
+	// builds partial star rating
+	if ((s.size() >= 3) & (temp < 5))
+	{
+		string imgmap = "images/star" + to_string(User::instance()->get_rating()).substr(2, 1) + ".PNG";
+		wxBitmap star = wxBitmap(imgmap, wxBITMAP_TYPE_PNG);
+		editor.changeImg(this, to_string(temp+1) + "Star", star);
+	}
 }
 
 void main::OnLoginSubmit(wxCommandEvent& evt)
@@ -157,6 +195,32 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	timeEndOptions->SetLabel(timeEnd[0]);
 	timeEndOptions->Show();
 	evt.Skip();
+}
+
+void main::onClickRating(wxCommandEvent& evt)
+{
+	switch (evt.GetId())
+	{
+	case 7:
+		printToOutputStream("1 star");
+		break;
+	case 8:
+		printToOutputStream("2 star");
+		break;
+	case 9:
+		printToOutputStream("3 star");
+		break;
+	case 10:
+		printToOutputStream("4 star");
+		break;
+	case 11:
+		printToOutputStream("5 star");
+		break;
+	default:
+		printToOutputStream("hit default");
+	}
+
+	rating_frame->Hide();
 }
 
 void main::buildParkingLotDisplay(wxPoint point, wxString wxName)

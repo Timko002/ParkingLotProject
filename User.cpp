@@ -1,5 +1,15 @@
 #include "User.h"
 
+void User::set_rating(double rating)
+{
+	userRating = rating;
+}
+
+double User::get_rating()
+{
+	return userRating;
+}
+
 void User::set_user(string userName)
 {
 	name = userName;
