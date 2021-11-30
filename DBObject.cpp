@@ -6,6 +6,11 @@ string DBObject::checkLogin(string userName, string pass)
     DBObject::command = "select * from users where Username= '" + userName + "' and Password='" + pass + "'"; //checking is this user exist
     DBObject::res = DBObject::Cstm->executeQuery(command);
     if (DBObject::res->next()) {
+        User::instance()->set_user(userName);
+        if (DBObject::res->getString("No_Of_Rating") != "0")
+        {
+            User::instance()->set_rating(stod(DBObject::res->getString("Total_Rating")));
+        }
         return "success";
     }
     else

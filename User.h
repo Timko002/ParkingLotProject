@@ -10,7 +10,8 @@ class User {
 	static User* user;
 	User()
 	{
-		userStatus = "Unreserved";
+		set_status("Unreserved");
+		double userRating = 0;
 	}
 	public:
 		void set_rating(double rating);
