@@ -28,6 +28,7 @@ public:
 	int returnMin();
 	int returnTimeLeft(string timeEnd);
 	vector<wxString> returnComboOptions(vector<wxString> vectorStringToadd, int Hours, int Minutes);
+	vector<wxString> returnComboOptionsForEndTime(vector<wxString> vectorStringToadd, int Hours, int Minutes, int count_blocks);
 	time_t convertChoiceTime(string choice);
 protected:
 	int Hour = 0;
