@@ -35,7 +35,7 @@ class DBObject
 		void updateRating(int rating);
 		void getUserInfo(string userName);
 		static DBObject* instance();
-	protected:
+	//protected:
 		sql::Driver* Driver;
 		sql::Connection* Con;
 		sql::ResultSet* res;

@@ -11,7 +11,7 @@ class LotA : public ParkingLot
 {
 	bool isLotFull;
 	const string LotName = "A";
-	const int TotalNoOfSpots = 200;
+	const int TotalNoOfSpots = 50;
 	static LotA* a_instance;
 	vector<ParkingSpace*> pSpaceA;
 
@@ -22,7 +22,7 @@ class LotA : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceA.push_back(new ParkingSpace(100, 100));
+			pSpaceA.push_back(new ParkingSpace(100, 100, LotName,i));
 		}
 	}
 public:
