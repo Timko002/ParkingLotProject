@@ -200,7 +200,7 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	int endHour = wxAtoi(selection.substr(0, 2));
 	int endMin = wxAtoi(selection.substr(3, 5)) + 15;
 	time_t startTime = timer.convertChoiceTime(wxStringTostring(selection));
-	int count_blocks= pLots[wxStringTostring(getEventName(evt))]->getAvaialbleSlots(startTime);
+	int count_blocks= pLots[wxStringTostring(lot_frame->GetName())]->getAvaialbleSlots(startTime);
 	timeEnd = timer.returnComboOptionsForEndTime(timeEnd, endHour, endMin, count_blocks);
 	//timeEnd.push_back("18:00");
 	timeEndOptions->Set(timeEnd);
