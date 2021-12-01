@@ -128,6 +128,36 @@ bool DBObject::isReserved(string userName)
     return false;
 }
 
+void DBObject::updateRating(int rating)
+{
+    //update users set Total_Rating = 3, No_Of_Rating = 1 where username = 'pandy';
+    //select* from userlog_table where Lot_Name = 'A' AND Space_No = '20' ORDER BY End_Time DESC;
+    DBObject::command = "select* from userlog_table where Lot_Name = '"+ User::instance()->getReservedLot()+"' AND Space_No = '"+User::instance()->getReservedSpot()+"' ORDER BY End_Time DESC";
+    try {
+        DBObject::res = DBObject::Cstm->executeQuery(command);
+        if (DBObject::res->next()) {
+            string userName = DBObject::res->getString("Username");
+            DBObject::command = "select Total_Rating, No_Of_Rating from users where Username = '" + userName + "'";
+            ResultSet* res2 = DBObject::Cstm->executeQuery(command);
+            while (res2->next()) {
+                float old_rating = res2->getDouble("Total_Rating");
+                int old_no_of_rating = res2->getInt("No_Of_Rating");
+                DBObject::command = "update users set Total_Rating = ((" + std::to_string(old_rating) + "*" + std::to_string(old_no_of_rating) + ")+" + std::to_string(rating) + ")/(" + std::to_string(old_no_of_rating) + "+1), No_Of_Rating = " + std::to_string(old_no_of_rating) + "+1 where username ='" + userName + "'";
+                int i = DBObject::Cstm->executeUpdate(DBObject::command);
+
+                if (i) {
+                    // update successfull
+                }
+            }
+        }
+    }
+    catch (sql::SQLException& e) {
+
+        //couldn't update
+    }
+   // DBObject::command = "select * from userlog_table where Username= '" + userName + "'"; //checking is this user exist
+}
+
 void DBObject::getUserInfo(string userName)
 {
     DBObject::command = "select * from userlog_table where Username= '" + userName + "'"; //checking is this user exist

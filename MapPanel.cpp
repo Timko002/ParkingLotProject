@@ -16,6 +16,16 @@ void MapPanel::makePanel()
 	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "", wxPoint(160, 85), wxSize(40, 30), "totalRating"));
 	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Status: ", wxPoint(10, 117), wxSize(50, 30), "statusField"));
 	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "", wxPoint(110, 117), wxSize(50, 30), "spotLocation"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotA", wxPoint(15, 175), wxSize(40, 30), "LDetailsA"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotB", wxPoint(125, 175), wxSize(40, 30), "LDetailsB"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotC", wxPoint(15, 300), wxSize(40, 30), "LDetailsC"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotD", wxPoint(125, 300), wxSize(40, 30), "LDetailsD"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotE", wxPoint(15, 425), wxSize(40, 30), "LDetailsE"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotF", wxPoint(125, 425), wxSize(40, 30), "LDetailsF"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotG", wxPoint(15, 550), wxSize(40, 30), "LDetailsG"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotH", wxPoint(125, 550), wxSize(40, 30), "LDetailsH"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotI", wxPoint(15, 675), wxSize(40, 30), "LDetailsI"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotJ", wxPoint(125, 675), wxSize(40, 30), "LDetailsJ"));
 	mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/parking-map.PNG", wxBITMAP_TYPE_PNG), wxPoint(250, 00), wxSize(950, 800), "PNG Logo"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1002, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(330, 355), wxSize(41, 50), "LotA"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1003, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(320, 450), wxSize(41, 50), "LotB"));
@@ -41,6 +51,10 @@ void MapPanel::makePanel()
 		{
 			current->Raise();
 			current->SetName(current->GetName().substr(3,4));
+		}
+		else if (current->GetName().size() > 8)
+		{
+
 		}
 	}
 }
