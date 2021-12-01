@@ -2,6 +2,17 @@
 #ifndef ParkingSpace_H
 #define ParkingSpace_H
 #include <iostream>
+#include <string>
+#include <typeinfo>
+#include <vector>
+#include <mysql.h>
+#include <jdbc\cppconn\connection.h>
+#include <jdbc\cppconn\exception.h>
+#include <jdbc\cppconn\resultset.h>
+#include <jdbc\cppconn\statement.h>
+#include <jdbc\mysql_connection.h>
+#include <jdbc\mysql_driver.h>
+#include "DBObject.h"
 #define AVAILABILITY_OF_TIME_SLOT 36
 using namespace std;
 class ParkingSpace
