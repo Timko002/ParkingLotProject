@@ -37,7 +37,7 @@ class ParkingSpace
 
 			for (int i = 0; i <= AVAILABILITY_OF_TIME_SLOT; i++)
 			{
-				DBObject::instance()->command = "select " + s5[i] + " from" + LotName + "where Space_No = " + to_string(SpaceNo);
+				DBObject::instance()->command = "select " + s5[i] + " from " + LotName + " where Space_No = " + to_string(SpaceNo);
 				DBObject::instance()->res = DBObject::instance()->Cstm->executeQuery(DBObject::instance()->command);
 				while (DBObject::instance()->res->next()) {
 
