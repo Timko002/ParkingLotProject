@@ -81,7 +81,6 @@ void main::buildLoginPanel()
 
 void main::buildParkingMap()
 {
-	//prestart timers
 	main::SetMaxSize(wxSize(1200, 830));
 	main::SetMinSize(wxSize(1200, 830));
 	main::SetSize(1200, 830);
@@ -214,19 +213,19 @@ void main::onClickRating(wxCommandEvent& evt)
 	switch (evt.GetId())
 	{
 	case 7:
-		printToOutputStream("1 star");
+		DBObject::instance()->updateRating(1);
 		break;
 	case 8:
-		printToOutputStream("2 star");
+		DBObject::instance()->updateRating(2);
 		break;
 	case 9:
-		printToOutputStream("3 star");
+		DBObject::instance()->updateRating(3);
 		break;
 	case 10:
-		printToOutputStream("4 star");
+		DBObject::instance()->updateRating(4);
 		break;
 	case 11:
-		printToOutputStream("5 star");
+		DBObject::instance()->updateRating(5);
 		break;
 	default:
 		printToOutputStream("hit default");
