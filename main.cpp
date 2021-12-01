@@ -90,7 +90,14 @@ void main::buildParkingMap()
 	MapPanel->makePanel();
 	editor.changeLabel(this, "welcomeBack", "Welcome back, "+User::instance()->get_user());
 	setRating();
-	editor.changeLabel(this, "totalRating", to_string(User::instance()->get_rating()).substr(0,4));
+	if (User::instance()->get_rating() == 0)
+	{
+		editor.changeLabel(this, "totalRating", " Unrated");
+	}
+	else
+	{
+		editor.changeLabel(this, "totalRating", to_string(User::instance()->get_rating()).substr(0, 4));
+	}
 	if (!(User::instance()->get_status() == "Unreserved"))
 	{
 		// restart timers if you close the app
@@ -105,6 +112,10 @@ void main::buildParkingMap()
 		editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
 		editor.changeLabel(this, "spotLocation", "Location: Lot" + User::instance()->getReservedLot() + " | " + "Spot" + User::instance()->getReservedSpot());
 	}
+	else
+	{
+		editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status());
+	}
 }
 
 // notify that your status is parked
@@ -115,7 +126,7 @@ void main::notifyParked(int timer)
 	rating_frame->Center();
 	main::notifParked = async(launch::async, [this, timer]
 	{
-		std::this_thread::sleep_for(std::chrono::seconds(timer));
+		std::this_thread::sleep_for(std::chrono::minutes(timer));
 		int answer = wxMessageBox(wxString::Format("Are you parked?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
 		if (answer == wxYES)
 		{
@@ -133,7 +144,7 @@ void main::notifyLeft(int timer)
 {
 	main::notifyleft = async(launch::async, [this, timer]
 	{
-		std::this_thread::sleep_for(std::chrono::seconds(timer));
+		std::this_thread::sleep_for(std::chrono::minutes(timer));
 		int answer = wxMessageBox(wxString::Format("Have you left the spot?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
 		if (answer == wxYES)
 		{
@@ -147,7 +158,6 @@ void main::notifyLeft(int timer)
 
 void main::setRating()
 {
-	User::instance()->set_rating(2.74);
 	string s = to_string(User::instance()->get_rating());
 	int temp = User::instance()->get_rating();
 	wxBitmap star = wxBitmap("images/star10.PNG", wxBITMAP_TYPE_PNG);
@@ -190,7 +200,7 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	int endHour = wxAtoi(selection.substr(0, 2));
 	int endMin = wxAtoi(selection.substr(3, 5)) + 15;
 	time_t startTime = timer.convertChoiceTime(wxStringTostring(selection));
-	int count_blocks= pLots[wxStringTostring(getEventName(evt))]->getAvaialbleSlots(startTime);
+	int count_blocks= pLots[wxStringTostring(lot_frame->GetName())]->getAvaialbleSlots(startTime);
 	timeEnd = timer.returnComboOptionsForEndTime(timeEnd, endHour, endMin, count_blocks);
 	//timeEnd.push_back("18:00");
 	timeEndOptions->Set(timeEnd);
@@ -299,6 +309,7 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			bool result= pLots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
 			if (result == true)
 			{
+
 				editor.changeLabel(lot_frame, "setReserveTimeText", "Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
 				editor.deleteItem(lot_frame, getEventName(evt));
 			}

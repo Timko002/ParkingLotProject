@@ -184,8 +184,7 @@ public:
 		string response = DBObject::instance()->checkLogin(name, pass);
 		if (response == "success")
 		{
-			User::instance()->set_user(name);
-			DBObject::instance()->isReserved(name);
+			DBObject::instance()->isReserved(User::instance()->get_user());
 			return true;
 		}
 		editor.changeLabel(this, "loginResponse", response);
