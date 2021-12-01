@@ -28,25 +28,26 @@ LotI* LotI::getInstance()
 		i_instance = new LotI();
 	return i_instance;
 }
-bool LotI::reserve(time_t startTime, time_t endTime)
+int LotI::reserve(time_t startTime, time_t endTime)
 {
 	tm* st = new tm();
 	localtime_s(st, &startTime);
 	int start_hour = st->tm_hour;
 	int start_min = st->tm_min;
-	bool reserve_flag = false;
+	int reservedSpot = -1;
 	int blocks = int(difftime(endTime, startTime) / 900);
 
 	for (int i = 0; i < pSpaceI.size(); i++)
 	{
 		if (pSpaceI[i]->reserve(start_hour, start_min, blocks))
 		{
-			reserve_flag = true;
+			reservedSpot = i + 1;
 			break;
 		}
 	}
-	return reserve_flag;
+	return reservedSpot;
 }
+
 int LotI::getAvaialbleSlots(time_t startTime)
 {
 	tm* st = gmtime(&startTime);
@@ -64,5 +65,18 @@ int LotI::getAvaialbleSlots(time_t startTime)
 
 	}
 	return max_available_blocks;
+}
+
+int LotI::getNoOfTotallyBookedSpots()
+{
+	int NoOfTotallyBookedSpots = 0;
+	for (int i = 0; i < pSpaceI.size(); i++)
+	{
+		if (pSpaceI[i]->checkIsFull()) //if even one space is free, it is not full
+		{
+			NoOfTotallyBookedSpots++;
+		}
+	}
+	return NoOfTotallyBookedSpots;
 }
 // !LotI

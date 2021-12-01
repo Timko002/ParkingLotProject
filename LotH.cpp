@@ -28,25 +28,26 @@ LotH* LotH::getInstance()
 		h_instance = new LotH();
 	return h_instance;
 }
-bool LotH::reserve(time_t startTime, time_t endTime)
+int LotH::reserve(time_t startTime, time_t endTime)
 {
 	tm* st = new tm();
 	localtime_s(st, &startTime);
 	int start_hour = st->tm_hour;
 	int start_min = st->tm_min;
-	bool reserve_flag = false;
+	int reservedSpot = -1;
 	int blocks = int(difftime(endTime, startTime) / 900);
 
 	for (int i = 0; i < pSpaceH.size(); i++)
 	{
 		if (pSpaceH[i]->reserve(start_hour, start_min, blocks))
 		{
-			reserve_flag = true;
+			reservedSpot = i + 1;
 			break;
 		}
 	}
-	return reserve_flag;
+	return reservedSpot;
 }
+
 int LotH::getAvaialbleSlots(time_t startTime)
 {
 	tm* st = gmtime(&startTime);
@@ -64,5 +65,18 @@ int LotH::getAvaialbleSlots(time_t startTime)
 
 	}
 	return max_available_blocks;
+}
+
+int LotH::getNoOfTotallyBookedSpots()
+{
+	int NoOfTotallyBookedSpots = 0;
+	for (int i = 0; i < pSpaceH.size(); i++)
+	{
+		if (pSpaceH[i]->checkIsFull()) //if even one space is free, it is not full
+		{
+			NoOfTotallyBookedSpots++;
+		}
+	}
+	return NoOfTotallyBookedSpots;
 }
 // !LotH

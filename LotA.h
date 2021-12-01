@@ -11,7 +11,7 @@ class LotA : public ParkingLot
 {
 	bool isLotFull;
 	const string LotName = "A";
-	const int TotalNoOfSpots = 50;
+	const int TotalNoOfSpots = 100;
 	static LotA* a_instance;
 	vector<ParkingSpace*> pSpaceA;
 
@@ -34,9 +34,11 @@ public:
 
 	static LotA* getInstance();
 
-	bool reserve(time_t startTime, time_t endTime);
+	int reserve(time_t startTime, time_t endTime);
 
 	int getAvaialbleSlots(time_t startTime);
+
+	int getNoOfTotallyBookedSpots();
 
 };
 

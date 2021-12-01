@@ -1,6 +1,5 @@
 #pragma once
-#ifndef LOTB
-#define LOTB
+
 #include "LotB.h"
 LotB* LotB::b_instance = 0;
 string LotB::getLotName()
@@ -30,24 +29,24 @@ LotB* LotB::getInstance()
 		b_instance = new LotB();
 	return b_instance;
 }
-bool LotB::reserve(time_t startTime, time_t endTime)
+int LotB::reserve(time_t startTime, time_t endTime)
 {
 	tm* st = new tm();
-	localtime_s(st, &startTime);;
+	localtime_s(st, &startTime);
 	int start_hour = st->tm_hour;
 	int start_min = st->tm_min;
-	bool reserve_flag = false;
+	int reservedSpot = -1;
 	int blocks = int(difftime(endTime, startTime) / 900);
 
 	for (int i = 0; i < pSpaceB.size(); i++)
 	{
 		if (pSpaceB[i]->reserve(start_hour, start_min, blocks))
 		{
-			reserve_flag = true;
+			reservedSpot = i + 1;
 			break;
 		}
 	}
-	return reserve_flag;
+	return reservedSpot;
 }
 
 int LotB::getAvaialbleSlots(time_t startTime)
@@ -68,4 +67,17 @@ int LotB::getAvaialbleSlots(time_t startTime)
 	}
 	return max_available_blocks;
 }
-#endif // LOTB
+
+int LotB::getNoOfTotallyBookedSpots()
+{
+	int NoOfTotallyBookedSpots = 0;
+	for (int i = 0; i < pSpaceB.size(); i++)
+	{
+		if (pSpaceB[i]->checkIsFull()) //if even one space is free, it is not full
+		{
+			NoOfTotallyBookedSpots++;
+		}
+	}
+	return NoOfTotallyBookedSpots;
+}
+// !LotB

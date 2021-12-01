@@ -11,7 +11,7 @@ class LotD : public ParkingLot
 {
 	bool isLotFull;
 	const string LotName = "D";
-	const int TotalNoOfSpots = 150;
+	const int TotalNoOfSpots = 100;
 	static LotD* d_instance;
 	vector<ParkingSpace*> pSpaceD;
 
@@ -22,7 +22,7 @@ class LotD : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceD.push_back(new ParkingSpace(100, 100, LotName, i));
+			pSpaceD.push_back(new ParkingSpace(100, 100, LotName, i+1));
 		}
 	}
 public:
@@ -34,9 +34,11 @@ public:
 	
 	static LotD* getInstance();
 	
-	bool reserve(time_t startTime, time_t endTime);
+	int reserve(time_t startTime, time_t endTime);
 
 	int getAvaialbleSlots(time_t startTime);
+
+	int getNoOfTotallyBookedSpots();
 
 };
 

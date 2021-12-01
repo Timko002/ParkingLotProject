@@ -22,7 +22,7 @@ class LotC : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceC.push_back(new ParkingSpace(100, 100, LotName, i));
+			pSpaceC.push_back(new ParkingSpace(100, 100, LotName, i+1));
 		}
 	}
 public:
@@ -34,9 +34,11 @@ public:
 	
 	static LotC* getInstance();
 	
-	bool reserve(time_t startTime, time_t endTime);
+	int reserve(time_t startTime, time_t endTime);
 
 	int getAvaialbleSlots(time_t startTime);
+
+	int getNoOfTotallyBookedSpots();
 
 };
 

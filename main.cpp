@@ -304,9 +304,9 @@ void main::OnReserveClick(wxCommandEvent& evt)
 
 			time_t startTime = timer.convertChoiceTime(wxStringTostring(timeStartOptions->GetValue()));
 			time_t endTime = timer.convertChoiceTime(wxStringTostring(timeEndOptions->GetValue()));
-
-			bool result= pLots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
-			if (result == true)
+			//spaceno                                 //lotname
+			int reservedSpot = pLots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
+			if (reservedSpot>=1)
 			{
 
 				editor.changeLabel(lot_frame, "setReserveTimeText", "Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());

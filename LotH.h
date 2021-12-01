@@ -12,7 +12,7 @@ class LotH : public ParkingLot
 {
 	bool isLotFull;
 	const string LotName = "H";
-	const int TotalNoOfSpots = 200;
+	const int TotalNoOfSpots = 100;
 	static LotH* h_instance;
 	vector<ParkingSpace*> pSpaceH;
 
@@ -23,7 +23,7 @@ class LotH : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceH.push_back(new ParkingSpace(100, 100, LotName, i));
+			pSpaceH.push_back(new ParkingSpace(100, 100, LotName, i+1));
 		}
 	}
 public:
@@ -35,9 +35,11 @@ public:
 
 	static LotH* getInstance();
 
-	bool reserve(time_t startTime, time_t endTime);
+	int reserve(time_t startTime, time_t endTime);
 
 	int getAvaialbleSlots(time_t startTime);
+
+	int getNoOfTotallyBookedSpots();
 
 };
 

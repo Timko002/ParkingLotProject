@@ -22,7 +22,7 @@ class LotB : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceB.push_back(new ParkingSpace(100, 100, LotName, i));
+			pSpaceB.push_back(new ParkingSpace(100, 100, LotName, i+1));
 		}
 	}
 	public:
@@ -34,10 +34,12 @@ class LotB : public ParkingLot
 		
 		static LotB* getInstance();
 		
-		bool reserve(time_t startTime, time_t endTime);
+		int reserve(time_t startTime, time_t endTime);
 
 		int getAvaialbleSlots(time_t startTime);
-		
+
+		int getNoOfTotallyBookedSpots();
+
 };
 
 #endif
