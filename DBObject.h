@@ -34,7 +34,7 @@ class DBObject
 		bool isReserved(string userName);
 		void getUserInfo(string userName);
 		static DBObject* instance();
-	protected:
+	//protected:
 		sql::Driver* Driver;
 		sql::Connection* Con;
 		sql::ResultSet* res;

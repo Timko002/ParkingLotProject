@@ -23,7 +23,7 @@ class LotE : public ParkingLot
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceE.push_back(new ParkingSpace(100, 100));
+			pSpaceE.push_back(new ParkingSpace(100, 100, LotName, i));
 		}
 	}
 public:

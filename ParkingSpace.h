@@ -11,16 +11,18 @@ class ParkingSpace
 	int dim_y;
 	bool isFull;
 	bool timeSlot[AVAILABILITY_OF_TIME_SLOT+1];
+	string LotName;
+	int SpaceNo;
 	public:
-		ParkingSpace(int x, int y)
+		ParkingSpace(int x, int y, string Lot, int Space)
 		{
 			dim_x = x;
 			dim_y = y;
-
-			isFull = false; // Read from DB 
-
-			for (int i = 0; i <= AVAILABILITY_OF_TIME_SLOT; i++)
-				timeSlot[i] = true; // Read from DB
+			LotName = Lot;
+			SpaceNo = Space;
+			//for (int i = 0; i <= AVAILABILITY_OF_TIME_SLOT; i++)
+			//	timeSlot[i] = true;
+			
 		}
 
 		bool checkIsFull();
