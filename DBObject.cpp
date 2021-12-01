@@ -7,6 +7,7 @@ string DBObject::checkLogin(string userName, string pass)
     DBObject::res = DBObject::Cstm->executeQuery(command);
     if (DBObject::res->next()) {
         User::instance()->set_user(userName);
+        User::instance()->set_status((DBObject::res->getString("Status")));
         if (DBObject::res->getString("No_Of_Rating") != "0")
         {
             User::instance()->set_rating(stod(DBObject::res->getString("Total_Rating")));
@@ -112,7 +113,6 @@ bool DBObject::isReserved(string userName)
     try {
         DBObject::res = DBObject::Cstm->executeQuery(command);
         while (DBObject::res->next()) {
-            User::instance()->set_status("Reserved");
             User::instance()->set_startTime(DBObject::res->getString("Start_Time"));
             User::instance()->set_endTime(DBObject::res->getString("End_Time"));
             User::instance()->setReservedLot(DBObject::res->getString("Lot_Name"));
@@ -132,7 +132,7 @@ void DBObject::updateRating(int rating)
 {
     //update users set Total_Rating = 3, No_Of_Rating = 1 where username = 'pandy';
     //select* from userlog_table where Lot_Name = 'A' AND Space_No = '20' ORDER BY End_Time DESC;
-    DBObject::command = "select* from userlog_table where Lot_Name = '"+ User::instance()->getReservedLot()+"' AND Space_No = '"+User::instance()->getReservedSpot()+"' ORDER BY End_Time DESC";
+    DBObject::command = "select * from userlog_table where Lot_Name = '"+ User::instance()->getReservedLot()+"' AND Space_No = '"+User::instance()->getReservedSpot()+"' ORDER BY End_Time DESC";
     try {
         DBObject::res = DBObject::Cstm->executeQuery(command);
         if (DBObject::res->next()) {
@@ -155,7 +155,24 @@ void DBObject::updateRating(int rating)
 
         //couldn't update
     }
-   // DBObject::command = "select * from userlog_table where Username= '" + userName + "'"; //checking is this user exist
+}
+
+
+void DBObject::updateStatus(string status, string username)
+{
+    //update users set Total_Rating = 3, No_Of_Rating = 1 where username = 'pandy';
+    //select* from userlog_table where Lot_Name = 'A' AND Space_No = '20' ORDER BY End_Time DESC;
+    DBObject::command = "update users set Status = '"+status+ "' where Username = '"+username+"'";
+    try {
+        int i = DBObject::Cstm->executeUpdate(DBObject::command);
+        if (i) {
+            //update successfull
+        }
+    }
+    catch (sql::SQLException& e) {
+
+        //couldn't update
+    }
 }
 
 void DBObject::getUserInfo(string userName)

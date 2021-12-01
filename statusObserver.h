@@ -45,7 +45,7 @@ class leaveSpot : public statusUpdate, public statusObserver
     }
     void updateDB()
     {
-        //DBObject::instance()->supdateStatus("Unreserved")
+        DBObject::instance()->updateStatus("Unreserved", User::instance()->get_user());
     }
     void updateUserObj()
     {
@@ -72,7 +72,7 @@ class parkedUpdate : public statusUpdate, public statusObserver
     }
     void updateDB()
     {
-        //DBObject::instance()->supdateStatus("Parked")
+        DBObject::instance()->updateStatus("Parked", User::instance()->get_user());
     }
     void updateUserObj()
     {
@@ -100,7 +100,7 @@ class registerUpdate : public statusUpdate, public statusObserver
     }
     void updateDB()
     {
-        //DBObject::instance()->supdateStatus("Reserved")
+        DBObject::instance()->updateStatus("Reserved", User::instance()->get_user());
     }
     void updateUserObj()
     {

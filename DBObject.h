@@ -34,6 +34,7 @@ class DBObject
 		bool isReserved(string userName);
 		void updateRating(int rating);
 		void getUserInfo(string userName);
+		void updateStatus(string status, string username);
 		static DBObject* instance();
 	//protected:
 		sql::Driver* Driver;
