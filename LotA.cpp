@@ -53,7 +53,8 @@ int LotA::reserve(time_t startTime, time_t endTime)
 
 int LotA::getAvaialbleSlots(time_t startTime)
 {
-	tm* st = gmtime(&startTime);
+	tm* st = new tm();
+	localtime_s(st, &startTime);
 	int start_hour = st->tm_hour;
 	int start_min = st->tm_min;
 	int max_available_blocks, available_blocks;
