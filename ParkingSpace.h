@@ -52,6 +52,8 @@ class ParkingSpace
 		bool reserve(int start_hour, int start_min, int blocks);
 
 		int getAvaialbleSlots(int start_hour, int start_min);
+
+		int getFirstAvailableSlot(int starting_index);
 		
 };
 #endif

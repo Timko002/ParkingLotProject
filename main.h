@@ -73,7 +73,11 @@ public:
 	{
 		timeStart.clear();
 		timer.setCurrentTime();
-		timeStart = timer.returnComboOptions(timeStart, timer.returnHour(), timer.returnMin());
+		//sending the hour and min based on current time to look for the earliest slot available
+		string startTimeFirstOption = pLots[wxStringTostring(lot_frame->GetName())]->getFirstAvailableSlot(timer.returnHour(), timer.returnMin());
+		int startHour = wxAtoi(startTimeFirstOption.substr(0, 2));
+		int startMin = wxAtoi(startTimeFirstOption.substr(3, 5));
+		timeStart = timer.returnComboOptions(timeStart, startHour, startMin);
 	}
 
 	string wxStringTostring(wxString msg)

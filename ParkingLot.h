@@ -12,6 +12,7 @@ public:
 	virtual bool checkIsLotFull() = 0;
 	virtual int getAvaialbleSlots(time_t startTime)=0;
 	virtual int getNoOfTotallyBookedSpots() = 0;
+	virtual string getFirstAvailableSlot(int currHour, int currMin) = 0;
 
 };
 #endif
