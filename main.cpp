@@ -319,7 +319,7 @@ void main::OnReserveClick(wxCommandEvent& evt)
 				regUpdate.setLocation(wxStringTostring(getEventName(evt)), to_string(reservedSpot));
 				regUpdate.setTimes(wxStringTostring(timeStartOptions->GetValue()), wxStringTostring(timeEndOptions->GetValue()));
 				regUpdate.notify();
-				//DBObject::instance()->bookUser(User::instance()->get_user(), wxStringTostring(getEventName(evt)), "20", "10:00", "12:00");
+				DBObject::instance()->bookUser(User::instance()->get_user(), wxStringTostring(getEventName(evt)), to_string(reservedSpot), wxStringTostring(timeStartOptions->GetValue()), wxStringTostring(timeEndOptions->GetValue()));
 				editor.changeLabel(lot_frame, "setReserveTimeText", "Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
 				editor.deleteItem(lot_frame, getEventName(evt));
 			}

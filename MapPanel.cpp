@@ -1,6 +1,5 @@
 #pragma once
 #include "MapPanel.h"
-#include "LotA.h"
 
 void MapPanel::makePanel()
 {
