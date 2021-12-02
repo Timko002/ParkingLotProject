@@ -109,6 +109,10 @@ void DBObject::bookUser(string userName, string lot, string space_no, string sta
 
 bool DBObject::isReserved(string userName)
 {
+    if (User::instance()->get_status() == "Unreserved")
+    {
+        return false;
+    }
     DBObject::command = "select * from userlog_table where Username= '" + userName + "'"; //checking is this user exist
     try {
         DBObject::res = DBObject::Cstm->executeQuery(command);
@@ -132,7 +136,7 @@ void DBObject::updateRating(int rating)
 {
     //update users set Total_Rating = 3, No_Of_Rating = 1 where username = 'pandy';
     //select* from userlog_table where Lot_Name = 'A' AND Space_No = '20' ORDER BY End_Time DESC;
-    DBObject::command = "select * from userlog_table where Lot_Name = '"+ User::instance()->getReservedLot()+"' AND Space_No = '"+User::instance()->getReservedSpot()+"' ORDER BY End_Time DESC";
+    DBObject::command = "select * from userlog_table where Lot_Name = '"+ User::instance()->getReservedLot()+"' AND End_Time = '"+User::instance()->get_startTime()+"'";
     try {
         DBObject::res = DBObject::Cstm->executeQuery(command);
         if (DBObject::res->next()) {

@@ -14,6 +14,7 @@
 #include "WidgetEditor.h"
 #include "WidgetBuilder.h"
 #include "TimerFunctions.h"
+#include "statusObserver.h"
 #include <string>
 #include <vector>
 #include <iostream>
