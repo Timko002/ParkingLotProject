@@ -40,6 +40,8 @@ public:
 
 	int getNoOfTotallyBookedSpots();
 
+	string getFirstAvailableSlot(int currHour, int currMin);
+
 };
 
 #endif

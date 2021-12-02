@@ -88,3 +88,16 @@ int ParkingSpace::getAvaialbleSlots(int start_hour, int start_min)
 	}
 	return count_blocks;
 }
+int ParkingSpace::getFirstAvailableSlot(int starting_index)
+{
+	int s = -1;
+	for (int i = starting_index; i <=AVAILABILITY_OF_TIME_SLOT; i++)
+	{
+		if (timeSlot[i] == true)
+		{
+			s = i;
+			break;
+		}
+	}
+	return s;
+}
