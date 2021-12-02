@@ -1,5 +1,15 @@
 #pragma once
 #include "MapPanel.h"
+#include "LotA.h"
+#include "LotB.h"
+#include "LotC.h"
+#include "LotD.h"
+#include "LotE.h"
+#include "LotF.h"
+#include "LotG.h"
+#include "LotH.h"
+#include "LotI.h"
+#include "LotJ.h"
 
 void MapPanel::makePanel()
 {
@@ -16,16 +26,27 @@ void MapPanel::makePanel()
 	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "", wxPoint(160, 85), wxSize(40, 30), "totalRating"));
 	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Status: ", wxPoint(10, 117), wxSize(50, 30), "statusField"));
 	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "", wxPoint(110, 117), wxSize(50, 30), "spotLocation"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotA", wxPoint(15, 175), wxSize(40, 30), "LDetailsA"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotB", wxPoint(125, 175), wxSize(40, 30), "LDetailsB"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotC", wxPoint(15, 300), wxSize(40, 30), "LDetailsC"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotD", wxPoint(125, 300), wxSize(40, 30), "LDetailsD"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotE", wxPoint(15, 425), wxSize(40, 30), "LDetailsE"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotF", wxPoint(125, 425), wxSize(40, 30), "LDetailsF"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotG", wxPoint(15, 550), wxSize(40, 30), "LDetailsG"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotH", wxPoint(125, 550), wxSize(40, 30), "LDetailsH"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotI", wxPoint(15, 675), wxSize(40, 30), "LDetailsI"));
-	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotJ", wxPoint(125, 675), wxSize(40, 30), "LDetailsJ"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "", wxPoint(10, 148), wxSize(150, 25), "bookedTime"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotA(Spots: " + to_string(LotA::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(10, 200), wxSize(90, 25), "LDetailsA"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotA::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(12, 250), wxSize(100, 30), "FullSpotsA"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotB(Spots: " + to_string(LotB::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(125, 200), wxSize(90, 25), "LDetailsB"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotB::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(127, 250), wxSize(100, 30), "FullSpotsB"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotC(Spots: " + to_string(LotC::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(10, 300), wxSize(90, 25), "LDetailsC"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotC::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(12, 350), wxSize(100, 30), "FullSpotsC"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotD(Spots: " + to_string(LotD::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(125, 300), wxSize(90, 25), "LDetailsD"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotD::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(127, 350), wxSize(100, 30), "FullSpotsD"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotE(Spots: " + to_string(LotE::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(10, 400), wxSize(90, 25), "LDetailsE"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotE::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(12, 450), wxSize(100, 30), "FullSpotsE"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotF(Spots:" + to_string(LotF::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(125, 400), wxSize(90, 25), "LDetailsF"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotF::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(127, 450), wxSize(100, 30), "FullSpotsF"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotG(Spots: " + to_string(LotG::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(10, 500), wxSize(90, 25), "LDetailsG"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotG::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(12, 550), wxSize(100, 30), "FullSpotsG"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotH(Spots: " + to_string(LotH::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(125, 500), wxSize(90, 25), "LDetailsH"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotH::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(127, 550), wxSize(100, 30), "FullSpotsH"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotI(Spots: " + to_string(LotI::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(10, 600), wxSize(85, 25), "LDetailsI"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots:" + to_string(LotI::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(12, 650), wxSize(100, 30), "FullSpotsI"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "LotJ(Spots: " + to_string(LotJ::getInstance()->getTotalNoOfSpots()) + ")", wxPoint(125, 600), wxSize(85, 25), "LDetailsJ"));
+	mapPanelWidget.add(new TextField(MapPanel::getContext(), wxID_ANY, "Full Spots: " + to_string(LotJ::getInstance()->getNoOfTotallyBookedSpots()), wxPoint(127, 650), wxSize(100, 30), "FullSpotsJ"));
 	mapPanelWidget.add(new pngLogo(MapPanel::getContext(), wxID_ANY, wxBitmap("images/parking-map.PNG", wxBITMAP_TYPE_PNG), wxPoint(250, 00), wxSize(950, 800), "PNG Logo"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1002, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(330, 355), wxSize(41, 50), "LotA"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1003, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(320, 450), wxSize(41, 50), "LotB"));

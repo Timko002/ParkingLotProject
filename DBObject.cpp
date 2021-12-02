@@ -83,10 +83,10 @@ bool DBObject::isReserved(string userName)
     {
         return false;
     }
-    DBObject::command = "select * from userlog_table where Username= '" + userName + "'"; //checking is this user exist
+    DBObject::command = "select * from userlog_table where Username= '" + userName + "' ORDER BY End_Time DESC"; //checking is this user exist
     try {
         DBObject::res = DBObject::Cstm->executeQuery(command);
-        while (DBObject::res->next()) {
+        if(DBObject::res->next()) {
             User::instance()->set_startTime(DBObject::res->getString("Start_Time"));
             User::instance()->set_endTime(DBObject::res->getString("End_Time"));
             User::instance()->setReservedLot(DBObject::res->getString("Lot_Name"));
@@ -113,7 +113,7 @@ void DBObject::updateRating(int rating)
             string userName = DBObject::res->getString("Username");
             DBObject::command = "select Total_Rating, No_Of_Rating from users where Username = '" + userName + "'";
             ResultSet* res2 = DBObject::Cstm->executeQuery(command);
-            while (res2->next()) {
+            if (res2->next()) {
                 float old_rating = res2->getDouble("Total_Rating");
                 int old_no_of_rating = res2->getInt("No_Of_Rating");
                 DBObject::command = "update users set Total_Rating = ((" + std::to_string(old_rating) + "*" + std::to_string(old_no_of_rating) + ")+" + std::to_string(rating) + ")/(" + std::to_string(old_no_of_rating) + "+1), No_Of_Rating = " + std::to_string(old_no_of_rating) + "+1 where username ='" + userName + "'";
