@@ -1,5 +1,6 @@
 #pragma once
 #include "MapPanel.h"
+#include "LotA.h"
 
 void MapPanel::makePanel()
 {
@@ -38,7 +39,8 @@ void MapPanel::makePanel()
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1010, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(760, 250), wxSize(41, 50), "LotI"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1011, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(700, 190), wxSize(41, 50), "LotJ"));
 	
-	
+	//LotA::getInstance()->getTotalNoOfSpots();
+
 	wxWindowList& children = MapPanel::getContext()->GetChildren();
 	for (wxWindowList::Node* node = children.GetFirst(); node; node = node->GetNext())
 	{

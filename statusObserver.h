@@ -9,7 +9,7 @@
 class statusObserver
 {
 public:
-	virtual void notify(wxWindow* context) = 0;
+	virtual void notify() = 0;
 };
 
 class statusUpdate
@@ -105,6 +105,10 @@ class registerUpdate : public statusUpdate, public statusObserver
     void updateUserObj()
     {
         User::instance()->set_status("Reserved");
+        User::instance()->set_endTime(end_time);
+        User::instance()->set_startTime(start_time);
+        User::instance()->setReservedLot(lotName);
+        User::instance()->setReservedSpot(newSpot);
     }
 public:
     void notify()
@@ -115,7 +119,21 @@ public:
     {
         wContext = context;
     }
+    void setLocation(string Lot,string spot)
+    {
+        lotName = Lot;
+        newSpot = spot;
+    }
+    void setTimes(string sTime, string eTime)
+    {
+        start_time = sTime;
+        end_time = eTime;
+    }
     wxWindow* wContext;
+    string newSpot;
+    string lotName;
+    string start_time;
+    string end_time;
 };
 
 #endif // !STATUSOBSERVER_H

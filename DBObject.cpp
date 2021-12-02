@@ -61,44 +61,14 @@ void DBObject::createUser(string userName, string pass)
 
 void DBObject::bookUser(string userName, string lot, string space_no, string startTime, string endTime)
 {   
-    string s5[] = { "9_00","9_15","9_30","9_45","10_00","10_15","10_30","10_45","11_00","11_15","11_30","11_45","12_00","12_15","12_30","12_45","13_00","13_15","13_30","13_45","14_00","14_15","14_30","14_45","15_00","15_15","15_30","15_45","16_00","16_15","16_30","16_45","17_00","17_15","17_30","17_45","18_00" };
-    int index;
-    std::replace(startTime.begin(), startTime.end(), ':', '_');
-    std::replace(endTime.begin(), endTime.end(), ':', '_');
-
-    for (int i = 0; i <= 36; i++) {  // loop to get index no of start time from the array
-        if (s5[i] == startTime) {
-            index = i;
-        }
-        else {
-            continue;
-        }
-    }
-
-
-    for (int j = index; j <= 36; j++) {
-        if (s5[j] == endTime) {
-            DBObject::command = "update " + lot + " set T" + s5[j] + " = False where Space_No = " + space_no;
-            int a = Cstm->executeUpdate(DBObject::command);
-            break;
-        }
-        else {
-            DBObject::command = "update " + lot + " set T" + s5[j] + " = False where Space_No = " + space_no;
-            int a = Cstm->executeUpdate(DBObject::command);
-        }
-    }
-
-
     try {
-        std::replace(startTime.begin(), startTime.end(), '_', ':');
-        std::replace(endTime.begin(), endTime.end(), '_', ':');
         string command2 = "insert into userlog_table (Username,Lot_Name,Space_No,Start_Time,End_Time) values ('" + userName + "','" + lot + "','" + space_no + "','" + startTime + "','" + endTime + "')";
         int res2 = DBObject::Cstm->executeUpdate(command2);
         if (res2) {
-            //cout << "Slot is booked";
+            //Logged new booking
         }
         else {
-            //cout << "updating userlog table is failed";
+            //update failed
         }
     }
     catch (sql::SQLException& e) {

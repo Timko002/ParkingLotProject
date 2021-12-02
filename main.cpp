@@ -66,7 +66,6 @@ main::~main()
 
 void main::OnLotClick(wxCommandEvent& evt)
 {
-	//DBObject::instance()->bookUser( User::instance()->get_user(), wxStringTostring(getEventName(evt)), "20", "10:00", "12:00");
 	main::buildParkingLotDisplay(getEventPointer(evt),getEventName(evt));
 	evt.Skip();
 }
@@ -89,7 +88,7 @@ void main::buildParkingMap()
 	MapPanel->makePanel();
 	editor.changeLabel(this, "welcomeBack", "Welcome back, "+User::instance()->get_user());
 	setRating();
-	if (User::instance()->get_rating() == 0)
+	if (User::instance()->get_rating() < 1)
 	{
 		editor.changeLabel(this, "totalRating", " Unrated");
 	}
@@ -129,9 +128,13 @@ void main::notifyParked(int timer)
 		int answer = wxMessageBox(wxString::Format("Are you parked?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
 		if (answer == wxYES)
 		{
+			/*
 			User::instance()->set_status("Parked");
 			editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
 			main::rating_frame->Show();
+			*/
+			parkUpdate.setContext(this);
+			parkUpdate.notify();
 		}
 			
 	});
@@ -147,9 +150,13 @@ void main::notifyLeft(int timer)
 		int answer = wxMessageBox(wxString::Format("Have you left the spot?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
 		if (answer == wxYES)
 		{
+			/*
 			User::instance()->set_status("Unreserved");
 			editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
-			editor.changeLabel(this, "spotLocation", "");
+			editor.changeLabel(this, "spotLocation", "");			
+			*/
+			lspotUpdate.setContext(this);
+			lspotUpdate.notify();
 		}
 	});
 
@@ -201,7 +208,6 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	time_t startTime = timer.convertChoiceTime(wxStringTostring(selection));
 	int count_blocks= pLots[wxStringTostring(lot_frame->GetName())]->getAvaialbleSlots(startTime);
 	timeEnd = timer.returnComboOptionsForEndTime(timeEnd, endHour, endMin, count_blocks);
-	//timeEnd.push_back("18:00");
 	timeEndOptions->Set(timeEnd);
 	timeEndOptions->SetLabel(timeEnd[0]);
 	timeEndOptions->Show();
@@ -308,7 +314,12 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			int reservedSpot = pLots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
 			if (reservedSpot>=1)
 			{
-
+				printToOutputStream(to_string(reservedSpot));
+				regUpdate.setContext(this);
+				regUpdate.setLocation(wxStringTostring(getEventName(evt)), to_string(reservedSpot));
+				regUpdate.setTimes(wxStringTostring(timeStartOptions->GetValue()), wxStringTostring(timeEndOptions->GetValue()));
+				regUpdate.notify();
+				//DBObject::instance()->bookUser(User::instance()->get_user(), wxStringTostring(getEventName(evt)), "20", "10:00", "12:00");
 				editor.changeLabel(lot_frame, "setReserveTimeText", "Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
 				editor.deleteItem(lot_frame, getEventName(evt));
 			}
@@ -321,34 +332,3 @@ void main::OnReserveClick(wxCommandEvent& evt)
 	}
 	evt.Skip();
 }
- /*Torsha - creating a placeholder for observer pattern related code
-class subscriber 
- {
-	 virtual void action() = 0;
- };
- class wxfeature : public subscriber
- {
-	 action() {
-		 display the lot is full
-	 }
- };
- class user : public subscriber
- {
-	 action() {
-		 display "Parked" with timestamp in the user's session
-	 }
- };
- class publisher
- {
-	 reserve(){
-	 bool result = Lots['A']->reserve(startTime, endTime); //the parking lot and time will come from another function TBD
-	 if (result == true)
-	 {
-		 user.action();
-		 bool chk = Lots['A']->checkIsLotFull();
-		 if (chk == true)
-			 wxfeature.action();
-	 }
- };
-
-*/
