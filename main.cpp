@@ -109,6 +109,7 @@ void main::buildParkingMap()
 		}
 		editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
 		editor.changeLabel(this, "spotLocation", "Location: Lot" + User::instance()->getReservedLot() + " | " + "Spot" + User::instance()->getReservedSpot());
+		editor.changeLabel(this, "bookedTime", "Reserved Time : " + User::instance()->get_startTime() + "~" + User::instance()->get_endTime());
 	}
 	else
 	{
