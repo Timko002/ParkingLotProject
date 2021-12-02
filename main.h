@@ -45,6 +45,9 @@ public:
 	Panel* ratingPanel = StaticPanelFactory::makePanel("rating");
 // parking lot frame & widgets
 public:
+	leaveSpot lspotUpdate;
+	registerUpdate regUpdate;
+	parkedUpdate parkUpdate;
 	wxFrame* lot_frame = nullptr;
 	wxFrame* rating_frame = new wxFrame(this, wxID_ANY, "Rating Menu", wxDefaultPosition, wxSize(300, 200), NULL, "ratingMenu");
 	future<void> value;
