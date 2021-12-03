@@ -83,10 +83,10 @@ void main::buildLoginPanel()
 
 void main::buildParkingMap()
 {
+	threadcheck = false;
 	main::SetMaxSize(wxSize(1200, 830));
 	main::SetMinSize(wxSize(1200, 830));
 	main::SetSize(1200, 830);
-	buildSidePanel();
 	MapPanel->setContext(this);
 	MapPanel->makePanel();
 	editor.changeLabel(this, "welcomeBack", "Welcome back, "+User::instance()->get_user());
@@ -191,6 +191,46 @@ void main::notifyLeft(int timer)
 
 }
 
+void main::onClickX(wxCommandEvent& evt)
+{
+	lot_frame->Destroy();
+}
+
+void main::getStartLotTime(vector<wxString>& timeStart)
+{
+	timeStart.clear();
+	timer.setCurrentTime();
+	//sending the hour and min based on current time to look for the earliest slot available
+	string startTimeFirstOption = pLots[wxStringTostring(lot_frame->GetName())]->getFirstAvailableSlot(timer.returnHour(), timer.returnMin());
+	int startHour = wxAtoi(startTimeFirstOption.substr(0, 2));
+	int startMin = wxAtoi(startTimeFirstOption.substr(3, 5));
+	timeStart = timer.returnComboOptions(timeStart, startHour, startMin);
+}
+
+string main::wxStringTostring(wxString msg)
+{
+	return string(msg.mb_str(wxConvUTF8));
+}
+
+void main::printToOutputStream(string message)
+{
+	std::wstring stemp = std::wstring(message.begin(), message.end());
+	LPCWSTR sw = stemp.c_str();
+	OutputDebugString(sw);
+}
+
+bool main::checkAvailableSpots(ParkingLot* Lot)
+{
+	if (!Lot->checkIsLotFull())// (wxAtoi(availableSpots) > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void main::setRating()
 {
 	string s = to_string(User::instance()->get_rating());
@@ -243,6 +283,11 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	evt.Skip();
 }
 
+void main::onClickNotifX(wxCommandEvent& evt)
+{
+	rating_frame->Hide();
+}
+
 void main::onClickRating(wxCommandEvent& evt)
 {
 	switch (evt.GetId())
@@ -267,6 +312,97 @@ void main::onClickRating(wxCommandEvent& evt)
 	}
 
 	rating_frame->Hide();
+}
+
+wxPoint main::getEventPointer(wxCommandEvent& evt)
+{
+	wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);
+	return button->GetPosition();;
+}
+
+wxString main::getEventName(wxCommandEvent& evt)
+{
+	if (evt.GetId() == 3)
+	{
+		wxBitmapButton* button = wxDynamicCast(evt.GetEventObject(), wxBitmapButton);
+		return button->GetName();
+	}
+	else
+	{
+		wxButton* button = wxDynamicCast(evt.GetEventObject(), wxButton);
+		return button->GetName();
+	}
+}
+
+void main::OnRegisterClick(wxCommandEvent& evt)
+{
+	editor.hideNode(this, "Submit");
+	editor.hideNode(this, "registerButton");
+	editor.showNode(this, "completeRegistration");
+	editor.showNode(this, "loginReturn");
+	editor.changeLabel(this, "LogMsg", "Please enter a username/password to create account");
+}
+
+void main::OnRegisterConfirm(wxCommandEvent& evt)
+{
+	if (canRegister(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password"))))
+	{
+		DBObject::instance()->createUser(wxStringTostring(LoginPanel->getWidgetValue("username")), wxStringTostring(LoginPanel->getWidgetValue("password")));
+		editor.showNode(this, "Submit");
+		editor.showNode(this, "registerButton");
+		editor.hideNode(this, "completeRegistration");
+		editor.hideNode(this, "loginReturn");
+		editor.changeLabel(this, "LogMsg", "Please log in to start reserving your parking spot.");
+		editor.changeLabel(this, "loginResponse", "Registration completed");
+	}
+}
+
+void main::OnLogoutClick(wxCommandEvent& evt)
+{
+	main::SetMaxSize(wxSize(500, 500));
+	main::SetMinSize(wxSize(500, 500));
+	MapPanel->destroyPanel();
+	buildLoginPanel();
+	threadcheck = true;
+}
+
+void main::OnReturnClick(wxCommandEvent& evt)
+{
+	editor.showNode(this, "Submit");
+	editor.showNode(this, "registerButton");
+	editor.hideNode(this, "completeRegistration");
+	editor.hideNode(this, "loginReturn");
+	editor.changeLabel(this, "LogMsg", "Please log in to start reserving your parking spot.");
+	editor.changeLabel(this, "loginResponse", "");
+}
+
+bool main::canRegister(string name, string pass)
+{
+
+	if ((name.size() == 0) || (pass.size() == 0))
+	{
+		editor.changeLabel(this, "loginResponse", "Please fill out information before submitting");
+		return false;
+	}
+	bool response = DBObject::instance()->checkUserExists(name);
+	if (response)
+	{
+		editor.changeLabel(this, "loginResponse", "User account already exists");
+		return false;
+	}
+	return true;
+}
+
+bool main::checkLogin(string name, string pass)
+{
+	string response = DBObject::instance()->checkLogin(name, pass);
+	if (response == "success")
+	{
+		DBObject::instance()->isReserved(User::instance()->get_user());
+		return true;
+	}
+	editor.changeLabel(this, "loginResponse", response);
+	return false;
 }
 
 void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
