@@ -3,7 +3,7 @@
 #define ParkingLot_H
 #include <iostream>
 using namespace std;
-
+//this is the interface for the parking lots
 class ParkingLot
 {
 public:

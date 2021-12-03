@@ -3,44 +3,31 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
-#include "ParkingLot.h"
-#include "ParkingSpace.h"
-using namespace std;
+#include "Lot.h"
 
-class LotB : public ParkingLot
+using namespace std;
+//concrete singleton LotB
+class LotB : public Lot
 {
-	bool isLotFull;
-	const string LotName="B";
-	const int TotalNoOfSpots=100;
+	const string LotName = "B";
+	const int TotalNoOfSpots = 100;
 	static LotB* b_instance;
-	vector<ParkingSpace *> pSpaceB;
 
 	LotB()
-	{	
-		isLotFull = false;
-
+	{
 		for (int i = 0; i < TotalNoOfSpots; i++)
 		{
 			// Create parking space objects 
-			pSpaceB.push_back(new ParkingSpace(100, 100, LotName, i+1));
+			pSpace.push_back(new ParkingSpace(100, 100, LotName, i + 1));
 		}
 	}
-	public:
-		string getLotName();
-		
-		int getTotalNoOfSpots();
-		
-		bool checkIsLotFull();
-		
-		static LotB* getInstance();
-		
-		int reserve(time_t startTime, time_t endTime);
 
-		int getAvaialbleSlots(time_t startTime);
+public:
+	string getLotName();
 
-		int getNoOfTotallyBookedSpots();
+	int getTotalNoOfSpots();
 
-		string getFirstAvailableSlot(int currHour, int currMin);
+	static LotB* getInstance();
 
 };
 
