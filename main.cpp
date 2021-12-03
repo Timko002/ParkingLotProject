@@ -203,7 +203,7 @@ void main::getStartLotTime(vector<wxString>& timeStart)
 	//sending the hour and min based on current time to look for the earliest slot available
 	string startTimeFirstOption = pLots[wxStringTostring(lot_frame->GetName())]->getFirstAvailableSlot(timer.returnHour(), timer.returnMin());
 	int startHour = wxAtoi(startTimeFirstOption.substr(0, 2));
-	int startMin = wxAtoi(startTimeFirstOption.substr(3, 5));
+	int startMin = wxAtoi(startTimeFirstOption.substr(startTimeFirstOption.length() - 2));
 	timeStart = timer.returnComboOptions(timeStart, startHour, startMin);
 }
 
@@ -273,7 +273,7 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	timeEnd.clear();
 	wxString selection = timeStartOptions->GetValue();
 	int endHour = wxAtoi(selection.substr(0, 2));
-	int endMin = wxAtoi(selection.substr(3, 5)) + 15;
+	int endMin = wxAtoi(selection.substr(selection.length() - 2)) + 15;
 	time_t startTime = timer.convertChoiceTime(wxStringTostring(selection));
 	int count_blocks= pLots[wxStringTostring(lot_frame->GetName())]->getAvaialbleSlots(startTime);
 	timeEnd = timer.returnComboOptionsForEndTime(timeEnd, endHour, endMin, count_blocks);
@@ -474,16 +474,16 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			int reservedSpot = pLots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
 			if (reservedSpot>=1)
 			{
-				printToOutputStream(to_string(reservedSpot));
+				printToOutputStream("\n"+to_string(reservedSpot) + "\n");
 				regUpdate.setContext(this);
 				regUpdate.setLocation(wxStringTostring(getEventName(evt)), to_string(reservedSpot));
 				regUpdate.setTimes(wxStringTostring(timeStartOptions->GetValue()), wxStringTostring(timeEndOptions->GetValue()));
 				regUpdate.notify();
 				DBObject::instance()->bookUser(User::instance()->get_user(), wxStringTostring(getEventName(evt)), to_string(reservedSpot), wxStringTostring(timeStartOptions->GetValue()), wxStringTostring(timeEndOptions->GetValue()));
 				editor.changeLabel(lot_frame, "setReserveTimeText", "Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
-				editor.deleteItem(lot_frame, getEventName(evt));
-				notifyParked(timer.returnTimeLeft(User::instance()->get_startTime()));
-				notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+				editor.deleteItem(lot_frame, wxStringTostring(getEventName(evt)));
+				//notifyParked(timer.returnTimeLeft(User::instance()->get_startTime()));
+				//notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
 			}
 			else
 			{

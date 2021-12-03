@@ -34,9 +34,9 @@ private:
 // Login screen widgets
 public:
 	Panel* LoginPanel = StaticPanelFactory::makePanel("login");
-	Panel* ratingPanel = StaticPanelFactory::makePanel("rating");
 // parking lot frame & widgets
 public:
+	Panel* ratingPanel = StaticPanelFactory::makePanel("rating");
 	leaveSpot lspotUpdate;
 	registerUpdate regUpdate;
 	parkedUpdate parkUpdate;
