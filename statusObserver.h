@@ -42,6 +42,7 @@ class leaveSpot : public statusUpdate, public statusObserver
         WidgetEditor edit;
         edit.changeLabel(wContext, "statusField", "Status: " + User::instance()->get_status() + " | ");
         edit.changeLabel(wContext, "spotLocation", "");
+        edit.changeLabel(wContext, "bookedTime", "");
     }
     void updateDB()
     {
@@ -97,6 +98,7 @@ class registerUpdate : public statusUpdate, public statusObserver
         WidgetEditor edit;
         edit.changeLabel(wContext, "statusField", "Status: " + User::instance()->get_status() + " | ");
         edit.changeLabel(wContext, "spotLocation", "Location: Lot" + User::instance()->getReservedLot() + " | " + "Spot" + User::instance()->getReservedSpot());
+        edit.changeLabel(wContext, "bookedTime", "Reserved Time : " + User::instance()->get_startTime() + "~" + User::instance()->get_endTime());
     }
     void updateDB()
     {
