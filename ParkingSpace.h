@@ -51,7 +51,7 @@ class ParkingSpace
 
 		int getAvaialbleSlots(int start_hour, int start_min);
 
-		int getFirstAvailableSlot(int starting_index);
+		vector<int> getAvailableSlotsToStart(int starting_index);
 		
 };
 #endif

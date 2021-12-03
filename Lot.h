@@ -22,7 +22,7 @@ public:
 
 	int getNoOfTotallyBookedSpots();
 
-	string getFirstAvailableSlot(int currHour, int currMin);
+	vector<string> getAvailableSlotsToStart(int currHour, int currMin);
 
 };
 

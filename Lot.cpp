@@ -69,9 +69,14 @@ int Lot::getNoOfTotallyBookedSpots()
 	}
 	return NoOfTotallyBookedSpots;
 }
-string Lot::getFirstAvailableSlot(int currHour, int currMin)
+vector<string> Lot::getAvailableSlotsToStart(int currHour, int currMin)
 {
+	vector<int> availabletTimeSlots;
+	vector<int> temp_availabletTimeSlots;
+	vector<int>::iterator ip;
 	int starting_index;
+	string min, hour;
+	vector<string> startTimeCombo;
 	int starting_hour_index = (currHour * 4) - 36;
 
 	switch (currMin)
@@ -88,43 +93,39 @@ string Lot::getFirstAvailableSlot(int currHour, int currMin)
 	default:
 		starting_index = starting_hour_index;
 	}
-	int available_block, first_available_block;
-
-	first_available_block = 1000;
-
+	
 	for (int i = 0; i < pSpace.size(); i++)
 	{
-		available_block = pSpace[i]->getFirstAvailableSlot(starting_index);
-		if (available_block == -1)
-			continue;
-		if (available_block == starting_index)
-		{
-			first_available_block = starting_index;
-			break;
-		}
-		if (available_block < first_available_block)
-			first_available_block = available_block;
+		temp_availabletTimeSlots = pSpace[i]->getAvailableSlotsToStart(starting_index);
+		availabletTimeSlots.insert(availabletTimeSlots.end(), temp_availabletTimeSlots.begin(), temp_availabletTimeSlots.end());
 	}
-	int rem = first_available_block % 4;
-	string min, hour;
-	switch (rem)
-	{
-	case 1:
-		min = "15";
-		break;
-	case 2:
-		min = "30";
-		break;
-	case 3:
-		min = "45";
-		break;
-	default:
-		min = "00";
-	}
-	int q = first_available_block - rem;
-	int hr = (q + 36) / 4;
-	hour = to_string(hr);
-	return (hour + ":" + min);
+	sort(availabletTimeSlots.begin(), availabletTimeSlots.end());
+	ip= unique(availabletTimeSlots.begin(), availabletTimeSlots.end());
+	availabletTimeSlots.resize(distance(availabletTimeSlots.begin(), ip));
 
+	for (int i = 0; i < availabletTimeSlots.size(); i++)
+	{
+		int rem = availabletTimeSlots.at(i) % 4;
+
+		switch (rem)
+		{
+		case 1:
+			min = "15";
+			break;
+		case 2:
+			min = "30";
+			break;
+		case 3:
+			min = "45";
+			break;
+		default:
+			min = "00";
+		}
+		int q = availabletTimeSlots.at(i) - rem;
+		int hr = (q + 36) / 4;
+		hour = to_string(hr);
+		startTimeCombo.push_back(hour + ":" + min);
+	}
+	return startTimeCombo;
 }
 // !Lot

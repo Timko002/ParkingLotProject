@@ -59,6 +59,7 @@ bool ParkingSpace::reserve(int start_hour, int start_min, int blocks)
 	}
 	return flag;
 }
+//finds contiguous available slots for end time for a given start time
 int ParkingSpace::getAvaialbleSlots(int start_hour, int start_min)
 {
 
@@ -88,16 +89,13 @@ int ParkingSpace::getAvaialbleSlots(int start_hour, int start_min)
 	}
 	return count_blocks;
 }
-int ParkingSpace::getFirstAvailableSlot(int starting_index)
+vector<int> ParkingSpace::getAvailableSlotsToStart(int starting_index)
 {
-	int s = -1;
-	for (int i = starting_index; i <=AVAILABILITY_OF_TIME_SLOT; i++)
+	vector<int> availabletTimeSlots;
+	for (int i = starting_index; i <AVAILABILITY_OF_TIME_SLOT; i++)
 	{
 		if (timeSlot[i] == true)
-		{
-			s = i;
-			break;
-		}
+			availabletTimeSlots.push_back(i);
 	}
-	return s;
+	return availabletTimeSlots;
 }
