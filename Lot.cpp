@@ -69,14 +69,14 @@ int Lot::getNoOfTotallyBookedSpots()
 	}
 	return NoOfTotallyBookedSpots;
 }
-vector<string> Lot::getAvailableSlotsToStart(int currHour, int currMin)
+vector<wxString> Lot::getAvailableSlotsToStart(int currHour, int currMin)
 {
 	vector<int> availabletTimeSlots;
 	vector<int> temp_availabletTimeSlots;
 	vector<int>::iterator ip;
 	int starting_index;
 	string min, hour;
-	vector<string> startTimeCombo;
+	vector<wxString> startTimeCombo;
 	int starting_hour_index = (currHour * 4) - 36;
 
 	switch (currMin)
@@ -124,7 +124,7 @@ vector<string> Lot::getAvailableSlotsToStart(int currHour, int currMin)
 		int q = availabletTimeSlots.at(i) - rem;
 		int hr = (q + 36) / 4;
 		hour = to_string(hr);
-		startTimeCombo.push_back(hour + ":" + min);
+		startTimeCombo.push_back(wxString(hour + ":" + min));
 	}
 	return startTimeCombo;
 }

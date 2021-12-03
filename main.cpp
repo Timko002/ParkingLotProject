@@ -198,14 +198,15 @@ void main::onClickX(wxCommandEvent& evt)
 
 void main::getStartLotTime(vector<wxString>& timeStart)
 {
-	vector<string> startTimeCombo;
+	vector<wxString> startTimeCombo;
 	timeStart.clear();
 	timer.setCurrentTime();
 	//sending the hour and min based on current time to look for the earliest slot available
 	startTimeCombo = pLots[wxStringTostring(lot_frame->GetName())]->getAvailableSlotsToStart(timer.returnHour(), timer.returnMin());
+	timeStart = startTimeCombo;
 	//int startHour = wxAtoi(startTimeFirstOption.substr(0, 2));
 	//nt startMin = wxAtoi(startTimeFirstOption.substr(startTimeFirstOption.length() - 2));
-	timeStart = timer.returnComboOptions(timeStart, timer.returnHour(), timer.returnMin());
+	//timeStart = timer.returnComboOptions(timeStart, timer.returnHour(), timer.returnMin());
 }
 
 string main::wxStringTostring(wxString msg)

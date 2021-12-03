@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
+#include <wx/wx.h>
 #include "ParkingLot.h"
 #include "ParkingSpace.h"
 using namespace std;
@@ -22,7 +23,7 @@ public:
 
 	int getNoOfTotallyBookedSpots();
 
-	vector<string> getAvailableSlotsToStart(int currHour, int currMin);
+	vector<wxString> getAvailableSlotsToStart(int currHour, int currMin);
 
 };
 
