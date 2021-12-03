@@ -58,6 +58,7 @@ void MapPanel::makePanel()
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1009, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(770, 560), wxSize(41, 50), "LotH"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1010, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(760, 250), wxSize(41, 50), "LotI"));
 	mapPanelWidget.add(new pngButton(MapPanel::getContext(), 1011, wxBitmap("images/mapmarker.PNG", wxBITMAP_TYPE_PNG), wxPoint(700, 190), wxSize(41, 50), "LotJ"));
+	mapPanelWidget.add(new TextButton(MapPanel::getContext(), 20, "Log Out", wxPoint(75, 750), wxSize(75, 30), "Logout"));
 	
 	//LotA::getInstance()->getTotalNoOfSpots();
 

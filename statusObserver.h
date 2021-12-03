@@ -49,7 +49,7 @@ class leaveSpot : public statusUpdate, public statusObserver
     }
     void updateUserObj()
     {
-        User::instance()->set_status("UnReserved");
+        User::instance()->set_status("Unreserved");
     }
 public:
     void notify()

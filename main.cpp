@@ -23,6 +23,7 @@ EVT_BUTTON(8, onClickRating)
 EVT_BUTTON(9, onClickRating)
 EVT_BUTTON(10, onClickRating)
 EVT_BUTTON(11, onClickRating)
+EVT_BUTTON(20, OnLogoutClick)
 EVT_BUTTON(1002, OnLotClick)
 EVT_BUTTON(1003, OnLotClick)
 EVT_BUTTON(1004, OnLotClick)
@@ -37,6 +38,7 @@ wxEND_EVENT_TABLE()
 
 DBObject* DBObject::db = 0;
 User* User::user = 0;
+std::atomic<bool> threadcheck = false;
 
 main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 {
@@ -60,6 +62,7 @@ main::main() : wxFrame(nullptr, wxID_ANY, "Parking Lot Project - CSUSM")
 
 main::~main()
 {
+	threadcheck = true;
 	main::Close(true);
 	main::Destroy();
 }
@@ -99,14 +102,30 @@ void main::buildParkingMap()
 	if (!(User::instance()->get_status() == "Unreserved"))
 	{
 		// restart timers if you close the app
-		if (timer.returnTimeLeft(User::instance()->get_startTime()) > 0)
+		
+		if ((timer.returnTimeLeft(User::instance()->get_startTime()) > 0) && (User::instance()->get_status() == "Reserved"))
 		{
 			notifyParked(timer.returnTimeLeft(User::instance()->get_startTime()));
+			notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
 		}
-		if (timer.returnTimeLeft(User::instance()->get_endTime()) > 0)
+		else if ((timer.returnTimeLeft(User::instance()->get_startTime()) <= 0) && (User::instance()->get_status() == "Reserved") && (timer.returnTimeLeft(User::instance()->get_endTime()) > 0))
+		{
+			notifyParked(60);
+			notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+		}
+		else
+		{
+			notifyLeft(60);
+		}
+		if ((timer.returnTimeLeft(User::instance()->get_endTime()) > 0) && (User::instance()->get_status() == "Parked"))
 		{
 			notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
 		}
+		else if ((timer.returnTimeLeft(User::instance()->get_endTime()) <= 0) && (User::instance()->get_status() == "Parked"))
+		{
+			notifyLeft(60);
+		}
+
 		editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
 		editor.changeLabel(this, "spotLocation", "Location: Lot" + User::instance()->getReservedLot() + " | " + "Spot" + User::instance()->getReservedSpot());
 		editor.changeLabel(this, "bookedTime", "Reserved Time : " + User::instance()->get_startTime() + "~" + User::instance()->get_endTime());
@@ -125,19 +144,23 @@ void main::notifyParked(int timer)
 	rating_frame->Center();
 	main::notifParked = async(launch::async, [this, timer]
 	{
-		std::this_thread::sleep_for(std::chrono::minutes(timer));
-		int answer = wxMessageBox(wxString::Format("Are you parked?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
-		if (answer == wxYES)
+		for (int i = 0; i < timer; i++)
 		{
-			/*
-			User::instance()->set_status("Parked");
-			editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
-			main::rating_frame->Show();
-			*/
-			parkUpdate.setContext(this);
-			parkUpdate.notify();
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			if (threadcheck)
+			{
+				break;
+			}
 		}
-			
+		if (!threadcheck)
+		{
+			int answer = wxMessageBox(wxString::Format("Are you parked?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
+			if (answer == wxYES)
+			{
+				parkUpdate.setContext(this);
+				parkUpdate.notify();
+			}
+		}
 	});
 
 }
@@ -147,17 +170,22 @@ void main::notifyLeft(int timer)
 {
 	main::notifyleft = async(launch::async, [this, timer]
 	{
-		std::this_thread::sleep_for(std::chrono::minutes(timer));
-		int answer = wxMessageBox(wxString::Format("Have you left the spot?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
-		if (answer == wxYES)
+		for (int i = 0; i < timer; i++)
 		{
-			/*
-			User::instance()->set_status("Unreserved");
-			editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
-			editor.changeLabel(this, "spotLocation", "");			
-			*/
-			lspotUpdate.setContext(this);
-			lspotUpdate.notify();
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			if (threadcheck)
+			{
+				break;
+			}
+		}
+		if (!threadcheck)
+		{
+			int answer = wxMessageBox(wxString::Format("Have you left the spot?"), wxT("Notification"), wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
+			if (answer == wxYES)
+			{
+				lspotUpdate.setContext(this);
+				lspotUpdate.notify();
+			}
 		}
 	});
 
@@ -303,11 +331,6 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			printToOutputStream(wxStringTostring(timeStartOptions->GetValue()));
 			// this is the minutes value
 			printToOutputStream(wxStringTostring(timeEndOptions->GetValue()));
-			// fill this in to what to do with the time
-			//debug
-			//printToOutputStream("lot::::::::::" + pLots[wxStringTostring(getEventName(evt))]->getLotName());
-			//printToOutputStream("start time : :::::" + wxStringTostring(timeStartOptions->GetValue()));
-			//printToOutputStream("end time : :::::" + wxStringTostring(timeEndOptions->GetValue()));
 
 			time_t startTime = timer.convertChoiceTime(wxStringTostring(timeStartOptions->GetValue()));
 			time_t endTime = timer.convertChoiceTime(wxStringTostring(timeEndOptions->GetValue()));
@@ -323,6 +346,8 @@ void main::OnReserveClick(wxCommandEvent& evt)
 				DBObject::instance()->bookUser(User::instance()->get_user(), wxStringTostring(getEventName(evt)), to_string(reservedSpot), wxStringTostring(timeStartOptions->GetValue()), wxStringTostring(timeEndOptions->GetValue()));
 				editor.changeLabel(lot_frame, "setReserveTimeText", "Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
 				editor.deleteItem(lot_frame, getEventName(evt));
+				notifyParked(timer.returnTimeLeft(User::instance()->get_startTime()));
+				notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
 			}
 			else
 			{

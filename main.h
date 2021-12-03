@@ -50,7 +50,6 @@ public:
 	parkedUpdate parkUpdate;
 	wxFrame* lot_frame = nullptr;
 	wxFrame* rating_frame = new wxFrame(this, wxID_ANY, "Rating Menu", wxDefaultPosition, wxSize(300, 200), NULL, "ratingMenu");
-	future<void> value;
 	future<void> notifParked;
 	future<void> notifyleft;
 	TimerFunctions timer;
@@ -162,6 +161,13 @@ public:
 			editor.changeLabel(this, "LogMsg", "Please log in to start reserving your parking spot.");
 			editor.changeLabel(this, "loginResponse", "Registration completed");
 		}
+	}
+	void OnLogoutClick(wxCommandEvent& evt)
+	{
+		main::SetMaxSize(wxSize(500, 500));
+		main::SetMinSize(wxSize(500, 500));
+		MapPanel->destroyPanel();
+		buildLoginPanel();
 	}
 	void OnReturnClick(wxCommandEvent& evt)
 	{
