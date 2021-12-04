@@ -2,6 +2,8 @@
 
 CS542 Parking Lot Project
 
+Build with wxWidgets and VS2019
+
 Daniel | Torsha | Mandar
 
 Needs MYSQL server installed to run project
