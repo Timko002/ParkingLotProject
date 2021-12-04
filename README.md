@@ -2,7 +2,7 @@
 
 CS542 Parking Lot Project
 
-Build with wxWidgets and VS2019
+Built with wxWidgets and VS2019
 
 Daniel | Torsha | Mandar
 
