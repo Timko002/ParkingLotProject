@@ -104,9 +104,9 @@ vector<wxString> TimerFunctions::returnComboOptionsForEndTime(vector<wxString> v
 {
 	string stringToAdd;
 	int counter = 0;
-	while (counter <= count_blocks && Hours < 18)
+	while (counter < count_blocks && Hours < 18)
 	{
-		for (Minutes; counter <= count_blocks && Minutes < 60; Minutes += 15)
+		for (Minutes; counter < count_blocks && Minutes < 60; Minutes += 15)
 		{
 			stringToAdd = to_string(Hours);
 			stringToAdd += ":";
@@ -135,7 +135,7 @@ time_t TimerFunctions::convertChoiceTime(string choice)
 	time_t currentTime;
 	struct tm* localTime;
 	int localH = stoi(choice.substr(0,2));
-	int localM = stoi(choice.substr(3,4));
+	int localM = stoi(choice.substr(choice.length() - 2));
 	time(&currentTime);                   // Get the current time
 	localTime = localtime(&currentTime);  // Convert the current time to the local time
 	localTime->tm_hour = localH;

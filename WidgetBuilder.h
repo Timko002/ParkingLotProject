@@ -100,6 +100,10 @@ public:
         this->lotName = lotN;
     }
 
+    void BuildAlreadyReseved() {
+        this->builder->ProduceTextField(new TextField(windowContext, wxID_ANY, "You have already reseved a spot \n         You cannot reserve more than one spot.", wxPoint(50, 180), wxSize(300, 70), "alreadyReservedMsg"));
+    }
+
     void BuildFullProduct() {
         this->builder->ProduceTextField(new TextField(windowContext, wxID_ANY, "Time Start", wxPoint(80, 160), wxSize(70, 20), "sTime"));
         this->builder->ProduceTextField(new TextField(windowContext, wxID_ANY, "Time End", wxPoint(185, 160), wxSize(70, 20), "eTime"));

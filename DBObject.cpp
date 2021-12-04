@@ -106,7 +106,7 @@ void DBObject::updateRating(int rating)
 {
     //update users set Total_Rating = 3, No_Of_Rating = 1 where username = 'pandy';
     //select* from userlog_table where Lot_Name = 'A' AND Space_No = '20' ORDER BY End_Time DESC;
-    DBObject::command = "select * from userlog_table where Lot_Name = '"+ User::instance()->getReservedLot()+"' AND End_Time = '"+User::instance()->get_startTime()+"'";
+    DBObject::command = "select * from userlog_table where Lot_Name = '"+ User::instance()->getReservedLot()+"' AND Space_No = '"+ User::instance()->getReservedSpot()+"' AND End_Time = '"+User::instance()->get_startTime()+"'";
     try {
         DBObject::res = DBObject::Cstm->executeQuery(command);
         if (DBObject::res->next()) {
@@ -159,6 +159,25 @@ void DBObject::getUserInfo(string userName)
     else
     {
        //couldn't find user;
+    }
+}
+
+bool DBObject::checkToRate(string lot, string space_no, string startTime)
+{
+    DBObject::command = "select * from userlog_table where Lot_Name = '" + User::instance()->getReservedLot() + "' AND Space_No = '" + User::instance()->getReservedSpot() + "' AND End_Time = '" + User::instance()->get_startTime() + "'";
+    try {
+        DBObject::res = DBObject::Cstm->executeQuery(command);
+        if (DBObject::res->next()) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    catch (sql::SQLException& e) {
+        return false;
+        //couldn't update
     }
 }
 

@@ -105,25 +105,28 @@ void main::buildParkingMap()
 		
 		if ((timer.returnTimeLeft(User::instance()->get_startTime()) > 0) && (User::instance()->get_status() == "Reserved"))
 		{
-			notifyParked(timer.returnTimeLeft(User::instance()->get_startTime()));
-			notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+			//notifyParked(timer.returnTimeLeft(User::instance()->get_startTime()));
+			//notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+			notifyParked(15);
+			notifyLeft(30);
 		}
 		else if ((timer.returnTimeLeft(User::instance()->get_startTime()) <= 0) && (User::instance()->get_status() == "Reserved") && (timer.returnTimeLeft(User::instance()->get_endTime()) > 0))
 		{
-			notifyParked(60);
-			notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+			//notifyParked(60);
+			//notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+			notifyParked(15);
+			notifyLeft(30);
 		}
-		else
-		{
-			notifyLeft(60);
-		}
+
 		if ((timer.returnTimeLeft(User::instance()->get_endTime()) > 0) && (User::instance()->get_status() == "Parked"))
 		{
-			notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+			//notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+			notifyLeft(15);
 		}
 		else if ((timer.returnTimeLeft(User::instance()->get_endTime()) <= 0) && (User::instance()->get_status() == "Parked"))
 		{
-			notifyLeft(60);
+			//notifyLeft(60);
+			notifyLeft(15);
 		}
 
 		editor.changeLabel(this, "statusField", "Status: " + User::instance()->get_status() + " | ");
@@ -141,7 +144,7 @@ void main::notifyParked(int timer)
 {
 	ratingPanel->setContext(rating_frame);
 	ratingPanel->makePanel();
-	rating_frame->Center();
+	main::rating_frame->Center();
 	main::notifParked = async(launch::async, [this, timer]
 	{
 		for (int i = 0; i < timer; i++)
@@ -159,6 +162,10 @@ void main::notifyParked(int timer)
 			{
 				parkUpdate.setContext(this);
 				parkUpdate.notify();
+				if (DBObject::instance()->checkToRate(User::instance()->getReservedLot(), User::instance()->getReservedSpot(), User::instance()->get_startTime()))
+				{
+					main::rating_frame->Show();
+				}
 			}
 		}
 	});
@@ -276,6 +283,7 @@ void main::buildEndTime(wxCommandEvent& evt) // this builds every available spot
 	wxString selection = timeStartOptions->GetValue();
 	int endHour = wxAtoi(selection.substr(0, 2));
 	int endMin = wxAtoi(selection.substr(selection.length() - 2)) + 15;
+	//timeEnd.push_back(wxString(to_string(endHour) + ":" + to_string(endMin)));
 	time_t startTime = timer.convertChoiceTime(wxStringTostring(selection));
 	int count_blocks= pLots[wxStringTostring(lot_frame->GetName())]->getAvaialbleSlots(startTime);
 	timeEnd = timer.returnComboOptionsForEndTime(timeEnd, endHour, endMin, count_blocks);
@@ -380,13 +388,19 @@ void main::OnReturnClick(wxCommandEvent& evt)
 
 bool main::canRegister(string name, string pass)
 {
-
 	if ((name.size() == 0) || (pass.size() == 0))
 	{
 		editor.changeLabel(this, "loginResponse", "Please fill out information before submitting");
 		return false;
 	}
+	//regex to check if the name is in the correct format
+	if (!regex_search(name, regex("[A-Za-z]{1}[0-9]{3}$")))
+	{
+		editor.changeLabel(this, "loginResponse", "Your username must match your CSUSM ID");
+		return false;
+	}
 	bool response = DBObject::instance()->checkUserExists(name);
+	// check database for duplicates
 	if (response)
 	{
 		editor.changeLabel(this, "loginResponse", "User account already exists");
@@ -418,30 +432,36 @@ void main::buildParkingLotDisplay(wxPoint point, wxString wxName)
 	ConcreteLotBuilder* builder = new ConcreteLotBuilder();
 	Director* director = new Director();
 	director->set_builder(builder,lot_frame,wxName);
-
-	if (checkAvailableSpots(pLots[wxStringTostring(wxName)])) //(checkAvailableSpots(availableSpots))
+	if (User::instance()->get_status() == "Unreserved")
 	{
-		getStartLotTime(timeStart);
-		if (timeStart.size() != 0)
+		if (checkAvailableSpots(pLots[wxStringTostring(wxName)])) //(checkAvailableSpots(availableSpots))
 		{
-			// building the full lot of cars
-			director->BuildFullProduct();
-			// get pointers to the combo boxes
-			timeStartOptions = editor.generatePointerCombo(editor.getNode(lot_frame, "startTimeBox"));
-			timeEndOptions = editor.generatePointerCombo(editor.getNode(lot_frame, "endTimeBox"));
-			timeStartOptions->Set(timeStart);
-			timeStartOptions->Bind(wxEVT_COMBOBOX, &main::buildEndTime, this);
+			getStartLotTime(timeStart);
+			if (timeStart.size() != 0)
+			{
+				// building the full lot of cars
+				director->BuildFullProduct();
+				// get pointers to the combo boxes
+				timeStartOptions = editor.generatePointerCombo(editor.getNode(lot_frame, "startTimeBox"));
+				timeEndOptions = editor.generatePointerCombo(editor.getNode(lot_frame, "endTimeBox"));
+				timeStartOptions->Set(timeStart);
+				timeStartOptions->Bind(wxEVT_COMBOBOX, &main::buildEndTime, this);
+			}
+			else
+			{
+				// Too late to reserve 
+				director->BuildPast6PM();
+			}
 		}
 		else
 		{
-			// Too late to reserve 
-			director->BuildPast6PM();	
+			// Lot is full of cars
+			director->BuildFullLot();
 		}
 	}
 	else
 	{
-		// Lot is full of cars
-		director->BuildFullLot();
+		director->BuildAlreadyReseved();
 	}
 	// cleanup pointers
 	LotUI* p = builder->GetProduct();
@@ -476,6 +496,7 @@ void main::OnReserveClick(wxCommandEvent& evt)
 			int reservedSpot = pLots[wxStringTostring(getEventName(evt))]->reserve(startTime, endTime);
 			if (reservedSpot>=1)
 			{
+				editor.changeLabel(this, wxString("FullSpots")+getEventName(evt), "Full Spots:" + to_string(pLots[wxStringTostring(getEventName(evt))]->getNoOfTotallyBookedSpots()));
 				printToOutputStream("\n"+to_string(reservedSpot) + "\n");
 				regUpdate.setContext(this);
 				regUpdate.setLocation(wxStringTostring(getEventName(evt)), to_string(reservedSpot));
@@ -485,7 +506,9 @@ void main::OnReserveClick(wxCommandEvent& evt)
 				editor.changeLabel(lot_frame, "setReserveTimeText", "Successfully reserved the Spot " + timeStartOptions->GetValue() + "-" + timeEndOptions->GetValue());
 				editor.deleteItem(lot_frame, wxStringTostring(getEventName(evt)));
 				//notifyParked(timer.returnTimeLeft(User::instance()->get_startTime()));
+				notifyParked(15);
 				//notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
+				notifyLeft(30);
 			}
 			else
 			{
