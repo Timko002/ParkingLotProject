@@ -19,6 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DBObject.h" />
+    <ClInclude Include="LoginPanel.h" />
+    <ClInclude Include="Lot.h" />
+    <ClInclude Include="LotE.h" />
+    <ClInclude Include="LotF.h" />
+    <ClInclude Include="LotG.h" />
+    <ClInclude Include="LotH.h" />
+    <ClInclude Include="LotI.h" />
+    <ClInclude Include="LotJ.h" />
+    <ClInclude Include="LotPanel.h" />
+    <ClInclude Include="MapPanel.h" />
+    <ClInclude Include="Panel.h" />
+    <ClInclude Include="ratingPanel.h" />
+    <ClInclude Include="StaticPanelFactory.h" />
     <ClInclude Include="LotA.h" />
     <ClInclude Include="LotB.h" />
     <ClInclude Include="LotC.h" />
@@ -28,18 +42,65 @@
     <ClInclude Include="ParkingLot.h" />
     <ClInclude Include="ParkingLotFactory.h" />
     <ClInclude Include="ParkingSpace.h" />
-    <ClInclude Include="PSpot.h" />
-    <ClInclude Include="PSpotComponent.h" />
-    <ClInclude Include="PSpotComposite.h" />
+    <ClInclude Include="statusObserver.h" />
+    <ClInclude Include="TimerFunctions.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="WidgetBuilder.h" />
     <ClInclude Include="WidgetComposite.h" />
+    <ClInclude Include="WidgetEditor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DBObject.cpp" />
+    <ClCompile Include="LoginPanel.cpp" />
+    <ClCompile Include="Lot.cpp" />
+    <ClCompile Include="LotA.cpp" />
+    <ClCompile Include="LotB.cpp" />
+    <ClCompile Include="LotC.cpp" />
+    <ClCompile Include="LotD.cpp" />
+    <ClCompile Include="LotE.cpp" />
+    <ClCompile Include="LotF.cpp" />
+    <ClCompile Include="LotG.cpp" />
+    <ClCompile Include="LotH.cpp" />
+    <ClCompile Include="LotI.cpp" />
+    <ClCompile Include="LotJ.cpp" />
+    <ClCompile Include="LotPanel.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapPanel.cpp" />
+    <ClCompile Include="Panel.cpp" />
     <ClCompile Include="parkingApp.cpp" />
+    <ClCompile Include="ParkingLotFactory.cpp" />
+    <ClCompile Include="ParkingSpace.cpp" />
+    <ClCompile Include="ratingPanel.cpp" />
+    <ClCompile Include="TimerFunctions.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\csusm-logo.png" />
+    <Image Include="images\headerbg.png" />
     <Image Include="images\mapmarker.png" />
+    <Image Include="images\mapmarkerA.png" />
+    <Image Include="images\mapmarkerB.png" />
+    <Image Include="images\mapmarkerC.png" />
+    <Image Include="images\mapmarkerD.png" />
+    <Image Include="images\mapmarkerE.png" />
+    <Image Include="images\mapmarkerF.png" />
+    <Image Include="images\mapmarkerG.png" />
+    <Image Include="images\mapmarkerH.png" />
+    <Image Include="images\mapmarkerI.png" />
+    <Image Include="images\mapmarkerJ.png" />
+    <Image Include="images\parking-map.PNG" />
+    <Image Include="images\registerbutton.png" />
+    <Image Include="images\Star0.png" />
+    <Image Include="images\Star1.png" />
+    <Image Include="images\star10.png" />
+    <Image Include="images\star2.png" />
+    <Image Include="images\star3.png" />
+    <Image Include="images\star4.png" />
+    <Image Include="images\star5.png" />
+    <Image Include="images\star6.png" />
+    <Image Include="images\star7.png" />
+    <Image Include="images\star8.png" />
+    <Image Include="images\star9.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -141,12 +202,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WXUSINGDLL;wxMSVC_VERSION_AUTO;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include;C:\Users\botzu\source\repos\ParkingLotProject\include;C:\Users\botzu\source\repos\ParkingLotProject\include\msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Users\botzu\source\repos\ParkingLotProject\lib\vc142_x64_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,14 +219,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WXUSINGDLL;wxMSVC_VERSION_AUTO;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include;C:\Users\botzu\source\repos\ParkingLotProject\include;C:\Users\botzu\source\repos\ParkingLotProject\include\msvc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Users\botzu\source\repos\ParkingLotProject\lib\vc142_x64_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
