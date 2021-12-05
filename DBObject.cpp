@@ -12,6 +12,10 @@ string DBObject::checkLogin(string userName, string pass)
         {
             User::instance()->set_rating(stod(DBObject::res->getString("Total_Rating")));
         }
+        else
+        {
+            User::instance()->set_rating(0);
+        }
         return "success";
     }
     else

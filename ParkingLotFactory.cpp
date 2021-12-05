@@ -16,22 +16,22 @@ ParkingLot* ParkingLotFactory::chooseParkingLot(string LotName)
 					Lot = LotD::getInstance();
 				else
 					if (LotName == "E")
-						Lot = LotD::getInstance();
+						Lot = LotE::getInstance();
 					else
 						if (LotName == "F")
-							Lot = LotD::getInstance();
+							Lot = LotF::getInstance();
 						else
 							if (LotName == "G")
-								Lot = LotD::getInstance();
+								Lot = LotG::getInstance();
 							else
 								if (LotName == "H")
-									Lot = LotD::getInstance();
+									Lot = LotH::getInstance();
 								else
 									if (LotName == "I")
-										Lot = LotD::getInstance();
+										Lot = LotI::getInstance();
 									else
 										if (LotName == "J")
-											Lot = LotD::getInstance();
+											Lot = LotJ::getInstance();
 										else
 											Lot = NULL;
 	return Lot;

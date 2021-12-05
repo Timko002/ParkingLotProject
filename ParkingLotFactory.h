@@ -7,6 +7,12 @@
 #include "LotB.h"
 #include "LotC.h"
 #include "LotD.h"
+#include "LotE.h"
+#include "LotF.h"
+#include "LotG.h"
+#include "LotH.h"
+#include "LotI.h"
+#include "LotJ.h"
 #include <string>
 using namespace std;
 
