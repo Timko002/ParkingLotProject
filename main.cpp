@@ -102,6 +102,7 @@ void main::buildParkingMap()
 	if (!(User::instance()->get_status() == "Unreserved"))
 	{
 		// restart timers if you close the app
+		// commented out the appropriate timers so they start earlier for testing
 		
 		if ((timer.returnTimeLeft(User::instance()->get_startTime()) > 0) && (User::instance()->get_status() == "Reserved"))
 		{
@@ -115,6 +116,12 @@ void main::buildParkingMap()
 			//notifyParked(60);
 			//notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
 			notifyParked(15);
+			notifyLeft(30);
+		}
+		else if ((timer.returnTimeLeft(User::instance()->get_startTime()) <= 0) && (User::instance()->get_status() == "Reserved") && (timer.returnTimeLeft(User::instance()->get_endTime()) <= 0))
+		{
+			//notifyParked(60);
+			//notifyLeft(timer.returnTimeLeft(User::instance()->get_endTime()));
 			notifyLeft(30);
 		}
 
@@ -172,7 +179,7 @@ void main::notifyParked(int timer)
 
 }
 
-// notify that your status is parked
+// notify that you have left the spot
 void main::notifyLeft(int timer)
 {
 	main::notifyleft = async(launch::async, [this, timer]
@@ -208,13 +215,11 @@ void main::getStartLotTime(vector<wxString>& timeStart)
 	vector<wxString> startTimeCombo;
 	timeStart.clear();
 	timer.setCurrentTime();
-	//sending the hour and min based on current time to look for the earliest slot available
-	//startTimeCombo = pLots[wxStringTostring(lot_frame->GetName())]->getAvailableSlotsToStart(timer.returnHour(), timer.returnMin());
-	startTimeCombo = pLots[wxStringTostring(lot_frame->GetName())]->getAvailableSlotsToStart(9, 0);
+	//sending the hour and min options based on current time to look for the earliest slot available
+	startTimeCombo = pLots[wxStringTostring(lot_frame->GetName())]->getAvailableSlotsToStart(timer.returnHour(), timer.returnMin());
+	// for testing purposes to show all available times for the day
+	//startTimeCombo = pLots[wxStringTostring(lot_frame->GetName())]->getAvailableSlotsToStart(9, 0);
 	timeStart = startTimeCombo;
-	//int startHour = wxAtoi(startTimeFirstOption.substr(0, 2));
-	//nt startMin = wxAtoi(startTimeFirstOption.substr(startTimeFirstOption.length() - 2));
-	//timeStart = timer.returnComboOptions(timeStart, timer.returnHour(), timer.returnMin());
 }
 
 string main::wxStringTostring(wxString msg)

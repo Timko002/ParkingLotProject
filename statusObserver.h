@@ -5,13 +5,13 @@
 #include "DBObject.h"
 #include "User.h"
 #include "WidgetEditor.h"
-
+// common observer interface
 class statusObserver
 {
 public:
 	virtual void notify() = 0;
 };
-
+// a task list to update the user singleton,  database and then UI
 class statusUpdate
 {
     virtual void updateUI()
@@ -34,7 +34,7 @@ public:
         updateUI();
     }
 };
-
+// alert for leaving a spot
 class leaveSpot : public statusUpdate, public statusObserver
 {
     void updateUI()
@@ -63,7 +63,7 @@ public:
     }
     wxWindow* wContext;
 };
-
+// alert for parked
 class parkedUpdate : public statusUpdate, public statusObserver
 {
     void updateUI()
@@ -90,7 +90,7 @@ public:
     }
     wxWindow* wContext;
 };
-
+// alert for registering a new spot
 class registerUpdate : public statusUpdate, public statusObserver
 {
     void updateUI()

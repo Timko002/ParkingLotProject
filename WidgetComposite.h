@@ -4,10 +4,11 @@
 #include "wx/wx.h"
 #include <vector>
 using namespace std;
-
+// common component for all the wxwidgets
 class WidgetComponent
 {
 	public:
+		// calls the wxwidgets destroy to delete an object
 		virtual void destroy() = 0;
 		// returns the objects name
 		virtual wxString getName() = 0;
@@ -15,7 +16,7 @@ class WidgetComponent
 		// input is the name of the object
 		virtual wxString getValueByName(wxString name) = 0;
 };
-
+// for creating text fields
 class TextField : public WidgetComponent
 {
 	wxStaticText* staticText;
@@ -42,6 +43,7 @@ class TextField : public WidgetComponent
 			return staticText->GetLabel();
 		}
 };
+// for creating text inputs
 class TextInput : public WidgetComponent
 {
 	wxTextCtrl* textInput;
@@ -80,6 +82,7 @@ class TextInput : public WidgetComponent
 			return textInput->GetValue();
 		}
 };
+// for creating buttons
 class TextButton : public WidgetComponent
 {
 	wxButton* button;
@@ -115,7 +118,7 @@ class TextButton : public WidgetComponent
 			return button->GetName();
 		}
 };
-
+// for creating images
 class pngLogo : public WidgetComponent
 {
 	wxStaticBitmap* png;
@@ -142,7 +145,7 @@ class pngLogo : public WidgetComponent
 			return png->GetName();
 		}
 };
-
+// for creating buttons with images
 class pngButton : public WidgetComponent
 {
 	wxBitmapButton* pngB;
@@ -169,7 +172,7 @@ public:
 		return pngB->GetName();
 	}
 };
-
+// for creating the dropdown menus
 class comboBox : public WidgetComponent
 {
 	wxComboBox* combo;
@@ -200,7 +203,7 @@ public:
 		return combo->GetName();
 	}
 };
-
+// holds a vector to contain groups of widgets so that i can add widgets more easily and destroy them all at once
 class WidgetComposite : public WidgetComponent
 {
 	vector <WidgetComponent*> widgets;

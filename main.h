@@ -67,24 +67,43 @@ public:
 	void printToOutputStream(string message);
 	//checkAvailableSpots from a parking Lot
 	bool checkAvailableSpots(ParkingLot* Lot); 
+	//sets the user's rating in the left side panel
 	void setRating();
+	// builds the login panel display
 	void buildLoginPanel();
+	// builds the parking map
 	void buildParkingMap();
+	// event for when you submit your login details
 	void OnLoginSubmit(wxCommandEvent& evt);
+	// event for when you click to reserve a slot
 	void OnReserveClick(wxCommandEvent& evt);
+	// event for when you select a lot on the map
 	void OnLotClick(wxCommandEvent& evt);
+	// notification for when you should park
 	void notifyParked(int timer);
+	// notification for when you should leave the spot
 	void notifyLeft(int timer);
+	// event for when you click the x to close a lot window
 	void onClickX(wxCommandEvent& evt);
+	// event for when you click the x on a notification window
 	void onClickNotifX(wxCommandEvent& evt);
+	// event for when you click to select a rating
 	void onClickRating(wxCommandEvent& evt);
+	// returns the pointer for an event
 	wxPoint getEventPointer(wxCommandEvent& evt);
+	// returns the name of an event for event handling
 	wxString getEventName(wxCommandEvent& evt);
+	// event for when you click register on the login panel
 	void OnRegisterClick(wxCommandEvent& evt);
+	// event for when you click to confirm your registration
 	void OnRegisterConfirm(wxCommandEvent& evt);
+	// event for when you click to log out
 	void OnLogoutClick(wxCommandEvent& evt);
+	// event on the login panel to swap from registeration to login
 	void OnReturnClick(wxCommandEvent& evt);
+	// boolean check whether you can register
 	virtual bool canRegister(string name, string pass);
+	// checks your login credentials
 	virtual bool checkLogin(string name, string pass);
 	wxDECLARE_EVENT_TABLE();
 };

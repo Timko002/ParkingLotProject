@@ -4,7 +4,7 @@
 #include "wx/wx.h"
 #include "main.h"
 
-
+// the application initiates here and creates the main frame
 class parkingApp : public wxApp
 {
 public:

@@ -2,7 +2,7 @@
 #ifndef WIDGETEDITOR_H
 #define WIDGETEDITOR_H
 #include "wx/wx.h"
-
+// functions that make use of wxwidgets functions to return widget pointers or make edits from any file
 class WidgetEditor
 {
 public:

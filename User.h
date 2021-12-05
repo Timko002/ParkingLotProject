@@ -5,7 +5,7 @@
 #include <iostream>
 
 using namespace std;
-
+// user singleton to set and retrieve user data
 class User {
 	static User* user;
 	User()

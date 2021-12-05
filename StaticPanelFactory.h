@@ -6,7 +6,7 @@
 #include "MapPanel.h"
 #include "LotPanel.h"
 #include "ratingPanel.h"
-
+// static factory for creating the different UI panels
 class StaticPanelFactory
 {
 	public:

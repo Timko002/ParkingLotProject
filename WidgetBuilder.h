@@ -10,13 +10,13 @@
 #include "wx/wx.h"
 
 using namespace std;
-
+// builder pattern to create widgets for the lot panels
 class LotUI {
 public:
     vector <WidgetComponent*> widgets;
     void ListParts()const {
         for (size_t i = 0; i < widgets.size(); i++) {
-            
+            //current function unused
         }
     }
     void destroyParts() {

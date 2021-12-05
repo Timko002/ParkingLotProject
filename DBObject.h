@@ -27,14 +27,23 @@ class DBObject
 			Cstm->execute("use parking"); //using parking database
 		}
 	public:
+		// checks login credentials in DB
 		string checkLogin(string userName, string pass);
+		// checks if a user exists
 		bool checkUserExists(string userName);
+		// creates a new user
 		void createUser(string userName, string pass);
+		// books a user in a specific lot and space number
 		void bookUser(string userName, string lot, string space_no, string startTime, string endTime);
+		// checks if you are reserved already
 		bool isReserved(string userName);
+		// updates the previously parked users rating
 		void updateRating(int rating);
+		// gets user info
 		void getUserInfo(string userName);
+		// checks if you should open rating panel
 		bool checkToRate(string lot, string space_no, string startTime);
+		// updates your user status
 		void updateStatus(string status, string username);
 		static DBObject* instance();
 	//protected:
