@@ -12,7 +12,7 @@ class Lot : public ParkingLot
 {
 protected:
 	bool isLotFull;
-	vector<ParkingSpace*> pSpace;
+	vector<ParkingSpace*> pSpace; //object composition
 public:
 
 	bool checkIsLotFull();

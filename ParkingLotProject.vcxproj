@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DBObject.h" />
+    <ClInclude Include="LoginPanel.h" />
+    <ClInclude Include="Lot.h" />
+    <ClInclude Include="LotE.h" />
+    <ClInclude Include="LotF.h" />
+    <ClInclude Include="LotG.h" />
+    <ClInclude Include="LotH.h" />
+    <ClInclude Include="LotI.h" />
+    <ClInclude Include="LotJ.h" />
+    <ClInclude Include="LotPanel.h" />
+    <ClInclude Include="MapPanel.h" />
+    <ClInclude Include="Panel.h" />
+    <ClInclude Include="ratingPanel.h" />
+    <ClInclude Include="reservationObserver.h" />
+    <ClInclude Include="LotA.h" />
+    <ClInclude Include="LotB.h" />
+    <ClInclude Include="LotC.h" />
+    <ClInclude Include="LotD.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="parkingApp.h" />
+    <ClInclude Include="ParkingLot.h" />
+    <ClInclude Include="ParkingLotFactory.h" />
+    <ClInclude Include="ParkingSpace.h" />
+    <ClInclude Include="PSpot.h" />
+    <ClInclude Include="PSpotComponent.h" />
+    <ClInclude Include="PSpotComposite.h" />
+    <ClInclude Include="StaticPanelFactory.h" />
+    <ClInclude Include="TimerFunctions.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="WidgetBuilder.h" />
+    <ClInclude Include="WidgetComposite.h" />
+    <ClInclude Include="WidgetEditor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DBObject.cpp" />
+    <ClCompile Include="LoginPanel.cpp" />
+    <ClCompile Include="Lot.cpp" />
+    <ClCompile Include="LotA.cpp" />
+    <ClCompile Include="LotB.cpp" />
+    <ClCompile Include="LotC.cpp" />
+    <ClCompile Include="LotD.cpp" />
+    <ClCompile Include="LotE.cpp" />
+    <ClCompile Include="LotF.cpp" />
+    <ClCompile Include="LotG.cpp" />
+    <ClCompile Include="LotH.cpp" />
+    <ClCompile Include="LotI.cpp" />
+    <ClCompile Include="LotJ.cpp" />
+    <ClCompile Include="LotPanel.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapPanel.cpp" />
+    <ClCompile Include="Panel.cpp" />
+    <ClCompile Include="parkingApp.cpp" />
+    <ClCompile Include="ParkingLotFactory.cpp" />
+    <ClCompile Include="ParkingSpace.cpp" />
+    <ClCompile Include="ratingPanel.cpp" />
+    <ClCompile Include="TimerFunctions.cpp" />
+    <ClCompile Include="User.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\csusm-logo.png" />
+    <Image Include="images\headerbg.png" />
+    <Image Include="images\mapmarker.png" />
+    <Image Include="images\parking-map.PNG" />
+    <Image Include="images\registerbutton.png" />
+    <Image Include="images\Star0.png" />
+    <Image Include="images\Star1.png" />
+    <Image Include="images\star10.png" />
+    <Image Include="images\star2.png" />
+    <Image Include="images\star3.png" />
+    <Image Include="images\star4.png" />
+    <Image Include="images\star5.png" />
+    <Image Include="images\star6.png" />
+    <Image Include="images\star7.png" />
+    <Image Include="images\star8.png" />
+    <Image Include="images\star9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{96816fb9-6550-4ae3-ab10-fde1fb637046}</ProjectGuid>
+    <RootNamespace>ParkingLotProject</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(WXWIN)\include; $(WXWIN)\include\msvc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\wxWidgets-3.1.5\include\msvc;C:\wxWidgets-3.1.5\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;WXUSINGDLL;wxMSVC_VERSION_AUTO;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\wxWidgets-3.1.5\lib\;C:\Users\mazum001\Desktop\ParkingLotProject\lib\vc142_x64_lib\mswud;C:\Program Files\MySQL\MySQL Server 8.0\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\wxWidgets-3.1.5\include;C:\wxWidgets-3.1.5\include\msvc</AdditionalIncludeDirectories>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\mazum001\Desktop\ParkingLotProject\vc142_x64_dll;C:\wxWidgets-3.1.5\build\msw\vc_mswudll_x64;C:\wxWidgets-3.1.5\lib\vc_dll;C:\wxWidgets-3.1.5\lib\vc_x64_lib\mswud;C:\Program Files\MySQL\MySQL Server 8.0\lib;C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;WXUSINGDLL;wxMSVC_VERSION_AUTO;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\mazum001\Desktop\ParkingLotProject\include\msvc;C:\Users\mazum001\Desktop\ParkingLotProject\include;C:\Program Files\MySQL\Connector C++ 8.0\include;C:\Program Files\MySQL\MySQL Server 8.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/DwxUSE_UNICODE=0 %(AdditionalOptions)</AdditionalOptions>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\mazum001\Desktop\ParkingLotProject\lib\vc142_x64_dll;C:\Program Files\MySQL\Connector C++ 8.0\lib64\vs14;C:\Program Files\MySQL\MySQL Server 8.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

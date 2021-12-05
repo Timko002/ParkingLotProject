@@ -20,11 +20,8 @@ class LotH : public Lot
 		DBObject::instance()->res = DBObject::instance()->Cstm->executeQuery(DBObject::instance()->command);
 		int i = 0;
 		while (DBObject::instance()->res->next()) {
-			//for (int i = 0; i < TotalNoOfSpots; i++)
-			//{
-				// Create parking space objects 
+			//creates the parking space instances and initializes the values from the DB
 			pSpace.push_back(new ParkingSpace(100, 100, LotName, i + 1));
-			//}
 			i++;
 		}
 	}

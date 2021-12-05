@@ -24,7 +24,7 @@ int Lot::reserve(time_t startTime, time_t endTime)
 	int start_hour = st->tm_hour;
 	int start_min = st->tm_min;
 	int reservedSpot = -1;
-	int blocks = int(difftime(endTime, startTime) / 900);
+	int blocks = int(difftime(endTime, startTime) / 900);//find number of 15min blocks to reserve
 
 	for (int i = 0; i < pSpace.size(); i++)
 	{
@@ -36,7 +36,7 @@ int Lot::reserve(time_t startTime, time_t endTime)
 	}
 	return reservedSpot;
 }
-
+//get the contiguous available slots for the end time
 int Lot::getAvaialbleSlots(time_t startTime)
 {
 	tm* st = new tm();
@@ -69,6 +69,7 @@ int Lot::getNoOfTotallyBookedSpots()
 	}
 	return NoOfTotallyBookedSpots;
 }
+//return the available start times, to omit fully booked spots from appearing in the drop down
 vector<wxString> Lot::getAvailableSlotsToStart(int currHour, int currMin)
 {
 	vector<int> availabletTimeSlots;
@@ -96,9 +97,12 @@ vector<wxString> Lot::getAvailableSlotsToStart(int currHour, int currMin)
 	
 	for (int i = 0; i < pSpace.size(); i++)
 	{
-		temp_availabletTimeSlots = pSpace[i]->getAvailableSlotsToStart(starting_index);
+		temp_availabletTimeSlots = pSpace[i]->getAvailableSlotsToStart(starting_index);//container for the available slots in pSpace[i]
 		availabletTimeSlots.insert(availabletTimeSlots.end(), temp_availabletTimeSlots.begin(), temp_availabletTimeSlots.end());
+		//container for the available slots in Lot A across all the spaces
 	}
+
+	//removing duplicate slots to create the drop down menu for start time
 	sort(availabletTimeSlots.begin(), availabletTimeSlots.end());
 	ip= unique(availabletTimeSlots.begin(), availabletTimeSlots.end());
 	availabletTimeSlots.resize(distance(availabletTimeSlots.begin(), ip));
@@ -126,6 +130,6 @@ vector<wxString> Lot::getAvailableSlotsToStart(int currHour, int currMin)
 		hour = to_string(hr);
 		startTimeCombo.push_back(wxString(hour + ":" + min));
 	}
-	return startTimeCombo;
+	return startTimeCombo; // container used to display the start times available
 }
 // !Lot

@@ -1,4 +1,5 @@
 #include "ParkingLotFactory.h"
+//factory method to get the lot instances
 ParkingLot* ParkingLotFactory::chooseParkingLot(string LotName)
 {
 	ParkingLot* Lot;
