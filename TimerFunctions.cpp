@@ -99,7 +99,7 @@ vector<wxString> TimerFunctions::returnComboOptions(vector<wxString> vectorStrin
 	
 	return vectorStringToadd;
 }
-//																	   start hr; start min; count_blocks calculated in lot::getAvaialbleSlots
+//	start hr; start min; count_blocks calculated in lot::getAvaialbleSlots
 vector<wxString> TimerFunctions::returnComboOptionsForEndTime(vector<wxString> vectorStringToadd, int Hours, int Minutes, int count_blocks)
 {
 	string stringToAdd;
